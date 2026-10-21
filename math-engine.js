@@ -123,8 +123,32 @@
     }
     return {ok:best,message:best?"Mathematically equivalent.":"Not equivalent to the expected expression. Check the calculus rule, signs, and missing factors."};
   }
+  // Recognize a student's full solution even when guided mode asks for an earlier step.
+  // Never treat an answer to a later step as a mathematical mistake.
+  function evaluateAttempt(input,steps,index){
+    if(!Array.isArray(steps)||!steps[index])throw Error("Unknown problem step.");
+    const current=check(input,steps[index]);
+    if(current.ok)return {...current,kind:"current",stepIndex:index};
+    const filled=String(input??"").trim();
+    if(steps[index].type==="choice"||!filled||current.parseError)
+      return {...current,kind:"incorrect",stepIndex:index};
+    for(let j=steps.length-1;j>index;j--){
+      const candidate=steps[j];
+      if(candidate.type==="choice"||candidate.type==="text")continue;
+      if(check(filled,candidate).ok){
+        if(j===steps.length-1){
+          return {ok:true,kind:"final",stepIndex:j,
+            message:"Correct final answer. You do not have to submit all the intermediate steps."};
+        }
+        return {ok:false,kind:"later",stepIndex:j,
+          message:"That is correct for step "+(j+1)+", but this step asks: "+steps[index].q+
+            " You can complete this step or switch to independent-answer mode."};
+      }
+    }
+    return {...current,kind:"incorrect",stepIndex:index};
+  }
   function seeded(seed){let state=(Number(seed)>>>0)||1987;return ()=>{state=(Math.imul(1664525,state)+1013904223)>>>0;return state/4294967296;};}
   const integer=(rng,min,max)=>Math.floor(rng()*(max-min+1))+min;
   const pick=(rng,list)=>list[integer(rng,0,list.length-1)];
-  window.CalcMath={parse,check,seeded,integer,pick,close,version:"2.0"};
+  window.CalcMath={parse,check,evaluateAttempt,seeded,integer,pick,close,version:"2.1"};
 })();

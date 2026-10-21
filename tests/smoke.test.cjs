@@ -7,11 +7,12 @@ const vm = require("node:vm");
 const root = path.resolve(__dirname,"..");
 const sandbox = {window:{}};
 vm.createContext(sandbox);
-for(const file of ["math-engine.js","problem-bank.js","extra-functions.js","extra-limits.js","extra-derivatives.js","extra-applications.js","extra-integrals.js","extra-integral-applications.js"]){
+for(const file of ["math-engine.js","problem-bank.js","extra-functions.js","extra-limits.js","extra-derivatives.js","extra-applications.js","extra-integrals.js","extra-integral-applications.js","grading-categories.js"]){
   vm.runInContext(fs.readFileSync(path.join(root,file),"utf8"),sandbox,{filename:file});
 }
 const {CalcMath,CalcBank} = sandbox.window;
 assert.equal(CalcBank.families.length,218,"Unexpected change to available problem families");
+assert.equal(CalcBank.gradingCategories.antiderivativeFamilyCount,21,"Antiderivative response categories were not loaded");
 assert.equal(new Set(CalcBank.families.map(f=>f.id)).size,CalcBank.families.length,"Duplicate problem family IDs");
 for(const g of CalcBank.groups) {
  assert.ok(CalcBank.families.filter(f=>f.group===g.id).length>=20,g.name+": insufficient subject coverage");
@@ -30,6 +31,17 @@ for(const family of CalcBank.families){
      }
      const result=CalcMath.check(String(s.answer),s);
      assert.equal(result.ok,true,family.id+": expected answer rejected: "+s.answer+" ("+result.message+")");
+     if(s.type==="antiderivative"){
+       assert.equal(CalcMath.check("("+s.answer+")+7",s).ok,true,
+         family.id+": valid additive constant rejected");
+       assert.equal(CalcMath.check("("+s.answer+")+C",s).ok,true,
+         family.id+": integration constant C rejected");
+       assert.equal(CalcMath.check("("+s.answer+")+0.01*x",s).ok,false,
+         family.id+": nonconstant perturbation accepted");
+     }else if(s.type==="expr"&&seed<=5){
+       assert.equal(CalcMath.check("("+s.answer+")+0.00001",s).ok,false,
+         family.id+": incorrect algebraic offset accepted");
+     }
      validated++;
    }
  }
@@ -58,6 +70,14 @@ for (const family of CalcBank.families) {
       family.id+" rejected its own final answer during an earlier step");
   }
 }
+// Previously reproduced grading defects from the MTH 121 audit.
+assert.equal(CalcMath.check("x+0.00001",{type:"expr",answer:"x"}).ok,false);
+assert.equal(CalcMath.check("x^2/2+7",{type:"antiderivative",answer:"x^2/2"}).ok,true);
+assert.equal(CalcMath.check("x^2/2+2*pi",{type:"antiderivative",answer:"x^2/2"}).ok,true);
+assert.equal(CalcMath.check("x^2/2+C",{type:"antiderivative",answer:"x^2/2"}).ok,true);
+assert.equal(CalcMath.check("x^2/2+C*x",{type:"antiderivative",answer:"x^2/2"}).ok,false);
+assert.equal(CalcMath.check("x^2/2+7",{type:"expr",answer:"x^2/2"}).ok,false);
+assert.equal(CalcMath.check("(x^2)/x",{type:"expr",answer:"x"}).ok,false);
 assert.equal(CalcMath.check("x^2",{type:"expr",answer:"x^3"}).ok,false);
 assert.equal(CalcMath.check("2*x + 2*x",{type:"expr",answer:"4*x"}).ok,true);
 assert.equal(CalcMath.check("(x+1)^2",{type:"expr",answer:"x^2+2*x+1"}).ok,true);

@@ -16,7 +16,7 @@ This is an independently developed course resource hosted on GitHub Pages; it is
 
 ## What students can do
 
-- Practice **59 distinct original problem families** across six course units (functions, limits, differentiation, derivative applications, integration, and integral applications).
+- Practice **218 distinct original problem families** across six course units (36 function/review, 36 limits/continuity, 45 differentiation, 38 derivative applications, 39 integration, and 24 integral applications).
 - Generate new variants with different numerical parameters.
 - Switch between **guided mode** (an assessed sequence of intermediate steps) and **independent mode** (the final task).
 - Ask for two progressively more specific hints on each step or review a worked solution.
@@ -25,7 +25,13 @@ This is an independently developed course resource hosted on GitHub Pages; it is
 - Keep progress locally, identify practiced problem families, review recent work, and export practice records as CSV.
 - Share a deterministic problem variation with a URL containing a family and seed.
 
-These are **original template-generated questions**, not a mirror or scrape of third-party problem statements, solutions, or notes. Topic selection reflects conventional university calculus syllabi, including [Paul's Online Math Notes](https://tutorial.math.lamar.edu/Classes/CalcI/CalcI.aspx). This project is independent and is not endorsed by that site's author.
+These are **original problem generators**, not copies of copyrighted exercise statements or answer keys. The expansion was designed after reviewing the topic organization, exercise styles, and conceptual coverage of the following calculus resources:
+
+- [OpenStax Calculus, Volume 1](https://openstax.org/books/calculus-volume-1/pages/1-introduction) — Gilbert Strang and Edwin Herman; [Creative Commons Attribution 4.0](https://creativecommons.org/licenses/by/4.0/).
+- [Active Calculus, Single Variable (second edition)](https://activecalculus.org/acs2e/) — Matthew Boelkins and collaborators; Creative Commons Attribution-ShareAlike 4.0.
+- [Paul's Online Math Notes: Calculus I](https://tutorial.math.lamar.edu/Classes/CalcI/CalcI.aspx) — used as a topic-coverage reference, without importing exercises or solutions.
+
+No external exercise-bank content is redistributed. These sites and authors have not endorsed CalcMentor.
 
 ## Access and operating costs
 
@@ -38,14 +44,20 @@ The site runs entirely in a web browser with standard HTML/CSS/JavaScript. There
 | `index.html` | Semantic page layout and user interface |
 | `styles.css` | Responsive academic styling |
 | `math-engine.js` | Safe expression parser, answer equivalence and deterministic randomness |
-| `problem-bank.js` | Original problem families, hints, steps and worked explanations |
+| `problem-bank.js` | 59 original foundation problem families |
+| `extra-functions.js` | 33 additional composition, inversion, and domain structures |
+| `extra-limits.js` | 25 additional limit and continuity structures |
+| `extra-derivatives.js` | 30 additional differentiation structures |
+| `extra-applications.js` | 25 additional optimization, related-rates, and modeling structures |
+| `extra-integrals.js` | 35 additional integration and application structures |
+| `extra-integral-applications.js` | 11 additional applied-integration structures |
 | `app.js` | Topic browser, answer flow, learning record and visual laboratories |
 | `tests/smoke.test.cjs` | Automated regression tests |
 | `.github/workflows/deploy-pages.yml` | Tests and GitHub Pages publication |
 
 ## Run and deploy
 
-**On your computer:** Download all five website files to the same directory and open `index.html` in a modern browser. There are no JavaScript modules or external assets, so `file://` loading works.
+**On your computer:** Download all the HTML, CSS and JS website files to the same directory and open `index.html` in a modern browser. There are no JavaScript modules or external assets, so `file://` loading works.
 
 **On GitHub Pages:** The existing GitHub Actions workflow runs tests and deploys the site when changes are pushed to `main`. No build tools are required for the site itself.
 

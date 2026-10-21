@@ -7,16 +7,21 @@ const vm = require("node:vm");
 const root = path.resolve(__dirname,"..");
 const sandbox = {window:{}};
 vm.createContext(sandbox);
-for(const file of ["math-engine.js","problem-bank.js"]){
+for(const file of ["math-engine.js","problem-bank.js","extra-functions.js","extra-limits.js","extra-derivatives.js","extra-applications.js","extra-integrals.js","extra-integral-applications.js"]){
   vm.runInContext(fs.readFileSync(path.join(root,file),"utf8"),sandbox,{filename:file});
 }
 const {CalcMath,CalcBank} = sandbox.window;
-assert.equal(CalcBank.families.length,59,"Unexpected change to available problem families");
+assert.equal(CalcBank.families.length,218,"Unexpected change to available problem families");
+assert.equal(new Set(CalcBank.families.map(f=>f.id)).size,CalcBank.families.length,"Duplicate problem family IDs");
+for(const g of CalcBank.groups) {
+ assert.ok(CalcBank.families.filter(f=>f.group===g.id).length>=20,g.name+": insufficient subject coverage");
+}
 let validated=0;
 for(const family of CalcBank.families){
- for(let seed=1;seed<=75;seed++){
+ for(let seed=1;seed<=100;seed++){
    const p=CalcBank.generate(family.id,seed);
    assert.ok(p.statement && p.steps.length>0,family.id+": missing steps");
+   assert.ok(typeof p.title==="string"&&typeof p.topic==="string",family.id+": missing metadata");
    assert.ok(p.level>=2 && p.level<=4,family.id+": invalid difficulty");
    for(const s of p.steps){
      assert.ok(s.q && s.hints.length===2 && s.why,family.id+": missing pedagogy");

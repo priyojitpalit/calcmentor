@@ -29,6 +29,30 @@ for(const family of CalcBank.families){
    }
  }
 }
+// Regression: users may supply the correct final answer at the first guided step.
+const screenshot = CalcBank.generate("functions-composition",1735962324);
+assert.equal(screenshot.steps[0].answer,"5*x+2");
+assert.equal(screenshot.steps[1].answer,"(5*x+2)^2+4");
+const submittedFinal = CalcMath.evaluateAttempt("(5*x+2)^2+4", screenshot.steps, 0);
+assert.equal(submittedFinal.kind,"final");
+assert.equal(submittedFinal.ok,true);
+assert.equal(CalcMath.evaluateAttempt("5*x+2",screenshot.steps,0).kind,"current");
+assert.equal(CalcMath.evaluateAttempt("5*x+3",screenshot.steps,0).kind,"incorrect");
+for (const family of CalcBank.families) {
+  const problem=CalcBank.generate(family.id,12345);
+  for (let i=0;i<problem.steps.length;i++) {
+    const step=problem.steps[i];
+    assert.equal(CalcMath.evaluateAttempt(String(step.answer),problem.steps,i).kind,"current",
+      family.id+" expected the correct current-step answer");
+  }
+  const final=problem.steps.at(-1);
+  if(problem.steps.length>1 && problem.steps[0].type!=="choice" &&
+    final.type!=="choice" && final.type!=="text") {
+    const classification=CalcMath.evaluateAttempt(String(final.answer),problem.steps,0);
+    assert.ok(classification.kind==="final"||classification.kind==="current",
+      family.id+" rejected its own final answer during an earlier step");
+  }
+}
 assert.equal(CalcMath.check("x^2",{type:"expr",answer:"x^3"}).ok,false);
 assert.equal(CalcMath.check("2*x + 2*x",{type:"expr",answer:"4*x"}).ok,true);
 assert.equal(CalcMath.check("(x+1)^2",{type:"expr",answer:"x^2+2*x+1"}).ok,true);

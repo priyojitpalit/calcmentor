@@ -1,4 +1,4 @@
-:root{--ink:#1e293b;--muted:#64748b;--line:#dbe2ea;--line2:#e9edf3;--accent:#1e5091;--blue-soft:#eef4fb;--bg:#f5f7fa;--white:#fff;--success:#147453;--warning:#995d16;--danger:#ab3f3f;--sidebar:#ffffff;--max:1450px}
+:root{--ink:#1e293b;--muted:#64748b;--line:#dbe2ea;--line2:#e9edf3;--accent:#3D1951;--blue-soft:#f4ecf7;--bg:#f6f4f8;--white:#fff;--success:#147453;--warning:#995d16;--danger:#ab3f3f;--sidebar:#ffffff;--max:1450px}
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--bg);color:var(--ink);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:15px;line-height:1.58}
 button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.5;cursor:default}a{color:var(--accent)}
 .topbar{background:var(--white);border-bottom:1px solid var(--line);position:sticky;top:0;z-index:4}.topinner{max-width:var(--max);margin:auto;padding:12px 24px;display:flex;align-items:center;gap:30px;justify-content:space-between}
@@ -18,3 +18,53 @@ button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.
 @media(max-width:1000px){.layout{grid-template-columns:235px minmax(0,1fr);gap:14px;padding:15px}.topinner{padding:10px 15px}.problem{padding:21px}.step-card{padding:21px}.tabs{gap:1px}.tab{padding:7px 9px}}
 @media(max-width:760px){.topinner{gap:6px;align-items:flex-start;flex-direction:column;padding:10px 14px}.brand{font-size:17px}.tabs{width:100%;justify-content:space-between}.tab{flex:1}.layout{display:flex;flex-direction:column;padding:11px}.sidebar{position:static;height:auto;min-height:0;max-height:260px}.aside-head{padding:11px 13px}.aside-head h2{margin:0 0 5px}.chapters{padding:5px}.family-btn{padding:8px 11px}.heading h1{font-size:21px}.problem h2{font-size:19px}.prompt{font-size:17px}.problem,.step-card,.visual{padding:17px}.response{flex-direction:column}.filters{padding:11px;gap:7px}.filters .mode{margin-left:0}.progress-grid{gap:7px}.stat{padding:13px}.stat strong{font-size:22px}}
 @media(prefers-reduced-motion:reduce){html{scroll-behavior:auto}}
+
+/* Spring Hill College course identity (institutional purple #3D1951). */
+.college-banner{background:#3D1951;color:#fff;border-bottom:1px solid #5e3672}
+.college-banner-inner{max-width:var(--max);margin:0 auto;padding:9px 24px;display:flex;justify-content:space-between;gap:18px;align-items:center}
+.college-name{font-weight:780;letter-spacing:.055em;font-size:12px;line-height:1.35}
+.college-divider{padding:0 12px;color:#e8d8ed;font-weight:400}
+.college-department{font-size:12px;font-weight:500;letter-spacing:.015em;color:#f2e8f5}
+.faculty-credit{font-size:12px;color:#e9ddef;line-height:1.35;white-space:nowrap}
+.faculty-credit strong{font-weight:740;color:#fff}
+.brand-icon{background:#3D1951;border-radius:8px}
+.brand small{letter-spacing:.075em;color:#6d557a}
+.tab.active{color:var(--accent);background:#f3edf7}
+.tab:hover{background:#f6f0f8}
+.family-btn.active{background:#f3eaf8;color:#4b205f}
+.family-btn:hover{background:#f8f4fa}
+.pill.level{background:#f5eff8;color:#633476;border-color:#e7d8ef}
+.btn-primary:hover:not(:disabled){background:#582775}
+.btn:focus-visible,.tab:focus-visible,.family-btn:focus-visible,.chapter-title:focus-visible{outline:3px solid #b393c6;outline-offset:2px}
+.answer:focus{border-color:#80539c;outline:3px solid #f2e7f8}
+.option:has(input:checked){border-color:#82579e;background:#faf4fc}
+.option input{accent-color:#4f2266}
+.hint-box b{color:#5f2e76}
+.aside-course{font-size:10.5px;text-transform:uppercase;font-weight:800;color:#51206a;letter-spacing:.045em;margin-bottom:8px}
+.sidebar-foot{display:flex;flex-direction:column;gap:3px;line-height:1.5;border-top:1px solid #e8e2ea;background:#fbf9fc}
+.sidebar-foot strong{font-size:12px;color:#34223c}
+.faculty-role{display:block;color:#66586f;font-size:11px;margin-top:1px}
+.aside-description{color:#716677;font-size:11px;margin-top:7px}
+.heading .eyebrow{color:#693b7c;font-size:11px;letter-spacing:.075em}
+.heading p strong{color:#412151;font-weight:700}
+.footnote{margin-top:20px;border-top:1px solid #ddd4e3;padding:18px 4px 25px}
+.footnote-identity{display:flex;justify-content:space-between;gap:8px 25px;flex-wrap:wrap;margin-bottom:8px;color:#48275d;line-height:1.5}
+.footnote-identity>strong{font-size:12px}
+.footnote-identity>span{font-size:12px}
+.footnote-detail{color:#776a7d;font-size:11px;line-height:1.65}
+.footnote a{color:#5c2f78}
+.sidebar{top:124px;height:calc(100vh - 143px)}
+@media(max-width:1000px){
+ .college-banner-inner{padding:9px 15px}
+ .college-department{font-size:11px}
+}
+@media(max-width:760px){
+ .college-banner-inner{align-items:flex-start;flex-direction:column;gap:3px;padding:8px 14px}
+ .college-name{font-size:11px;letter-spacing:.035em}
+ .college-divider{padding:0 5px}
+ .college-department{font-size:10.5px}
+ .faculty-credit{white-space:normal;font-size:11px}
+ .sidebar{top:auto;height:auto}
+ .footnote-identity{flex-direction:column}
+ .footnote{padding-bottom:25px}
+}

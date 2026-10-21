@@ -25,8 +25,6 @@ button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.
 .college-name{font-weight:780;letter-spacing:.055em;font-size:12px;line-height:1.35}
 .college-divider{padding:0 12px;color:#e8d8ed;font-weight:400}
 .college-department{font-size:12px;font-weight:500;letter-spacing:.015em;color:#f2e8f5}
-.faculty-credit{font-size:12px;color:#e9ddef;line-height:1.35;white-space:nowrap}
-.faculty-credit strong{font-weight:740;color:#fff}
 .brand-icon{background:#3D1951;border-radius:8px}
 .brand small{letter-spacing:.075em;color:#6d557a}
 .tab.active{color:var(--accent);background:#f3edf7}
@@ -43,7 +41,6 @@ button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.
 .aside-course{font-size:10.5px;text-transform:uppercase;font-weight:800;color:#51206a;letter-spacing:.045em;margin-bottom:8px}
 .sidebar-foot{display:flex;flex-direction:column;gap:3px;line-height:1.5;border-top:1px solid #e8e2ea;background:#fbf9fc}
 .sidebar-foot strong{font-size:12px;color:#34223c}
-.faculty-role{display:block;color:#66586f;font-size:11px;margin-top:1px}
 .aside-description{color:#716677;font-size:11px;margin-top:7px}
 .heading .eyebrow{color:#693b7c;font-size:11px;letter-spacing:.075em}
 .heading p strong{color:#412151;font-weight:700}
@@ -63,7 +60,6 @@ button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.
  .college-name{font-size:11px;letter-spacing:.035em}
  .college-divider{padding:0 5px}
  .college-department{font-size:10.5px}
- .faculty-credit{white-space:normal;font-size:11px}
  .sidebar{top:auto;height:auto}
  .footnote-identity{flex-direction:column}
  .footnote{padding-bottom:25px}

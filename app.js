@@ -13,7 +13,7 @@ function load(){
  try{const d=JSON.parse(localStorage.getItem(cacheKey)||"{}");return {topics:d.topics||{},history:Array.isArray(d.history)?d.history:[]};}
  catch(_){return {topics:{},history:[]};}
 }
-let progress=load(),state={family:safeId(initialFamily)?initialFamily:"apps-opt-box",seed:Number.isSafeInteger(initialSeed)&&initialSeed>0?initialSeed:(Math.floor(Math.random()*2147483000)+1),view:"practice",level:["all","2","3","4"].includes(targetLevel)?targetLevel:"all",mode:"guided",stepIndex:0,done:[],wrong:false,hintCount:0,shownHint:0,reveal:false,completed:false,solutionViewed:false};
+let progress=load(),state={family:safeId(initialFamily)?initialFamily:"apps-opt-box",seed:Number.isSafeInteger(initialSeed)&&initialSeed>0?initialSeed:(Math.floor(Math.random()*2147483000)+1),view:"practice",level:["all","2","3","4"].includes(targetLevel)?targetLevel:"all",mode:"guided",stepIndex:0,done:[],wrong:false,hintCount:0,shownHint:0,reveal:false,completed:false,solutionViewed:false,directFinal:false};
 let activeProblem=null;
 function save(){try{localStorage.setItem(cacheKey,JSON.stringify(progress));}catch(_){}}
 function setLink(){
@@ -49,7 +49,7 @@ function changeView(view){
 function setFamily(id,seed){
  if(!safeId(id))return;
  state.family=id;state.seed=seed||Math.floor(Math.random()*2147483646)+1;
- state.stepIndex=0;state.done=[];state.wrong=false;state.hintCount=0;state.shownHint=0;state.reveal=false;state.completed=false;state.solutionViewed=false;
+ state.stepIndex=0;state.done=[];state.wrong=false;state.hintCount=0;state.shownHint=0;state.reveal=false;state.completed=false;state.solutionViewed=false;state.directFinal=false;
  activeProblem=B.generate(id,state.seed);
  setLink();renderNav();renderProblem();changeView("practice");
 }
@@ -61,13 +61,13 @@ function renderProblem(){
  byId("problemStatement").innerHTML=pretty(p.statement);
  byId("problemLevel").textContent="Level "+p.level+" / 4";
  byId("problemCount").textContent=state.mode==="guided"?steps.length+" assessed steps":"Independent final-answer mode";
- byId("modeButton").textContent=state.mode==="guided"?"Guided steps":"Independent answer";
+ byId("modeButton").textContent=state.mode==="guided"?"Switch to final answer":"Switch to guided steps";
  byId("levelSelect").value=state.level;
  const trail=byId("doneSteps");
  trail.innerHTML=state.done.map((d,i)=>'<div class="done-step"><strong>✓</strong><span><b>Step '+(i+1)+'</b>: '+e(d.q)+' <span style="color:#64748b">('+e(d.answer)+')</span></span></div>').join("");
  const root=byId("stepArea");
  if(state.completed){
-  root.innerHTML='<div class="panel complete"><h3>Problem completed</h3><p>'+ (state.solutionViewed?'The full solution was viewed during this attempt.':'Your answers passed the mathematical checks.') +
+  root.innerHTML='<div class="panel complete"><h3>Problem completed</h3><p>'+ (state.solutionViewed?'The full solution was viewed during this attempt.':state.directFinal?'Your final answer is correct. You did not need to submit the intermediate steps.':'Your answers passed the mathematical checks.') +
     ' Select another version or switch topics to continue.</p><div class="practice-actions"><button class="btn btn-primary" id="completeNew">Another version</button><button class="btn" id="completeMixed">Mixed practice</button></div></div>';
   byId("completeNew").onclick=()=>setFamily(state.family);
   byId("completeMixed").onclick=()=>mixed();
@@ -78,7 +78,7 @@ function renderProblem(){
    ?'<div class="choices" role="radiogroup" aria-label="Select an answer">'+s.options.map(c=>'<label class="option"><input type="radio" name="answerChoice" value="'+e(c.value)+'"><span>'+e(c.label)+'</span></label>').join("")+'</div>'
    :'<div class="response"><input class="answer" id="answerInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Your mathematical answer" placeholder="'+(s.type==="number"?"Enter a number or exact expression":"Enter a mathematical expression")+'"><button class="btn btn-primary" id="checkButton">Check</button></div>';
  root.innerHTML='<div class="panel step-card"><div class="step-count">Step '+(state.stepIndex+1)+' of '+steps.length+'</div><h3>'+pretty(s.q)+'</h3>'+response+
- (s.type==="choice"?'<button class="btn btn-primary" id="checkButton">Check selection</button>':'<div class="keyboard-help">Use ^ for powers, * for multiplication, sqrt(...), sin(...), ln(...), pi. Equivalent expressions are accepted where supported.</div>')+
+ (s.type==="choice"?'<button class="btn btn-primary" id="checkButton">Check selection</button>':'<div class="keyboard-help">Use ^ for powers, * for multiplication, sqrt(...), sin(...), ln(...), pi. Equivalent expressions are accepted where supported. If you already know the final answer, enter it here; guided steps are optional.</div>')+
  '<div class="practice-actions"><button class="btn btn-small" id="hintBtn">Hint ('+state.shownHint+'/2)</button><button class="btn btn-small btn-plain" id="revealBtn">Show worked solution</button><button class="btn btn-small btn-plain" id="skipBtn" title="Try another parameter version">New numbers</button></div>'+
  '<div id="hintBlock"></div><div id="feedback" aria-live="polite"></div></div>';
  byId("checkButton").onclick=checkStep;
@@ -111,17 +111,33 @@ function showFeedback(message,correct){
  const target=byId("feedback");if(target)target.innerHTML='<div class="feedback '+(correct?"correct":"wrong")+'">'+e(message)+'</div>';
 }
 function checkStep(){
- const step=currentSteps()[state.stepIndex];if(!step)return;
+ const steps=currentSteps(), step=steps[state.stepIndex];if(!step)return;
  const selected=step.type==="choice"?document.querySelector('input[name="answerChoice"]:checked')?.value:byId("answerInput")?.value;
- const result=M.check(selected,step);
- if(!result.ok){
+ // In guided mode, the mathematical checker also compares a response with later
+ // steps. The student may supply a fully correct answer without following the scaffold.
+ const evaluation=M.evaluateAttempt(selected,steps,state.stepIndex);
+ if(evaluation.kind==="final"){
+  state.directFinal=true;
+  state.done.push({q:"Final answer (entered directly)",answer:String(selected).trim()});
+  state.stepIndex=steps.length;
+  finishProblem();return;
+ }
+ if(evaluation.kind==="later"){
+  showFeedback(evaluation.message,true);
+  return;
+ }
+ if(evaluation.kind==="incorrect"){
   if(selected!==undefined&&String(selected).trim())state.wrong=true;
-  showFeedback(result.message,false);return;
+  const feedback=evaluation.parseError||!String(selected??"").trim()
+    ? evaluation.message
+    : "That does not answer this step. "+step.hints[0];
+  showFeedback(feedback,false);
+  return;
  }
  const modelAnswer=step.type==="choice"?step.options.find(v=>v.value===String(step.answer))?.label:step.answer;
  state.done.push({q:step.q,answer:modelAnswer||step.answer});
  state.stepIndex++;state.shownHint=0;state.reveal=false;
- if(state.stepIndex>=currentSteps().length){finishProblem();}else{renderProblem();}
+ if(state.stepIndex>=steps.length){finishProblem();}else{renderProblem();}
 }
 function finishProblem(){
  state.completed=true;

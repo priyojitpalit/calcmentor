@@ -3,15 +3,24 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<meta name="theme-color" content="#172e4b">
-<meta name="description" content="CalcMentor: 59 original Calculus I problem families with guided mathematical steps, automatic checking, worked solutions and visual labs.">
-<title>CalcMentor · Calculus I Practice</title>
+<meta name="theme-color" content="#3D1951">
+<meta name="author" content="Priyojit Palit, PhD">
+<meta property="og:title" content="CalcMentor | Spring Hill College MTH 121">
+<meta property="og:description" content="Calculus I interactive problem practice created by Priyojit Palit, PhD, for Spring Hill College.">
+<meta name="description" content="CalcMentor: Spring Hill College MTH 121 Calculus I practice. Created by Priyojit Palit, PhD. Guided calculus problems, answers and visual labs.">
+<title>CalcMentor · MTH 121 Calculus I · Spring Hill College</title>
 <link rel="stylesheet" href="./styles.css">
 </head>
 <body>
 <header class="topbar">
+  <div class="college-banner">
+    <div class="college-banner-inner">
+      <div class="college-name">SPRING HILL COLLEGE <span class="college-divider">/</span> <span class="college-department">Department of Mathematics and Computer Science</span></div>
+      <div class="faculty-credit">Created by <strong>Priyojit Palit, PhD</strong></div>
+    </div>
+  </div>
   <div class="topinner">
-    <a class="brand" href="./" aria-label="CalcMentor home"><span class="brand-icon">∫</span><span>CalcMentor<small>Calculus I practice</small></span></a>
+    <a class="brand" href="./" aria-label="CalcMentor, Spring Hill College Calculus I practice"><span class="brand-icon" aria-hidden="true">∫</span><span>CalcMentor<small>MTH 121 · Calculus I</small></span></a>
     <nav class="tabs" aria-label="Main sections">
       <button id="tab-practice" data-view="practice" class="tab active" aria-current="page">Problem practice</button>
       <button id="tab-visual" data-view="visual" class="tab">Visual laboratory</button>
@@ -26,12 +35,12 @@
       <input class="search" id="searchFamily" type="search" aria-label="Search practice topics" placeholder="Find a topic or technique…">
     </div>
     <div id="chapters" class="chapters"></div>
-    <div class="sidebar-foot"><strong>59 problem families</strong> across 6 units. Each family generates new coefficients and parameters. Answers and progress stay on this device.</div>
+    <div class="sidebar-foot"><div class="aside-course">MTH 121 · Spring Hill College</div><div><strong>Developed by Priyojit Palit, PhD</strong><span class="faculty-role">Assistant Professor</span></div><div class="aside-description">59 problem families across six units, with new variations. Work stays on this device.</div></div>
   </aside>
   <main class="main">
     <section id="practiceView">
       <div class="heading">
-        <div><div class="eyebrow">Practice workspace</div><h1>Calculus I problems</h1><p>Work through a problem, check each mathematical step, or attempt the final answer independently.</p></div>
+        <div><div class="eyebrow">SPRING HILL COLLEGE · MTH 121</div><h1>Calculus I · Problem practice</h1><p>Prepared by <strong>Priyojit Palit, PhD</strong> for Spring Hill College students. Practice each mathematical step or work independently.</p></div>
         <div class="heading-actions"><button class="btn" id="mixedButton">Mixed practice</button><button class="btn btn-primary" id="newVariant">Another version</button></div>
       </div>
       <div class="panel filters">
@@ -70,7 +79,7 @@
       </div>
     </section>
     <section id="visualView" hidden>
-      <div class="heading"><div><div class="eyebrow">Visual laboratory</div><h1>Two calculus experiments</h1><p>Change the mathematical parameters and observe the consequences. The plots are computed in your browser.</p></div></div>
+      <div class="heading"><div><div class="eyebrow">SPRING HILL COLLEGE · MTH 121</div><h1>Two calculus experiments</h1><p>Change the mathematical parameters and observe the consequences. The plots are computed in your browser.</p></div></div>
       <div class="panel visual" style="margin-bottom:17px">
         <h2>1. Secant lines and the derivative</h2>
         <p>For f(x) = x², the secant line joins (a, f(a)) to (a+h, f(a+h)). The green line is the tangent. Investigate what happens as h approaches zero.</p>
@@ -91,7 +100,7 @@
       </div>
     </section>
     <section id="progressView" hidden>
-      <div class="heading"><div><div class="eyebrow">Learning record</div><h1>Practice progress</h1><p>Progress is stored in your browser. It is not transmitted to an instructor or a server.</p></div><div class="heading-actions"><button class="btn" id="weakButton">Practice a weak topic</button><button class="btn" id="exportButton">Export CSV</button></div></div>
+      <div class="heading"><div><div class="eyebrow">SPRING HILL COLLEGE · MTH 121</div><h1>Practice progress</h1><p>Progress is stored in your browser. It is not transmitted to an instructor or a server.</p></div><div class="heading-actions"><button class="btn" id="weakButton">Practice a weak topic</button><button class="btn" id="exportButton">Export CSV</button></div></div>
       <div class="progress-grid">
         <div class="panel stat"><strong id="progressTotal">0</strong><span>Completed problems</span></div>
         <div class="panel stat"><strong id="progressIndependent">0</strong><span>Independent solutions</span></div>
@@ -101,8 +110,8 @@
       <div class="panel history"><h3>Recent work</h3><table><thead><tr><th>Problem family</th><th>Completion</th><th>Date</th></tr></thead><tbody id="recentTable"></tbody></table><div style="margin-top:17px"><button class="btn btn-small btn-danger" id="resetButton">Clear practice history</button></div></div>
     </section>
     <footer class="footnote">
-      CalcMentor · Original generated exercises. Mathematical equivalence uses numerical sampling and is not a proof of symbolic identity; review domain restrictions and units. No accounts, advertisements, paid API or external libraries are required.
-      <a href="https://tutorial.math.lamar.edu/Classes/CalcI/CalcI.aspx" target="_blank" rel="noopener noreferrer">Topic reference: Paul's Online Notes</a> (independent project; no endorsement).
+      <div class="footnote-identity"><strong>CalcMentor · Spring Hill College · MTH 121 Calculus I</strong><span>Developed and maintained by <strong>Priyojit Palit, PhD</strong> · Assistant Professor · Department of Mathematics and Computer Science</span></div>
+      <div class="footnote-detail">© 2026 Priyojit Palit. Original, independently developed practice exercises. Expression checking uses numerical sampling, not formal symbolic proof. Student progress stays in this browser. <a href="https://www.shc.edu/academics/department-of-math-and-computer-science/" target="_blank" rel="noopener noreferrer">Department website</a>.</div>
     </footer>
   </main>
 </div>

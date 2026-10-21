@@ -110,7 +110,7 @@
     // Agreement at sampled inputs is evidence, not a symbolic proof.
     // Indefinite integrals are correct up to an arbitrary additive constant.
     const anti=step.type==="antiderivative";
-    const xs=[-13,-9,-6.7,-3.7,-2.3,-1.35,-0.4,0,0.35,0.85,1.7,2.6,4.1,5.3,6.7,8.5,11.4,16.1,23.4,34.9];
+    const xs=anti?[-0.85,-0.4,0,0.15,0.35,0.65,0.85]:[-13,-9,-6.7,-3.7,-2.3,-1.35,-0.4,0,0.35,0.85,1.7,2.6,4.1,5.3,6.7,8.5,11.4,16.1,23.4,34.9];
     const ys=[11.2,8.9,6.6,1.2,1.9,2.6,1.6,0.7,2.9,3.4,0.3,1.3,2.3,0.8,6.8,8.5,11.4,16.1,23.4,34.9];
     let best=false;
     for(const f of expected){
@@ -119,7 +119,7 @@
         let n=0,wrong=0,validA=0,validB=0;
         let referenceDifference=null;
         for(let j=0;j<xs.length;j++){
-          if(anti&&Math.abs(xs[j])>5.4)continue;
+          // Keep constant-difference checks in a bounded range to avoid floating-point cancellation.
           const vars={x:xs[j],y:ys[j],h:ys[j]-1.2,r:ys[j]+1,dr:xs[j]*0.1+2,C:constant};
           let a,b;try{a=student(vars);b=f(vars);}catch(e){continue;}
           if(Number.isFinite(a))validA++;

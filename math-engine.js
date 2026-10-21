@@ -106,8 +106,8 @@
         return {ok,message:ok?"Correct.":"That value does not match. Check the arithmetic and signs."};
       }catch(e){return {ok:false,message:"Check your numerical expression."};}
     }
-    const xs=[-3.7,-2.3,-1.35,-0.4,0,0.35,0.85,1.7,2.6,4.1,5.3];
-    const ys=[1.2,1.9,2.6,1.6,0.7,2.9,3.4,0.3,1.3,2.3,0.8];
+    const xs=[-13,-9,-6.7,-3.7,-2.3,-1.35,-0.4,0,0.35,0.85,1.7,2.6,4.1,5.3,6.7,8.5,11.4,16.1,23.4,34.9];
+    const ys=[11.2,8.9,6.6,1.2,1.9,2.6,1.6,0.7,2.9,3.4,0.3,1.3,2.3,0.8,6.8,8.5,11.4,16.1,23.4,34.9];
     let best=false;
     for(const f of expected){
       let n=0,wrong=0,validA=0,validB=0;

@@ -6,6 +6,22 @@
 **Course:** Spring Hill College MTH 121 Calculus I  
 **Disposition:** **Useful supplementary practice; not yet a comprehensive, independently validated sole practice resource.**
 
+## Remediation update — October 21, 2026
+
+**This document records the original audit baseline.** The findings in Sections 1–7 describe problems as found *before* the following corrections; interpret their "currently" claims historically.
+
+| Finding | Updated status | Evidence |
+|---|---|---|
+| P0 A — correct indefinite integrals rejected for having an arbitrary constant | **Corrected for the 21 explicitly classified antiderivative families** | \`grading-categories.js\` tags the relevant steps; \`math-engine.js\` now checks whether the proposed antiderivative differs from the key by a constant at sampled inputs. Regression tests accept \`x^2/2+7\`, \`x^2/2+2*pi\`, and \`x^2/2+C\`, and reject \`x^2/2+C*x\`. |
+| P0 B — incorrect algebraic offset accepted | **Specific reproduced defect corrected; broader numeric equivalence limitation remains** | Tighter expression comparison now rejects \`x+0.00001\` against \`x\`. The checker still uses finite-point numerical tests and cannot rigorously certify algebraic identities or all domain restrictions. |
+| P0 C — no independent mathematical proofs of all generated answer keys | **Still open** | Regression suite has new adversarial test submissions and expanded generator coverage, but mathematical truth is not independently derived for every family. |
+| P1 E — radical-domain wording did not match its numeric expected response | **Corrected** | The prompt now asks for the minimum permitted radicand value rather than an inequality. |
+| Missing graphical/data exercises, extended modeling, proofs and calibrated difficulty | **Still open** | Next phase of curriculum work, after additional mathematical validation. |
+
+**Deployment tests:** The GitHub Pages workflow runs \`tests/smoke.test.cjs\`, including the generated-answer checks and known-grading-regression cases. This does not constitute formal correctness certification.
+
+---
+
 ## 1. Scope and standards
 
 This review read the problem-generation and checking code in \`problem-bank.js\`, \`extra-functions.js\`, \`extra-limits.js\`, \`extra-derivatives.js\`, \`extra-applications.js\`, \`extra-integrals.js\`, \`extra-integral-applications.js\`, and \`math-engine.js\`, and reviewed relevant UI code.

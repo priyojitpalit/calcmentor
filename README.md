@@ -1,38 +1,56 @@
-# CalcMentor
+# CalcMentor — Calculus I Practice
 
-**CalcMentor** is a free, interactive Calculus I problem-solving companion. Instead of simply showing answers, it offers progressive hints, guided practice, mathematical answer checks, custom derivative problems, and an interactive graph.
+A free, browser-based problem-solving laboratory for university Calculus I.
 
-## Live website
+**Website:** https://priyojitpalit.github.io/calcmentor/
 
-Once GitHub Pages is enabled: **https://priyojitpalit.github.io/calcmentor/**
+## What students can do
 
-## Enable GitHub Pages
+- Practice **59 distinct original problem families** across six course units (functions, limits, differentiation, derivative applications, integration, and integral applications).
+- Generate new variants with different numerical parameters.
+- Switch between **guided mode** (an assessed sequence of intermediate steps) and **independent mode** (the final task).
+- Ask for two progressively more specific hints on each step or review a worked solution.
+- Enter algebraic answers, including alternatives that are mathematically equivalent on tested domains (the checker evaluates expressions safely without running student code).
+- Investigate two interactive visual labs: a secant slope approaching a derivative, and right-endpoint Riemann sums approaching a definite integral.
+- Keep progress locally, identify practiced problem families, review recent work, and export practice records as CSV.
+- Share a deterministic problem variation with a URL containing a family and seed.
 
-1. Open this repository on GitHub.
-2. Select **Settings → Pages**.
-3. Under **Build and deployment**, choose **Deploy from a branch**.
-4. Select **main** and **/(root)**, then **Save**.
-5. When deployment completes, visit the live website above.
+These are **original template-generated questions**, not a mirror or scrape of third-party problem statements, solutions, or notes. Topic selection reflects conventional university calculus syllabi, including [Paul's Online Math Notes](https://tutorial.math.lamar.edu/Classes/CalcI/CalcI.aspx). This project is independent and is not endorsed by that site's author.
 
-GitHub Pages is free for this public repository. Because the entire website is contained in `index.html`, there is **no build command** and no need to install Node.js, Python, or other software.
+## Access and operating costs
 
-## Run locally
+The site runs entirely in a web browser with standard HTML/CSS/JavaScript. There are no API calls, accounts, database, advertising, or subscription fees. GitHub Pages hosting is free for this public repository. A standard browser is sufficient; **no generative AI API is used**.
 
-Download `index.html` and double-click it to open in a modern browser. Internet access is not required.
+## Website files
 
-## Features
+| File | Purpose |
+| --- | --- |
+| `index.html` | Semantic page layout and user interface |
+| `styles.css` | Responsive academic styling |
+| `math-engine.js` | Safe expression parser, answer equivalence and deterministic randomness |
+| `problem-bank.js` | Original problem families, hints, steps and worked explanations |
+| `app.js` | Topic browser, answer flow, learning record and visual laboratories |
+| `tests/smoke.test.cjs` | Automated regression tests |
+| `.github/workflows/deploy-pages.yml` | Tests and GitHub Pages publication |
 
-- Nine Calculus I practice topics with generated problems
-- Progressive hints and worked solutions
-- Checks of students' answers, with helpful feedback for common mistakes
-- Custom symbolic derivative checker (supported expressions)
-- Interactive secant-versus-tangent visualization
-- Progress saved privately in the browser, without user accounts
+## Run and deploy
 
-## Scope and limitations
+**On your computer:** Download all five website files to the same directory and open `index.html` in a modern browser. There are no JavaScript modules or external assets, so `file://` loading works.
 
-CalcMentor is a **rule-based mathematical coach** rather than a generative-AI chatbot. Its numerical checks can occasionally reject mathematically valid equivalent answers or have trouble with domain restrictions. Progress is device-local, not synchronized or visible to instructors. Do not add confidential student information to this public repository.
+**On GitHub Pages:** The existing GitHub Actions workflow runs tests and deploys the site when changes are pushed to `main`. No build tools are required for the site itself.
+
+**Run automated tests manually** (if you have Node.js installed):
+
+```bash
+node tests/smoke.test.cjs
+```
+
+## Accuracy and appropriate use
+
+The expression equivalence checker tests expressions at multiple sample points, rather than performing a formal symbolic proof. Numerical sampling may not recognize every correct form, detect every domain restriction, or distinguish expressions that agree only at the selected points. Please report any incorrectly graded examples by opening a GitHub issue and including the problem URL and the submitted answer.
+
+Some problems accept numerical answers to a tolerance. For antiderivatives, an additive constant is optional in the response. Learners should check mathematical domain restrictions and physical units. This is intended as guided practice, **not an instructor-managed assessment system**. Local progress can be erased by clearing browser data, and it does not synchronize between devices.
 
 ## License
 
-MIT — see [LICENSE](LICENSE).
+Original code and exercise templates: MIT License (see [LICENSE](LICENSE)). Third-party course materials are not included or relicensed.

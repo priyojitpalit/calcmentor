@@ -106,22 +106,40 @@
         return {ok,message:ok?"Correct.":"That value does not match. Check the arithmetic and signs."};
       }catch(e){return {ok:false,message:"Check your numerical expression."};}
     }
+    // Expressions are tested more strictly than approximate numeric answers.
+    // Agreement at sampled inputs is evidence, not a symbolic proof.
+    // Indefinite integrals are correct up to an arbitrary additive constant.
+    const anti=step.type==="antiderivative";
     const xs=[-13,-9,-6.7,-3.7,-2.3,-1.35,-0.4,0,0.35,0.85,1.7,2.6,4.1,5.3,6.7,8.5,11.4,16.1,23.4,34.9];
     const ys=[11.2,8.9,6.6,1.2,1.9,2.6,1.6,0.7,2.9,3.4,0.3,1.3,2.3,0.8,6.8,8.5,11.4,16.1,23.4,34.9];
     let best=false;
     for(const f of expected){
-      let n=0,wrong=0,validA=0,validB=0;
-      for(let j=0;j<xs.length;j++){
-        const vars={x:xs[j],y:ys[j],h:ys[j]-1.2,r:ys[j]+1,dr:xs[j]*0.1+2,C:0};
-        let a,b;try{a=student(vars);b=f(vars);}catch(e){continue;}
-        if(Number.isFinite(a))validA++;
-        if(Number.isFinite(b))validB++;
-        if(Number.isFinite(a)&&Number.isFinite(b)){n++;if(!close(a,b,0.00003))wrong++;}
-        else if(Number.isFinite(a)!==Number.isFinite(b))wrong++;
+      let success=true;
+      for(const constant of [0,2,-5]){
+        let n=0,wrong=0,validA=0,validB=0;
+        let referenceDifference=null;
+        for(let j=0;j<xs.length;j++){
+          if(anti&&Math.abs(xs[j])>5.4)continue;
+          const vars={x:xs[j],y:ys[j],h:ys[j]-1.2,r:ys[j]+1,dr:xs[j]*0.1+2,C:constant};
+          let a,b;try{a=student(vars);b=f(vars);}catch(e){continue;}
+          if(Number.isFinite(a))validA++;
+          if(Number.isFinite(b))validB++;
+          if(Number.isFinite(a)&&Number.isFinite(b)){
+            n++;
+            if(anti){
+              const diff=a-b;
+              if(referenceDifference===null)referenceDifference=diff;
+              else if(!close(diff,referenceDifference,1e-10))wrong++;
+            }else if(!close(a,b,1e-11))wrong++;
+          }else if(Number.isFinite(a)!==Number.isFinite(b))wrong++;
+        }
+        if(n<4||wrong>0||validA!==validB){success=false;break;}
       }
-      if(n>=4&&wrong===0&&Math.abs(validA-validB)<=2){best=true;break;}
+      if(success){best=true;break;}
     }
-    return {ok:best,message:best?"Mathematically equivalent.":"Not equivalent to the expected expression. Check the calculus rule, signs, and missing factors."};
+    return {ok:best,message:best
+      ?(anti?"Matches an antiderivative up to an additive constant at the tested inputs.":"Answer agrees with the expected expression at the tested inputs.")
+      :(anti?"The difference between your answer and the expected antiderivative is not constant on the tested domain.":"The expressions do not agree at the tested inputs. Check the rule, signs, and missing factors.")};
   }
   // Recognize a student's full solution even when guided mode asks for an earlier step.
   // Never treat an answer to a later step as a mathematical mistake.
@@ -150,5 +168,5 @@
   function seeded(seed){let state=(Number(seed)>>>0)||1987;return ()=>{state=(Math.imul(1664525,state)+1013904223)>>>0;return state/4294967296;};}
   const integer=(rng,min,max)=>Math.floor(rng()*(max-min+1))+min;
   const pick=(rng,list)=>list[integer(rng,0,list.length-1)];
-  window.CalcMath={parse,check,evaluateAttempt,seeded,integer,pick,close,version:"2.1"};
+  window.CalcMath={parse,check,evaluateAttempt,seeded,integer,pick,close,version:"2.2"};
 })();

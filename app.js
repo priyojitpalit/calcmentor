@@ -77,7 +77,7 @@ function renderProblem(){
  const response=s.type==="choice"
    ?'<div class="choices" role="radiogroup" aria-label="Select an answer">'+s.options.map(c=>'<label class="option"><input type="radio" name="answerChoice" value="'+e(c.value)+'"><span>'+e(c.label)+'</span></label>').join("")+'</div>'
    :'<div class="response"><input class="answer" id="answerInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Your mathematical answer" placeholder="'+(s.type==="number"?"Enter a number or exact expression":"Enter a mathematical expression")+'"><button class="btn btn-primary" id="checkButton">Check</button></div>';
- root.innerHTML='<div class="panel step-card"><div class="step-count">Step '+(state.stepIndex+1)+' of '+steps.length+'</div><h3>'+e(s.q)+'</h3>'+response+
+ root.innerHTML='<div class="panel step-card"><div class="step-count">Step '+(state.stepIndex+1)+' of '+steps.length+'</div><h3>'+pretty(s.q)+'</h3>'+response+
  (s.type==="choice"?'<button class="btn btn-primary" id="checkButton">Check selection</button>':'<div class="keyboard-help">Use ^ for powers, * for multiplication, sqrt(...), sin(...), ln(...), pi. Equivalent expressions are accepted where supported.</div>')+
  '<div class="practice-actions"><button class="btn btn-small" id="hintBtn">Hint ('+state.shownHint+'/2)</button><button class="btn btn-small btn-plain" id="revealBtn">Show worked solution</button><button class="btn btn-small btn-plain" id="skipBtn" title="Try another parameter version">New numbers</button></div>'+
  '<div id="hintBlock"></div><div id="feedback" aria-live="polite"></div></div>';

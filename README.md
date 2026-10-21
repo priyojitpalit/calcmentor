@@ -20,7 +20,7 @@ This is an independently developed course resource hosted on GitHub Pages; it is
 - Generate new variants with different numerical parameters.
 - Switch between **guided mode** (an assessed sequence of intermediate steps) and **independent mode** (the final task).
 - Ask for two progressively more specific hints on each step or review a worked solution.
-- Enter algebraic answers, including alternatives that are mathematically equivalent on tested domains (the checker evaluates expressions safely without running student code).
+- Enter algebraic answers checked against the expected result at multiple test points, with tighter checks for expressions than for approximate numbers. Indefinite antiderivatives accept arbitrary additive constants. Numerical agreement is **not** a symbolic proof of identity.
 - Investigate two interactive visual labs: a secant slope approaching a derivative, and right-endpoint Riemann sums approaching a definite integral.
 - Keep progress locally, identify practiced problem families, review recent work, and export practice records as CSV.
 - Share a deterministic problem variation with a URL containing a family and seed.
@@ -51,6 +51,7 @@ The site runs entirely in a web browser with standard HTML/CSS/JavaScript. There
 | `extra-applications.js` | 25 additional optimization, related-rates, and modeling structures |
 | `extra-integrals.js` | 35 additional integration and application structures |
 | `extra-integral-applications.js` | 11 additional applied-integration structures |
+| `grading-categories.js` | Explicit antiderivative answer classifications, distinct from ordinary algebra |
 | `app.js` | Topic browser, answer flow, learning record and visual laboratories |
 | `tests/smoke.test.cjs` | Automated regression tests |
 | `.github/workflows/deploy-pages.yml` | Tests and GitHub Pages publication |
@@ -69,9 +70,9 @@ node tests/smoke.test.cjs
 
 ## Accuracy and appropriate use
 
-The expression equivalence checker tests expressions at multiple sample points, rather than performing a formal symbolic proof. Numerical sampling may not recognize every correct form, detect every domain restriction, or distinguish expressions that agree only at the selected points. Please report any incorrectly graded examples by opening a GitHub issue and including the problem URL and the submitted answer.
+The expression equivalence checker tests expressions at multiple sample points, rather than performing a formal symbolic proof. As of October 21, 2026, previously reproduced defects accepting `x+0.00001` as exactly equal to `x` and rejecting legitimate antiderivatives such as `x²/2+7` have been addressed in the typed checker. Numerical sampling may not recognize every correct form, detect every domain restriction, or distinguish expressions that agree only at the selected points. Please report any incorrectly graded examples by opening a GitHub issue and including the problem URL and the submitted answer.
 
-Some problems accept numerical answers to a tolerance. For antiderivatives, an additive constant is optional in the response. Learners should check mathematical domain restrictions and physical units. This is intended as guided practice, **not an instructor-managed assessment system**. Local progress can be erased by clearing browser data, and it does not synchronize between devices.
+Some problems accept numerical answers to a tolerance. For the 21 explicitly classified antiderivative families, any additive constant is permitted, including `+C` or a fixed numeric constant. Definite-integral results do not permit an arbitrary additive constant. Learners should check mathematical domain restrictions and physical units. This is intended as guided practice, **not an instructor-managed assessment system**. Local progress can be erased by clearing browser data, and it does not synchronize between devices.
 
 ## License
 

@@ -42,10 +42,13 @@
       }
       if(t==="x")return vars=>vars.x;
       if(t==="y")return vars=>vars.y;
+      if(t==="h")return vars=>vars.h;
+      if(t==="r")return vars=>vars.r;
+      if(t==="dr")return vars=>vars.dr;
       if(t==="pi")return ()=>Math.PI;
       if(t==="e")return ()=>Math.E;
       if(t==="C"||t==="c")return vars=>vars.C||0;
-      throw Error("Unknown symbol “"+t+"”. Use x, y, pi, e, and supported functions.");
+      throw Error("Unknown symbol “"+t+"”. Use x, y, h, r, dr, pi, e, and supported functions.");
     }
     function power(){
       const left=primary();
@@ -90,7 +93,7 @@
       const norm=x=>String(x).toLowerCase().replace(/[\s.,]/g,"");
       return {ok:forms.some(a=>norm(a)===norm(raw)),message:"Check the requested notation or conclusion."};
     }
-    if(step.type==="number"&&/\b(?:x|y)\b/i.test(raw))return {ok:false,message:"This step asks for a number, not a function of x or y."};
+    if(step.type==="number"&&/\b(?:x|y|h|r|dr)\b/i.test(raw))return {ok:false,message:"This step asks for a number, not a function of x or y."};
     let student,expected=[];
     try{
       student=parse(raw);
@@ -109,7 +112,7 @@
     for(const f of expected){
       let n=0,wrong=0,validA=0,validB=0;
       for(let j=0;j<xs.length;j++){
-        const vars={x:xs[j],y:ys[j],C:0};
+        const vars={x:xs[j],y:ys[j],h:ys[j]-1.2,r:ys[j]+1,dr:xs[j]*0.1+2,C:0};
         let a,b;try{a=student(vars);b=f(vars);}catch(e){continue;}
         if(Number.isFinite(a))validA++;
         if(Number.isFinite(b))validB++;

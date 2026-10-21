@@ -22,7 +22,7 @@ A("functions-inverse","foundations","Functions and composition",2,"Inverse funct
 A("functions-domain","foundations","Domains and algebra",2,"Domain of a radical",r=>{
  const a=N(r,2,5),b=N(r,2,9);
  return {statement:"For h(x) = sqrt("+a+"x − "+b+"), find the smallest x in the domain.",
- steps:[S("What condition must the radicand satisfy?","0","The expression inside an even root cannot be negative.","The minimum permitted value of the radicand is zero.","We need "+a+"x − "+b+" ≥ 0.","number"),
+ steps:[S("What is the smallest allowed value of the radicand?","0","The expression inside an even root cannot be negative.","The minimum permitted value of the radicand is zero.","We need "+a+"x − "+b+" ≥ 0.","number"),
  S("Find the left endpoint of the domain.",b+"/"+a,"Solve "+a+"x − "+b+" ≥ 0.","Set the radicand to zero to locate the endpoint.","The domain is ["+b+"/"+a+", ∞).","number")]};
 });
 /* Limits */

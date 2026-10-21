@@ -3,7 +3,7 @@
 "use strict";
 const B=window.CalcBank,M=window.CalcMath,byId=id=>document.getElementById(id);
 const e=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
-const pretty=s=>e(s).replace(/\^\(−?(\d+)\)/g,(_,n)=>"<sup>"+n+"</sup>").replace(/\^(-?\d+)/g,(_,n)=>"<sup>"+n+"</sup>").replace(/sqrt\(/g,"√(").replace(/\bpi\b/g,"π").replace(/\bexp\(/g,"exp(").replace(/\*/g,"·");
+const pretty=s=>e(s).replace(/\^\(([-−]?\d+)\)/g,(_,n)=>"<sup>"+n+"</sup>").replace(/\^(-?\d+)/g,(_,n)=>"<sup>"+n+"</sup>").replace(/sqrt\(/g,"√(").replace(/\bpi\b/g,"π").replace(/\bexp\(/g,"exp(").replace(/\*/g,"·");
 const safeId=s=>B.families.some(x=>x.id===s);
 const targetLevel=(new URLSearchParams(location.search)).get("level")||"all";
 const initialFamily=(new URLSearchParams(location.search)).get("family");
@@ -58,7 +58,7 @@ function renderProblem(){
  const f=B.families.find(x=>x.id===state.family),p=activeProblem,steps=currentSteps();
  byId("problemTopic").textContent=p.topic;
  byId("problemTitle").textContent=p.title;
- byId("problemStatement").textContent=p.statement;
+ byId("problemStatement").innerHTML=pretty(p.statement);
  byId("problemLevel").textContent="Level "+p.level+" / 4";
  byId("problemCount").textContent=state.mode==="guided"?steps.length+" assessed steps":"Independent final-answer mode";
  byId("modeButton").textContent=state.mode==="guided"?"Guided steps":"Independent answer";

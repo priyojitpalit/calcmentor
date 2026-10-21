@@ -1,6 +1,6 @@
 # CalcMentor — MTH 121 Calculus I | Spring Hill College
 
-An interactive Calculus I problem-practice website created and maintained by **Priyojit Palit, PhD**, Assistant Professor in the **Department of Mathematics and Computer Science**, for students at **Spring Hill College**.
+An interactive Calculus I problem-practice website created by **Priyojit Palit** in the **Department of Mathematics and Computer Science**, for students at **Spring Hill College**.
 
 This is an independently developed course resource hosted on GitHub Pages; it is not the College’s official website.
 
@@ -10,7 +10,7 @@ This is an independently developed course resource hosted on GitHub Pages; it is
 
 - **Institution:** Spring Hill College, Mobile, Alabama
 - **Course:** MTH 121 — Calculus I
-- **Created by:** Priyojit Palit, PhD
+- **Created by:** Priyojit Palit
 - **Department:** Mathematics and Computer Science
 - **Course practice website:** https://priyojitpalit.github.io/calcmentor/
 

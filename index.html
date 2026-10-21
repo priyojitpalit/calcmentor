@@ -1,0 +1,902 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="theme-color" content="#102e32">
+  <meta name="description" content="CalcMentor is a free Calculus I practice companion with progressive hints, mathematical feedback, and interactive graphs.">
+  <title>CalcMentor — Think through calculus</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 80 80'%3E%3Crect width='80' height='80' rx='16' fill='%23102e32'/%3E%3Ctext x='40' y='56' text-anchor='middle' font-size='60' fill='%23c2e4bf'%3E%C2%B6%3C/text%3E%3C/svg%3E">
+  <style>
+:root{color-scheme:light;--ink:#17383c;--ink-muted:#6c8585;--pine:#103437;--pine-light:#164247;--mint:#dcf2e6;--acid:#e0eeb4;--orange:#e69c5c;--paper:#f7f9f6;--line:#e3ebe8;--white:#fff;--shadow:0 12px 38px rgba(18,56,59,.045)}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:var(--paper);color:var(--ink);font-family:Inter,ui-sans-serif,-apple-system,BlinkMacSystemFont,"Segoe UI",Arial,sans-serif;font-size:14px;line-height:1.6}button,input{font:inherit}button{cursor:pointer}button:disabled{opacity:.55;cursor:not-allowed}button:focus-visible,input:focus-visible,a:focus-visible{outline:3px solid #db9e57;outline-offset:3px}a{color:inherit}.skip-link{position:absolute;left:-9999px;top:5px;z-index:100}.skip-link:focus{left:8px;background:white;padding:12px}.app-shell{display:flex;min-height:100vh}.sidebar{width:247px;flex:0 0 247px;background:var(--pine);color:#d2e5dd;padding:30px 17px 23px;display:flex;flex-direction:column;position:sticky;top:0;height:100vh;overflow-y:auto}.brand{display:flex;align-items:center;gap:11px;text-decoration:none;margin:2px 9px 60px}.brand-mark{width:38px;height:38px;display:grid;place-items:center;background:var(--acid);color:var(--pine);font-family:Georgia,serif;font-style:italic;font-size:34px;border-radius:11px;line-height:1}.brand-word{font-weight:750;font-size:20px;line-height:1.1;letter-spacing:-.95px;color:white}.brand-word span{font-weight:450;color:var(--acid)}.brand-word small{display:block;margin-top:5px;font-size:7px;letter-spacing:1.5px;font-weight:650;color:#9ebfba}.sidebar-group-heading,.eyebrow{font-size:10px;font-weight:800;letter-spacing:1.9px;text-transform:uppercase}.sidebar-group-heading{color:#7fa3a0;margin:0 14px 16px}.topic-button{display:flex;width:100%;align-items:center;gap:12px;text-align:left;padding:11px 12px;margin:2px 0;border:1px solid transparent;border-radius:10px;background:transparent;color:#bad5cf;transition:background .2s,border .2s}.topic-button:hover{background:#22484b}.topic-button.active{background:#2a5352;color:#fff;border-color:#446d66}.topic-symbol{width:27px;flex:0 0 27px;font-family:Georgia,serif;font-size:21px;text-align:center;color:#bcdfcf;line-height:1}.topic-button.active .topic-symbol{color:var(--acid)}.topic-copy{display:flex;flex-direction:column}.topic-name{font-size:13px;font-weight:650;line-height:1.3}.topic-note{font-size:10px;color:#8baca9;margin-top:1px}.side-bottom{margin-top:auto;padding:35px 10px 2px}.side-quote{padding:18px 17px;border:1px solid #355657;border-radius:11px;font-family:Georgia,serif;font-style:italic;font-size:15px;line-height:1.4;color:#d8e7cf}.side-quote span{font-family:sans-serif;color:#f1af67;margin-right:2px}.private-note{color:#799e9c;font-size:10px;margin:25px 0 5px 2px;line-height:1.8}.privacy-dot,.online-dot{width:7px;height:7px;display:inline-block;border-radius:100%;background:#9edabc;margin-right:7px}.main-stack{min-width:0;flex:1}.topbar{height:68px;border-bottom:1px solid var(--line);background:#fff;display:flex;align-items:center;justify-content:space-between;padding:0 40px;gap:10px}.topbar-label,.topbar-right{font-size:10px;letter-spacing:1.45px;font-weight:750;color:#80948e}.topbar-right{color:#527b70;white-space:nowrap}.mobile-menu{display:none;border:0;background:none;color:var(--ink);font-size:24px;padding:4px}.workspace{max-width:1480px;margin:auto;padding:32px 38px 18px}.welcome{background:#e3f1e8;border-radius:16px;padding:30px 37px;margin-bottom:26px;min-height:198px;display:flex;justify-content:space-between;gap:20px;overflow:hidden;position:relative}.welcome:after{content:"";position:absolute;width:380px;height:380px;border:1px solid #d1e5d7;border-radius:50%;right:-100px;top:-120px;pointer-events:none}.welcome-copy{position:relative;z-index:1}.section-kicker{color:#618f7f;font-size:10px;letter-spacing:2.1px;font-weight:800}.tiny-star{color:#e49c59;margin-right:3px}.welcome h1{font-family:Georgia,"Times New Roman",serif;font-weight:500;font-size:clamp(24px,2.4vw,36px);line-height:1.2;letter-spacing:-.8px;margin:14px 0 12px;color:#194246}.welcome h1 em{font-weight:500;color:#357d71}.welcome p{color:#607f78;margin:0;font-size:12px}.welcome-art{flex:0 0 208px;margin-right:13px;position:relative;align-self:center}.welcome-art svg{width:200px;height:135px}.art-equation{position:absolute;right:10px;bottom:2px;font-family:Georgia,serif;font-style:italic;font-size:12px;color:#4f9b8e}.content-grid{display:grid;grid-template-columns:minmax(0,1fr) 248px;align-items:start;gap:24px}.primary-column{min-width:0}.practice-card,.visual-card{background:#fff;border:1px solid var(--line);border-radius:15px;box-shadow:var(--shadow);overflow:hidden}.practice-top{padding:26px 27px 16px;display:flex;justify-content:space-between;align-items:center;gap:10px}.eyebrow{color:#74a296}.practice-top h2,.visual-heading h2{font-family:Georgia,serif;font-weight:500;font-size:24px;letter-spacing:-.5px;line-height:1.2;margin:7px 0 0}.difficulty{font-size:9px;letter-spacing:1px;font-weight:800;white-space:nowrap;color:#4b8974;background:#eaf5e9;padding:7px 10px;border-radius:99px}.mode-switch{display:flex;gap:5px;margin:0 27px 20px;background:#f2f6f3;padding:5px;border-radius:9px}.mode{background:transparent;color:#708a85;border:0;border-radius:7px;padding:9px 13px;font-size:12px;font-weight:700;flex:1}.mode.active{background:#fff;color:var(--pine);box-shadow:0 2px 8px #183d3810}.custom-setup{background:#f8faf8;border-top:1px solid var(--line);padding:18px 27px}.custom-setup label{display:block;font-size:12px;font-weight:700;margin-bottom:7px}.custom-row{display:flex;gap:8px}.custom-row input{min-width:0;flex:1;border:1px solid #d5e1dc;border-radius:8px;padding:11px}.secondary-button{border:1px solid #bcd5c9;background:#e3f3e9;color:var(--pine);font-size:12px;font-weight:800;border-radius:8px;padding:10px 12px}.custom-setup p{font-size:11px;color:#6f8783;margin:10px 0 0}.example{border:0;background:transparent;color:#287a68;font-weight:700;text-decoration:underline;text-decoration-style:dotted;padding:0 3px;font-size:11px}.custom-setup .custom-error{color:#b44a39;font-weight:700}.question-head{display:flex;justify-content:space-between;align-items:center;padding:16px 27px;border-top:1px solid var(--line);gap:6px}.question-number{font-size:10px;font-weight:800;letter-spacing:1.4px;color:#8b9d99}.text-button,.show-solution{border:0;background:transparent;font-size:12px;font-weight:700;color:#4d8277;padding:5px}.text-button:hover,.show-solution:hover{text-decoration:underline}.question-zone{padding:23px 27px 25px;background:#f7f9f5;margin:0 27px;border:1px solid #e7eeea;border-radius:11px}.question-zone h3{font-family:Georgia,serif;font-size:19px;font-weight:500;margin:0 0 16px}.equation-display{min-height:80px;display:flex;align-items:center;justify-content:center;text-align:center;color:#1b4d51;font-family:Georgia,"Times New Roman",serif;font-size:clamp(18px,2.1vw,26px);letter-spacing:.1px;line-height:1.7;overflow-wrap:anywhere;white-space:pre-line}.equation-display sup{font-size:.6em;vertical-align:super}.prompt{font-size:12px;color:#607973;margin:16px 0 0;line-height:1.7}.prompt strong{color:#2e5751}#answer-form{padding:23px 27px 18px}.input-label{font-size:12px;display:block;font-weight:750;margin-bottom:8px}.input-row{display:flex;gap:9px}#answer{min-width:0;flex:1;background:#fff;border:1px solid #cadbd4;border-radius:8px;padding:13px 12px;font-size:14px;color:#214b4c;outline-color:#76bba0}#answer::placeholder{color:#9aaa9d}.primary-button{background:#144d4d;color:#fff;border:1px solid #144d4d;border-radius:8px;font-size:12px;padding:12px 17px;font-weight:750;white-space:nowrap;transition:background .15s}.primary-button:hover{background:#226b61}.primary-button span{padding-left:6px}.notation{color:#90a29e;font-size:10px;margin-top:9px}.notation strong{color:#718c85}.feedback{margin-top:15px;border-radius:9px;padding:13px 14px;font-size:12px;line-height:1.55}.feedback.success{background:#e7f6e8;color:#206b47;border:1px solid #b7ddc2}.feedback.incorrect{background:#fff7ea;color:#945c24;border:1px solid #f3dbaf}.feedback.near{background:#e6f3fb;color:#305f81;border:1px solid #c4dfeb}.feedback.input{background:#fff0ed;color:#9b493c;border:1px solid #edc9c2}.coach-box{background:#f1f7f3;border-top:1px solid #e2efea;padding:20px 27px 24px}.coach-header{display:flex;align-items:center;gap:10px}.coach-avatar{background:#d3e9dc;border:1px solid #c8e3d1;color:#2e846d;width:36px;height:36px;display:grid;place-items:center;border-radius:10px;font-size:20px}.coach-header strong{display:block;font-size:12px;color:#24574c}.coach-header span{display:block;font-size:10px;color:#819c90}.coach-header .hint-count{margin-left:auto;color:#6e9084;font-size:11px;font-weight:700}.hint-container{margin:14px 0 10px;min-height:24px}.hint-empty{margin:0;font-size:12px;color:#779185;font-style:italic}.hint-item{background:#fff;border:1px solid #dfebdf;padding:12px 14px;border-radius:9px;margin-top:8px;font-size:12px;color:#48685d}.hint-item strong{color:#2d765f}.coach-actions{display:flex;justify-content:space-between;align-items:center;gap:8px;flex-wrap:wrap}.hint-button{border:1px solid #a8cec0;border-radius:8px;padding:10px 13px;background:#dff0e4;color:#235d50;font-weight:750;font-size:12px}.hint-button:hover{background:#d2e9d8}.show-solution{font-size:11px}.solution-panel{border-top:1px solid #dce9dc;margin-top:17px;padding-top:17px}.solution-title{letter-spacing:1.2px;color:#50816f;font-weight:800;font-size:10px}.solution-panel ol{padding-left:20px;font-size:12px;color:#446359}.solution-panel li{margin:9px 0}.final-answer{display:flex;flex-direction:column;gap:6px;background:#e5f2e5;padding:13px 15px;border-radius:8px}.final-answer span{font-size:10px;font-weight:800;letter-spacing:1px;color:#648776}.final-answer strong{font-family:Georgia,serif;font-size:19px;font-weight:500;overflow-wrap:anywhere}.visual-card{margin-top:22px;padding:23px 27px}.visual-heading{display:flex;gap:12px;justify-content:space-between}.visual-heading h2{font-size:20px;margin:5px 0 7px}.visual-heading p{font-size:11px;color:#78918a;margin:0}.mini-icon{width:36px;height:36px;background:#eaf5ed;border-radius:9px;color:#4b8e7f;display:grid;place-items:center;font-size:24px}.graph-stage{background:#fbfdfb;border:1px solid #e6eee8;border-radius:10px;margin-top:18px;height:250px;overflow:hidden}.graph-stage canvas{width:100%;height:100%;display:block}.graph-controls{margin:17px 2px 0}.graph-controls label{display:flex;justify-content:space-between;color:#708984;font-size:11px;gap:10px}.graph-controls label strong{color:#2c7467;font-weight:800}#h-slider{width:100%;accent-color:#2c8678;margin:12px 0}.graph-explainer{display:flex;justify-content:space-between;color:#75908a;font-size:11px;gap:12px}.graph-explainer strong{color:#255e58;font-weight:850;margin-left:5px}.insights{display:flex;flex-direction:column;gap:14px}.insight-top{padding:19px 3px 3px}.insight-top h2{font-family:Georgia,serif;font-size:26px;font-weight:500;line-height:1.13;letter-spacing:-.5px;margin:10px 0}.insight-top h2 em{color:#4d957c;font-weight:400}.metric-card{display:flex;align-items:center;gap:13px;background:#fff;border:1px solid var(--line);padding:16px 15px;border-radius:12px;min-height:81px}.metric-icon{font-size:20px;background:#e5f5ea;color:#368568;width:39px;height:39px;border-radius:9px;display:grid;place-items:center}.metric-icon.orange{background:#fff0e0;color:#d78c48}.metric-card div{display:flex;flex-direction:column}.metric-card div span{font-size:11px;color:#87a096}.metric-card strong{font-size:27px;line-height:1.2;font-weight:720;color:#214f4d}.progress-panel{background:#fff;border:1px solid var(--line);padding:18px 15px;border-radius:12px}.progress-heading{display:flex;justify-content:space-between;font-size:11px}.progress-heading strong{font-weight:750}.progress-heading span{color:#5f9c80;font-weight:850}.progress-track{height:7px;background:#eef2ee;border-radius:99px;margin:12px 0;overflow:hidden}.progress-bar{height:100%;background:#53a48b;border-radius:inherit;width:0;transition:width .25s}.progress-panel p{color:#93a69f;font-size:10px;margin:0 0 12px}.skill-summary{border-top:1px solid #edf1eb;padding-top:13px;font-size:11px;color:#68877b}.quote-card{background:#dff0e8;border-radius:12px;padding:18px 19px;color:#326857}.quote-symbol{font-family:Georgia,serif;font-size:43px;line-height:.8;color:#73ad95}.quote-card p{font:italic 18px/1.33 Georgia,serif;margin:7px 0 14px}.quote-card small{font-size:9px;letter-spacing:1.5px;font-weight:750;color:#77a794}.insight-footer{font-size:10px;color:#a5b3a9;text-align:center;margin-top:6px;line-height:1.8}.insight-footer button,.footer button{border:0;background:transparent;color:#639888;text-decoration:underline;text-decoration-style:dotted;padding:0;font-size:inherit}.footer{display:flex;gap:10px;justify-content:space-between;flex-wrap:wrap;padding:30px 1px 12px;font-size:10px;color:#9bacaa}.about-dialog{border:1px solid #d4e5db;border-radius:15px;box-shadow:0 24px 85px #071e2180;max-width:460px;width:calc(100% - 30px);color:var(--ink);padding:23px 26px}.about-dialog::backdrop{background:#06272dc0}.about-dialog .dialog-head{display:flex;justify-content:space-between;align-items:start;gap:9px}.about-dialog h2{font:500 25px Georgia,serif;margin:0}.about-dialog .dialog-head button{border:0;background:#eef3ef;padding:7px 12px;border-radius:6px}.about-dialog p{font-size:13px;color:#5a7972;line-height:1.7}.about-dialog .primary-button{margin-top:5px}
+@media(max-width:1190px){.sidebar{width:210px;flex-basis:210px}.workspace{padding:25px}.content-grid{grid-template-columns:minmax(0,1fr) 212px;gap:17px}.insight-top h2{font-size:23px}.welcome-art{flex-basis:165px;margin-right:0}.welcome-art svg{width:160px}.welcome{padding:28px}.topbar{padding:0 26px}}
+@media(max-width:970px){.content-grid{grid-template-columns:1fr}.insights{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));align-items:stretch}.insight-top{display:none}.insight-footer{grid-column:1/-1}.quote-card{grid-column:span 1}.metric-card{min-height:101px}.content-grid .primary-column{grid-row:1}.welcome-art{display:none}}
+@media(max-width:700px){.sidebar{position:fixed;z-index:40;top:0;bottom:0;height:100vh;transform:translateX(-110%);transition:transform .2s;box-shadow:10px 0 30px #06282936}.sidebar.open{transform:translateX(0)}.mobile-menu{display:block}.topbar{height:59px;padding:0 17px}.topbar-label{font-size:9px;letter-spacing:.4px}.topbar-right{font-size:9px;letter-spacing:.3px}.workspace{padding:17px 13px}.welcome{min-height:0;padding:24px 22px;margin-bottom:17px}.welcome h1{font-size:25px}.welcome p{font-size:11px}.practice-top{padding:19px 17px 13px}.practice-top h2{font-size:20px}.difficulty{font-size:8px;padding:6px}.mode-switch{margin:0 17px 15px}.mode{font-size:11px;padding:9px 6px}.question-head{padding:12px 18px}.question-zone{margin:0 17px;padding:20px 16px}.question-zone h3{font-size:18px}.equation-display{font-size:19px;min-height:70px}.prompt{font-size:11px}.input-row{flex-wrap:wrap}.input-row #answer{flex-basis:100%}.input-row .primary-button{width:100%}#answer-form{padding:21px 17px}.coach-box{padding:18px 17px}.visual-card{padding:19px 17px}.graph-stage{height:220px}.insights{gap:10px}.metric-card{padding:10px}.metric-card strong{font-size:24px}.metric-icon{width:34px;height:34px}.metric-card div span{font-size:10px}.progress-panel,.quote-card{grid-column:1/-1}.footer{padding:24px 4px}}
+@media(max-width:370px){.topbar-label{display:none}.topbar-right{margin-left:auto}.coach-actions{flex-direction:column;align-items:stretch}.hint-button{text-align:center}.show-solution{text-align:center}}
+
+</style>
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to main content</a>
+  <div class="app-shell">
+    <aside class="sidebar" aria-label="Course navigation">
+      <a class="brand" href="#main" aria-label="CalcMentor home">
+        <span class="brand-mark" aria-hidden="true">∂</span>
+        <span class="brand-word">calc<span>mentor</span><small>YOUR CALCULUS COMPANION</small></span>
+      </a>
+      <div class="sidebar-group-heading">CALCULUS I LAB</div>
+      <nav id="topics" aria-label="Practice topics"></nav>
+      <div class="side-bottom">
+        <div class="side-quote"><span>✧</span> Good mathematics begins with the next question, not the final answer.</div>
+        <div class="private-note"><span class="privacy-dot"></span> No account required<br>Progress stays on this device</div>
+      </div>
+    </aside>
+
+    <div class="main-stack">
+      <header class="topbar">
+        <button class="mobile-menu" id="menu-toggle" aria-label="Toggle topics" aria-expanded="false">☰</button>
+        <span class="topbar-label">AN INTERACTIVE PROBLEM-SOLVING LAB</span>
+        <div class="topbar-right"><span class="online-dot"></span> FREE · NO SIGN-IN</div>
+      </header>
+
+      <main class="workspace" id="main">
+        <section class="welcome">
+          <div class="welcome-copy">
+            <div class="section-kicker"><span class="tiny-star">✦</span> THINK FIRST. SOLVE SECOND.</div>
+            <h1>Don't just find an answer.<br><em>Understand the next step.</em></h1>
+            <p>Practice calculus with thoughtful hints, instant mathematical checks, and room to think for yourself.</p>
+          </div>
+          <div class="welcome-art" aria-hidden="true">
+            <svg viewBox="0 0 210 145" fill="none" role="presentation"><path d="M2 120H208M28 0V145" stroke="#CDE7DF" stroke-width="1.2"/><path d="M3 130C42 135 63 108 81 64C96 23 113 20 130 54C148 90 172 90 204 9" stroke="#F7B36C" stroke-width="4" stroke-linecap="round"/><path d="M51 104L170 30" stroke="#94D1C5" stroke-width="2" stroke-dasharray="5 6"/><circle cx="100" cy="32" r="5.5" fill="#D9F9EA" stroke="#71B8A6" stroke-width="3"/></svg>
+            <div class="art-equation">dy / dx</div>
+          </div>
+        </section>
+
+        <div class="content-grid">
+          <div class="primary-column">
+            <section class="practice-card" aria-labelledby="practice-title">
+              <div class="practice-top">
+                <div>
+                  <span id="topic-category" class="eyebrow">01 · FOUNDATIONS</span>
+                  <h2 id="practice-title">Let's work through a problem.</h2>
+                </div>
+                <span class="difficulty" id="difficulty">FOUNDATIONS</span>
+              </div>
+
+              <div class="mode-switch" aria-label="Practice mode">
+                <button type="button" class="mode active" id="mode-guided" aria-pressed="true">✦ Guided practice</button>
+                <button type="button" class="mode" id="mode-custom" aria-pressed="false">✎ My own derivative</button>
+              </div>
+
+              <div id="custom-setup" class="custom-setup" hidden>
+                <label for="custom-function">Enter a differentiable function of x</label>
+                <div class="custom-row">
+                  <input id="custom-function" spellcheck="false" value="x^2*sin(x)" placeholder="x^2*sin(x)" autocomplete="off">
+                  <button class="secondary-button" id="custom-go" type="button">Use function →</button>
+                </div>
+                <p>Examples: <button type="button" class="example" data-example="(3x+1)^4">(3x+1)^4</button> <button type="button" class="example" data-example="x^2*sin(x)">x^2 sin(x)</button> <button type="button" class="example" data-example="ln(x^2+1)">ln(x²+1)</button></p>
+                <p id="custom-error" class="custom-error" role="alert" hidden></p>
+              </div>
+
+              <div class="question-head">
+                <span class="question-number">CURRENT CHALLENGE</span>
+                <div class="head-actions"><button class="text-button" type="button" id="new-problem" title="Create another problem">↻ &nbsp;New problem</button></div>
+              </div>
+              <div class="question-zone">
+                <h3 id="challenge">Find the limit</h3>
+                <div class="equation-display" id="problem-math" aria-live="polite"></div>
+                <p class="prompt" id="problem-prompt"></p>
+              </div>
+              <form id="answer-form" novalidate>
+                <label class="input-label" id="answer-label" for="answer">Your answer</label>
+                <div class="input-row">
+                  <input id="answer" autocomplete="off" spellcheck="false" aria-describedby="notation-guide" placeholder="Type your answer" required>
+                  <button type="submit" class="primary-button" id="check">Check answer <span aria-hidden="true">→</span></button>
+                </div>
+                <div id="notation-guide" class="notation">Use ^ for powers, pi for π, and parentheses: <strong>3x^2</strong>, <strong>2pi</strong>, <strong>sin(x)</strong></div>
+                <div id="feedback" class="feedback" role="status" aria-live="polite" hidden></div>
+              </form>
+
+              <div class="coach-box">
+                <div class="coach-header"><div class="coach-avatar">✧</div><div><strong>Your thinking partner</strong><span>Hints appear one step at a time.</span></div><span class="hint-count" id="hint-count">0 / 3</span></div>
+                <div id="hint-container" class="hint-container" aria-live="polite">
+                  <p class="hint-empty">Stuck? Start with a small nudge—not the whole solution.</p>
+                </div>
+                <div class="coach-actions">
+                  <button type="button" class="hint-button" id="hint-button">✦ &nbsp; Give me a hint</button>
+                  <button type="button" class="show-solution" id="show-solution">Show worked solution <span aria-hidden="true">↓</span></button>
+                </div>
+                <div class="solution-panel" id="solution-panel" hidden>
+                  <div class="solution-title">WORKED SOLUTION</div>
+                  <ol id="solution-steps"></ol>
+                  <div class="final-answer"><span>FINAL ANSWER</span><strong id="solution-answer"></strong></div>
+                </div>
+              </div>
+            </section>
+
+            <section class="visual-card" aria-labelledby="visual-title">
+              <div class="visual-heading"><div><span class="eyebrow">VISUAL INTUITION</span><h2 id="visual-title">A tangent is a limit in disguise.</h2><p>Move the point closer and watch the secant line approach the tangent.</p></div><span class="mini-icon">⌁</span></div>
+              <div class="graph-stage"><canvas id="graph" role="img" aria-label="Plot of y = x squared. A secant through x = 1 and x = 1 + h approaches the tangent as h approaches zero."></canvas></div>
+              <div class="graph-controls">
+                <label for="h-slider">Distance between points <strong>h = <output id="h-value">1.5</output></strong></label>
+                <input type="range" id="h-slider" min="-2" max="2" step="0.1" value="1.5">
+                <div class="graph-explainer"><span>Secant slope <strong id="secant-slope">3.50</strong></span><span>As h → 0 <strong>2.00</strong></span></div>
+              </div>
+            </section>
+          </div>
+
+          <aside class="insights" aria-label="Your practice summary">
+            <div class="insight-top"><div class="eyebrow">YOUR LEARNING SPACE</div><h2>Small steps.<br><em>Real progress.</em></h2></div>
+            <div class="metric-card"><span class="metric-icon">✓</span><div><span>Problems solved</span><strong id="total-correct">0</strong></div></div>
+            <div class="metric-card"><span class="metric-icon orange">↗</span><div><span>Current streak</span><strong id="streak">0</strong></div></div>
+            <div class="progress-panel"><div class="progress-heading"><strong>Topic confidence</strong><span id="progress-percent">0%</span></div><div class="progress-track"><div id="progress-bar" class="progress-bar"></div></div><p>Topics with at least three independently solved problems.</p><div class="skill-summary" id="skill-summary">Your journey begins with one attempt.</div></div>
+            <div class="quote-card"><span class="quote-symbol">“</span><p>Getting unstuck is a skill you can practice.</p><small>ONE HINT AT A TIME</small></div>
+            <div class="insight-footer">No external tracking • No accounts • No API bills<br><button id="reset-progress" type="button">Reset my progress</button></div>
+          </aside>
+        </div>
+        <footer class="footer"><span>© CalcMentor · Built for Calculus I</span><span>An educational practice tool · <button id="about-button" type="button">How the checker works</button></span></footer>
+      </main>
+    </div>
+  </div>
+  <dialog id="about-dialog" class="about-dialog" aria-labelledby="about-title">
+    <div class="dialog-head"><h2 id="about-title">How CalcMentor works</h2><button type="button" id="close-dialog" aria-label="Close">✕</button></div>
+    <p>CalcMentor is an entirely free, browser-based calculus coach. It uses programmed mathematical rules and numerical checks—not a paid chatbot or remote AI service.</p>
+    <p>The checker understands common Calc I expressions, including powers, polynomials, products, quotients, trigonometry, logarithms and basic compositions. It tests equivalent expressions at multiple points. This is not a formal proof system and may not recognize every valid answer.</p>
+    <p>Your practice totals stay in this browser's local storage. They are not submitted to an instructor or sent to a server. Use the hints and worked solutions as learning aids, and verify important results independently.</p>
+    <button type="button" id="dialog-done" class="primary-button">Got it</button>
+  </dialog>
+  <!-- Everything this site needs is embedded below: this file also works offline. -->
+  <script>
+(function () {
+"use strict";
+// ----- math-engine.js -----
+/** CalcMentor mathematical expression engine.
+ * No network requests, eval(), dynamic code generation, or third-party dependencies.
+ * Designed for common Calculus I expressions, not a full computer algebra system.
+ */
+const FUNCTIONS = new Set(['sin', 'cos', 'tan', 'ln', 'log', 'sqrt', 'exp', 'abs']);
+const CONSTANTS = { pi: Math.PI, e: Math.E };
+const num = value => ({ type: 'number', value });
+const bin = (op, left, right) => ({ type: 'binary', op, left, right });
+const fn = (name, arg) => ({ type: 'function', name, arg });
+const neg = arg => ({ type: 'unary', op: '-', arg });
+
+function tokenize(input) {
+  if (typeof input !== 'string' || input.length > 320) throw Error('Enter an expression under 320 characters.');
+  const text = input.trim().replace(/π/g, 'pi').replace(/×/g, '*').replace(/÷/g, '/')
+    .replace(/[−–]/g, '-').replace(/\s+/g, '');
+  if (!text) throw Error('Enter your answer first.');
+  const out = [];
+  let i = 0;
+  while (i < text.length) {
+    const s = text.slice(i);
+    const number = s.match(/^(?:\d+(?:\.\d*)?|\.\d+)(?:[eE][+-]?\d+)?/);
+    if (number) {
+      const val = Number(number[0]);
+      if (!Number.isFinite(val)) throw Error('Use finite numbers.');
+      out.push({ kind: 'number', value: val }); i += number[0].length; continue;
+    }
+    const identifier = s.match(/^[a-zA-Z]+/);
+    if (identifier) {
+      // Parse adjacent known names as implicit products: xsin(x), 2xcos(x).
+      // Whitespace is not necessary between a variable and a function name.
+      const name = s.toLowerCase().match(/^(?:sqrt|sin|cos|tan|log|exp|abs|ln|pi|x|y|c|e)/)?.[0];
+      if (!name) {
+        throw Error(`Unknown symbol “${identifier[0]}”. Try x, pi, sin(x), cos(x), ln(x), or sqrt(x).`);
+      }
+      out.push({ kind: 'identifier', value: name }); i += name.length; continue;
+    }
+    const char = text[i];
+    if ('+-*/^()='.includes(char)) {
+      out.push({ kind: char, value: char }); i++; continue;
+    }
+    throw Error(`I cannot read “${char}”. Use ^ for powers and * or adjacency for multiplication.`);
+  }
+  if (out.length > 160) throw Error('That expression is too complicated for this version.');
+  // Insert multiplication in 2x, x(x+1), (x+1)(x-1), 3sin(x), pi*x.
+  const tokens = [];
+  for (let j = 0; j < out.length; j++) {
+    const prev = tokens[tokens.length - 1], next = out[j];
+    const prevEnds = prev && (prev.kind === 'number' || prev.kind === 'identifier' || prev.kind === ')');
+    const nextStarts = next.kind === 'number' || next.kind === 'identifier' || next.kind === '(';
+    const functionCall = prev && prev.kind === 'identifier' && FUNCTIONS.has(prev.value) && next.kind === '(';
+    if (prevEnds && nextStarts && !functionCall) tokens.push({ kind: '*', value: '*' });
+    tokens.push(next);
+  }
+  return tokens;
+}
+
+function parseExpression(source) {
+  const tokens = tokenize(source);
+  if (tokens.some(t => t.kind === '=')) throw Error('Enter an expression without an equals sign.');
+  let at = 0, depth = 0;
+  function peek() { return tokens[at]?.kind; }
+  function take(kind) { if (peek() === kind) { at++; return true; } return false; }
+  function expression() {
+    let node = term();
+    while (peek() === '+' || peek() === '-') {
+      const op = tokens[at++].kind;
+      node = bin(op, node, term());
+    }
+    return node;
+  }
+  function term() {
+    let node = unary();
+    while (peek() === '*' || peek() === '/') {
+      const op = tokens[at++].kind;
+      node = bin(op, node, unary());
+    }
+    return node;
+  }
+  function unary() {
+    if (++depth > 100) throw Error('Expression is nested too deeply.');
+    let result;
+    if (take('+')) result = unary();
+    else if (take('-')) result = neg(unary());
+    else result = power();
+    depth--;
+    return result;
+  }
+  function power() {
+    let node = primary();
+    if (take('^')) node = bin('^', node, unary()); // right-associative: x^2^3 = x^(2^3)
+    return node;
+  }
+  function primary() {
+    const token = tokens[at];
+    if (!token) throw Error('An operator needs something after it.');
+    if (take('(')) {
+      const node = expression();
+      if (!take(')')) throw Error('A closing parenthesis is missing.');
+      return node;
+    }
+    if (token.kind === 'number') { at++; return num(token.value); }
+    if (token.kind === 'identifier') {
+      at++;
+      const name = token.value;
+      if (FUNCTIONS.has(name)) {
+        if (!take('(')) throw Error(`Use parentheses after ${name}, for example ${name}(x).`);
+        const arg = expression();
+        if (!take(')')) throw Error('A closing parenthesis is missing.');
+        return fn(name, arg);
+      }
+      if (name in CONSTANTS) return num(CONSTANTS[name]);
+      return { type: 'variable', name };
+    }
+    throw Error(`Unexpected “${token.value}”. Check the expression.`);
+  }
+  const node = expression();
+  if (at !== tokens.length) throw Error('Check the extra symbols at the end of your answer.');
+  return node;
+}
+
+function parseEquation(text) {
+  if (typeof text !== 'string' || (text.match(/=/g) || []).length !== 1) {
+    throw Error('Enter an equation such as y = 3x + 1.');
+  }
+  const [left, right] = text.split('=');
+  return bin('-', parseExpression(left), parseExpression(right));
+}
+
+function evaluate(tree, vars = {}) {
+  switch (tree.type) {
+    case 'number': return tree.value;
+    case 'variable': {
+      if (!(tree.name in vars)) throw Error(`Provide a value for ${tree.name}.`);
+      return vars[tree.name];
+    }
+    case 'unary': return -evaluate(tree.arg, vars);
+    case 'binary': {
+      const a = evaluate(tree.left, vars), b = evaluate(tree.right, vars);
+      switch(tree.op) {
+        case '+': return a+b;
+        case '-': return a-b;
+        case '*': return a*b;
+        case '/': return a/b;
+        case '^': return Math.pow(a,b);
+      }
+      break;
+    }
+    case 'function': {
+      const x = evaluate(tree.arg, vars);
+      switch(tree.name) {
+        case 'sin': return Math.sin(x);
+        case 'cos': return Math.cos(x);
+        case 'tan': return Math.tan(x);
+        case 'ln': case 'log': return Math.log(x);
+        case 'exp': return Math.exp(x);
+        case 'sqrt': return Math.sqrt(x);
+        case 'abs': return Math.abs(x);
+      }
+    }
+  }
+  throw Error('Unsupported mathematical expression.');
+}
+
+function differentiate(t, variable = 'x') {
+  if (t.type === 'number') return num(0);
+  if (t.type === 'variable') return num(t.name === variable ? 1 : 0);
+  if (t.type === 'unary') return neg(differentiate(t.arg, variable));
+  if (t.type === 'binary') {
+    const { op, left: u, right: v } = t;
+    const du = differentiate(u, variable), dv = differentiate(v, variable);
+    if (op === '+' || op === '-') return bin(op, du, dv);
+    if (op === '*') return bin('+', bin('*', du, v), bin('*', u, dv));
+    if (op === '/') return bin('/', bin('-', bin('*', du, v), bin('*', u, dv)), bin('^', v, num(2)));
+    if (op === '^') {
+      // Constant exponents work for negative bases; avoid unnecessary ln(base).
+      if (!containsVariable(v, variable)) return bin('*', bin('*', v, bin('^', u, bin('-', v, num(1)))), du);
+      return bin('*', bin('^', u, v), bin('+', bin('*', dv, fn('ln', u)), bin('*', v, bin('/', du, u))));
+    }
+  }
+  if (t.type === 'function') {
+    const u = t.arg, du = differentiate(u, variable);
+    const inner = name => fn(name, u);
+    const outer = {
+      sin: inner('cos'), cos: neg(inner('sin')),
+      tan: bin('/', num(1), bin('^', inner('cos'), num(2))),
+      ln: bin('/', num(1), u), log: bin('/', num(1), u),
+      exp: inner('exp'), sqrt: bin('/', num(1), bin('*', num(2), inner('sqrt')))
+    }[t.name];
+    if (t.name === 'abs') throw Error('The derivative of abs() is not supported in custom practice.');
+    return bin('*', outer, du);
+  }
+  throw Error('Unable to differentiate that expression.');
+}
+
+function containsVariable(tree, name) {
+  if (tree.type === 'variable') return tree.name === name;
+  if (tree.type === 'number') return false;
+  if (tree.type === 'unary' || tree.type === 'function') return containsVariable(tree.arg, name);
+  return containsVariable(tree.left, name) || containsVariable(tree.right, name);
+}
+
+function approx(a,b) { return Math.abs(a-b) <= 1e-7 * Math.max(1, Math.abs(a), Math.abs(b)); }
+const SAMPLE_X = [-3.1,-2.4,-1.75,-1.2,-0.45,0.3,0.8,1.5,2.3,3.25,4.2];
+function equivalent(a, b, { constant = false } = {}) {
+  const A = typeof a === 'string' ? parseExpression(a) : a;
+  const B = typeof b === 'string' ? parseExpression(b) : b;
+  let count = 0;
+  for (const x of SAMPLE_X) {
+    for (const c of [-2, 1.25]) {
+      try {
+        const av = evaluate(A, { x, c, y: x+2 });
+        const bv = evaluate(B, { x, c, y: x+2 });
+        if (!Number.isFinite(av) || !Number.isFinite(bv)) continue;
+        if (!approx(av,bv)) return false;
+        count++;
+      } catch { continue; }
+    }
+  }
+  return count >= (constant ? 4 : 8);
+}
+
+function equivalentScalar(text, expected) {
+  const tree = parseExpression(text);
+  if (containsVariable(tree,'x') || containsVariable(tree,'y') || containsVariable(tree,'c')) return false;
+  const actual = evaluate(tree);
+  return Number.isFinite(actual) && approx(actual,expected);
+}
+
+function equivalentLine(text, slope, intercept) {
+  const equation = parseEquation(text);
+  if (!containsVariable(equation, 'y')) return false;
+  const xs = [-3.1,-0.5,0,1.2,3.6];
+  let useful = 0;
+  for (const x of xs) {
+    const y = slope*x+intercept;
+    const onLine = evaluate(equation,{x,y,c:1});
+    const offLine = evaluate(equation,{x,y:y+2,c:1});
+    if (!Number.isFinite(onLine) || !Number.isFinite(offLine)) return false;
+    if (!approx(onLine,0)) return false;
+    if (Math.abs(offLine) > 1e-6) useful++;
+  }
+  return useful >= 3;
+}
+
+function expressionToText(t) {
+  if (t.type === 'number') return String(t.value);
+  if (t.type === 'variable') return t.name === 'c' ? 'C' : t.name;
+  if (t.type === 'unary') return `(-${expressionToText(t.arg)})`;
+  if (t.type === 'function') return `${t.name}(${expressionToText(t.arg)})`;
+  return `(${expressionToText(t.left)} ${t.op} ${expressionToText(t.right)})`;
+}
+
+function ruleHint(tree) {
+  if (tree.type === 'binary') {
+    if (tree.op === '*') return 'Look for two functions being multiplied. The product rule uses u′v + uv′.';
+    if (tree.op === '/') return 'You have a quotient. Name the numerator u and denominator v; use (u′v − uv′)/v².';
+    if (tree.op === '^') return 'For a power of a function, use the power rule and multiply by the derivative of the inside.';
+    if (tree.op === '+' || tree.op === '-') return 'Differentiate each term separately. Constants have derivative zero.';
+  }
+  if (tree.type === 'function') return 'Identify the outer function and its input. Use the chain rule when the input is not simply x.';
+  return 'Ask yourself which differentiation rule applies to the outermost operation.';
+}
+
+// ----- problems.js -----
+const TOPICS = [
+  {id:'limits',name:'Limits',eyebrow:'01 · Foundations',icon:'↗',label:'Limits and indeterminate forms',difficulty:'Foundations'},
+  {id:'continuity',name:'Continuity',eyebrow:'02 · Foundations',icon:'◎',label:'Filling a removable hole',difficulty:'Foundations'},
+  {id:'power',name:'Power rule',eyebrow:'03 · Derivatives',icon:'x²',label:'Derivatives of polynomials',difficulty:'Building blocks'},
+  {id:'product',name:'Product rule',eyebrow:'04 · Derivatives',icon:'×',label:'Products with trigonometry',difficulty:'Intermediate'},
+  {id:'chain',name:'Chain rule',eyebrow:'05 · Derivatives',icon:'⤷',label:'Derivatives of composite functions',difficulty:'Intermediate'},
+  {id:'tangent',name:'Tangent lines',eyebrow:'06 · Applications',icon:'⌁',label:'Build the tangent-line equation',difficulty:'Applications'},
+  {id:'rates',name:'Related rates',eyebrow:'07 · Applications',icon:'◉',label:'Changing circles',difficulty:'Applications'},
+  {id:'optimize',name:'Optimization',eyebrow:'08 · Applications',icon:'▣',label:'Maximum area with fixed perimeter',difficulty:'Applications'},
+  {id:'integrals',name:'Antiderivatives',eyebrow:'09 · Integration',icon:'∫',label:'Reverse the power rule',difficulty:'Integration'},
+];
+
+const rand = (min,max) => Math.floor(Math.random()*(max-min+1))+min;
+const choose = values => values[rand(0,values.length-1)];
+const signed = (n, before = true) => n < 0 ? ` − ${Math.abs(n)}` : `${before ? ' + ' : ''}${n}`;
+const square = x => x*x;
+let count = 0;
+
+function problem(id, payload) {
+  return {id:`${id}-${++count}-${Date.now()}`,topic:id,hintIndex:0,...payload};
+}
+
+function createProblem(topic) {
+  if (topic === 'limits') {
+    const a = rand(2,7);
+    return problem(topic, {
+      challenge:'Find the limit', math:`lim (x→${a})  (x² − ${square(a)}) / (x − ${a})`,
+      prompt:`Evaluate the limit as <em>x</em> approaches <strong>${a}</strong>.`,
+      answerLabel:'Value of the limit',placeholder:'e.g., 6',type:'scalar',value:2*a,answer:String(2*a),
+      hints:[
+        'Try direct substitution. What happens to the numerator and the denominator?',
+        `You obtain 0/0. That does not mean the limit is zero. Factor x² − ${square(a)} as a difference of squares.`,
+        `Cancel the common factor (x − ${a}) for x ≠ ${a}, then evaluate the simpler expression.`
+      ],
+      steps:[`Substituting x = ${a} gives 0/0, an indeterminate form.`,
+        `Factor: x² − ${square(a)} = (x − ${a})(x + ${a}).`,
+        `For x ≠ ${a}, simplify the fraction to x + ${a}.`,
+        `The limit is ${a} + ${a} = ${2*a}.`],
+      mistake(answer){ if(equivalentScalar(answer,0)) return '0/0 is indeterminate, not zero. Simplify before substituting.'; }
+    });
+  }
+  if (topic === 'continuity') {
+    const a = rand(1,7);
+    return problem(topic, {
+      challenge:'Make the function continuous',
+      math:`f(x) = { (x² − ${square(a)})/(x − ${a}) if x ≠ ${a};  k if x = ${a} }`,
+      prompt:`What value of <strong>k</strong> makes this function continuous at <em>x</em> = ${a}?`,
+      answerLabel:'Value of k',placeholder:'e.g., 8',type:'scalar',value:2*a,answer:String(2*a),
+      hints:[
+        'At a point of continuity, the function value must equal the limit as x approaches that point.',
+        `Find lim (x→${a}) (x² − ${square(a)})/(x − ${a}). The expression has a common factor.`,
+        `After canceling x − ${a}, substitute ${a} into x + ${a}.`
+      ],
+      steps:[`For continuity at x = ${a}, we need f(${a}) = lim (x→${a}) f(x).`,
+        `Factor the numerator and simplify to x + ${a} when x ≠ ${a}.`,
+        `The limit is ${2*a}, so set k = ${2*a}.`],
+      mistake(answer){if(equivalentScalar(answer,0)) return 'The function has a removable hole. Use the limit, not the value of the original 0/0 fraction.';}
+    });
+  }
+  if (topic === 'power') {
+    const c = rand(2,6), n=rand(2,5), b=choose([-5,-3,-2,2,4,6]);
+    return problem(topic, {
+      challenge:'Differentiate the function',math:`f(x) = ${c}x^${n} ${signed(b) }x`,
+      prompt:'Find <strong>f′(x)</strong>. Differentiate each term.',
+      answerLabel:'Derivative f′(x)',placeholder:`e.g., ${c*n}x^${n-1} + ${b}`,type:'expression',
+      expected:`${c*n}*x^${n-1}+(${b})`,answer:`${c*n}x^${n-1} ${signed(b)}`,
+      hints:[
+        'Use the sum rule: differentiate each term independently.',
+        'The power rule says d/dx [a·x^n] = a·n·x^(n−1).',
+        `The derivative of ${b}x is ${b}. Remember this constant term in your answer.`
+      ],
+      steps:[`For ${c}x^${n}, multiply ${c} by ${n} and reduce the exponent by one.`,
+        `d/dx [${b}x] = ${b}.`,
+        `Combine the terms: f′(x) = ${c*n}x^${n-1} ${signed(b)}.`],
+      mistake(answer){
+        if(equivalent(answer,`${c*n}*x^${n-1}`)) return 'The power-rule term is correct, but you left out the derivative of the linear term.';
+        if(equivalent(answer,`${c}*x^${n-1}+${b}`)) return `Remember to multiply by the original exponent, ${n}.`;
+      }
+    });
+  }
+  if (topic === 'product') {
+    const n=rand(2,4), c=rand(1,4), trig=choose(['sin','cos']);
+    const outer=trig==='sin'?'cos':'-sin';
+    const term = trig==='sin'?`${c}x^${n} sin(x)`:`${c}x^${n} cos(x)`;
+    const second = trig==='sin'?`+ ${c}x^${n} cos(x)`:`− ${c}x^${n} sin(x)`;
+    const correct=trig==='sin'?`${c*n}*x^${n-1}*sin(x)+${c}*x^${n}*cos(x)`:
+      `${c*n}*x^${n-1}*cos(x)-${c}*x^${n}*sin(x)`;
+    return problem(topic, {
+      challenge:'Apply the product rule',math:`f(x) = ${term}`,
+      prompt:'Find <strong>f′(x)</strong>. Your answer can be factored or expanded.',
+      answerLabel:'Derivative f′(x)',placeholder:`e.g., ${c*n}x^${n-1}${trig}(x) ...`,type:'expression',
+      expected:correct,answer:`${c*n}x^${n-1} ${trig}(x) ${second}`,
+      hints:[
+        'This is one function multiplied by another. You cannot just multiply their derivatives.',
+        `Let u = ${c}x^${n} and v = ${trig}(x). Use f′ = u′v + uv′.`,
+        `Here u′ = ${c*n}x^${n-1} and v′ = ${trig==='sin'?'cos(x)':'−sin(x)'}. Keep both terms.`
+      ],
+      steps:[`Set u = ${c}x^${n} and v = ${trig}(x).`,
+        `Their derivatives are u′ = ${c*n}x^${n-1} and v′ = ${trig==='sin'?'cos(x)':'−sin(x)'}.`,
+        `Apply u′v + uv′: f′(x) = ${c*n}x^${n-1} ${trig}(x) ${second}.`],
+      mistake(answer){
+        if(equivalent(answer, `${trig==='sin'?'1':'-1'}*${c*n}*x^${n-1}*${trig==='sin'?'cos(x)':'sin(x)'}`))
+          return 'You multiplied the two derivatives. The product rule requires a sum: u′v + uv′.';
+        if(equivalent(answer,`${c*n}*x^${n-1}*${trig}(x)`)) return 'That is u′v. The product rule also needs the uv′ term.';
+      }
+    });
+  }
+  if (topic === 'chain') {
+    const a=rand(2,5), b=rand(1,6), n=rand(2,5);
+    const inside=`(${a}x + ${b})`;
+    return problem(topic, {
+      challenge:'Differentiate the composition', math:`f(x) = ${inside}^${n}`,
+      prompt:'Find <strong>f′(x)</strong>. Watch for the derivative of the inside.',
+      answerLabel:'Derivative f′(x)',placeholder:`e.g., ${a*n}(${a}x+${b})^${n-1}`,type:'expression',
+      expected:`${n*a}*(${a}*x+${b})^${n-1}`,
+      answer:`${n*a}(${a}x + ${b})^${n-1}`,
+      hints:[
+        `Name the inside g(x) = ${a}x + ${b}. The outside is a power of g(x).`,
+        `Differentiate the outside: ${n}[g(x)]^${n-1}. Do not stop there.`,
+        `Multiply by g′(x) = ${a} because of the chain rule.`
+      ],
+      steps:[`Let g(x) = ${a}x + ${b}; then f(x) = [g(x)]^${n}.`,
+        `Differentiate the outer power to get ${n}[g(x)]^${n-1}.`,
+        `Multiply by g′(x) = ${a}, giving f′(x) = ${n*a}(${a}x + ${b})^${n-1}.`],
+      mistake(answer){if(equivalent(answer,`${n}*(${a}*x+${b})^${n-1}`)) return `You differentiated the outside but forgot the chain-rule factor ${a}.`;}
+    });
+  }
+  if (topic === 'tangent') {
+    const a=rand(-2,3), b=choose([-4,-2,1,3,5]), c=rand(-3,5);
+    const slope=2*a+b, value=a*a+b*a+c, intercept=c-a*a;
+    return problem(topic,{
+      challenge:'Find the tangent line',math:`f(x) = x² ${signed(b)}x ${signed(c)}     at x = ${a}`,
+      prompt:'Give the equation of the tangent line. You may use <strong>y = mx + b</strong> or point-slope form.',
+      answerLabel:'Equation of the tangent line',placeholder:'e.g., y = 3x - 2',type:'line',
+      slope,intercept,answer:`y = ${slope}x ${signed(intercept)}`,
+      hints:[
+        'The derivative gives the slope of the tangent at every x.',
+        `Differentiate f(x): f′(x) = 2x ${signed(b)}. Evaluate at x = ${a}.`,
+        `The tangent passes through (${a}, ${value}) with slope ${slope}. Use y − ${value} = ${slope}(x − (${a})).`
+      ],
+      steps:[`Differentiate: f′(x) = 2x ${signed(b)}.`,
+        `At x = ${a}, the slope is m = ${slope}.`,
+        `The point on the curve is (${a}, ${value}).`,
+        `Point-slope form: y − ${value} = ${slope}(x − (${a})). Equivalently, y = ${slope}x ${signed(intercept)}.`],
+      mistake(answer){ if(!answer.includes('=')) return 'A tangent line needs a full equation, including y = ... .'; }
+    });
+  }
+  if (topic === 'rates') {
+    const r=rand(2,7), speed=rand(1,5), coefficient=2*r*speed;
+    return problem(topic,{
+      challenge:'Connect two changing quantities',math:`A = πr²     r = ${r} cm     dr/dt = ${speed} cm/s`,
+      prompt:`A circular puddle has radius <strong>${r} cm</strong> and the radius is increasing at <strong>${speed} cm/s</strong>. At that instant, how fast is its area changing? (Answer in cm²/s.)`,
+      answerLabel:'Rate dA/dt (cm²/s)',placeholder:`e.g., ${coefficient}pi`,type:'scalar',
+      value:coefficient*Math.PI,answer:`${coefficient}π cm²/s`,
+      hints:[
+        'The area and radius both change with time. Start with A = πr².',
+        'Differentiate both sides with respect to time, not just with respect to r.',
+        `Use dA/dt = 2πr·dr/dt, then substitute r = ${r} and dr/dt = ${speed}.`
+      ],
+      steps:['Begin with A = πr².','Differentiate with respect to t: dA/dt = 2πr·dr/dt.',
+        `Substitute: dA/dt = 2π(${r})(${speed}) = ${coefficient}π cm²/s.`],
+      mistake(answer){if(equivalentScalar(answer,coefficient)) return 'Remember π in the area formula. You can type pi into the answer box.';}
+    });
+  }
+  if (topic === 'optimize') {
+    const side=rand(4,12), perimeter=4*side, area=side*side;
+    return problem(topic,{
+      challenge:'Maximize the area', math:`2L + 2W = ${perimeter} m       A = LW`,
+      prompt:`A rectangular garden uses exactly <strong>${perimeter} meters</strong> of fencing. What is the <strong>largest possible area</strong>, in square meters?`,
+      answerLabel:'Maximum area (m²)',placeholder:`e.g., ${area}`,type:'scalar',value:area,answer:`${area} m²`,
+      hints:[
+        'Use the perimeter constraint to express width in terms of length.',
+        `From 2L + 2W = ${perimeter}, write W = ${perimeter/2} − L. Substitute into A = LW.`,
+        `A(L) = L(${perimeter/2} − L). Differentiate, set A′(L) = 0, and verify the maximum.`
+      ],
+      steps:[`The constraint is W = ${perimeter/2} − L.`,
+        `Area is A(L) = ${perimeter/2}L − L².`,
+        `A′(L) = ${perimeter/2} − 2L = 0 gives L = ${side}, so W = ${side}.`,
+        `A″(L) = −2 < 0 confirms a maximum; A = ${side} × ${side} = ${area} m².`],
+      mistake(answer){if(equivalentScalar(answer,side)) return 'You found a side length. The question asks for the area, L × W.';}
+    });
+  }
+  if (topic === 'integrals') {
+    const n=rand(1,5), multiplier=rand(2,6), c=multiplier*(n+1);
+    return problem(topic,{
+      challenge:'Find a general antiderivative',math:`f(x) = ${c}x^${n}`,
+      prompt:'Find the most general <strong>F(x)</strong> such that F′(x) = f(x). Include the constant of integration <strong>C</strong>.',
+      answerLabel:'General antiderivative F(x)',placeholder:`e.g., ${multiplier}x^${n+1} + C`,type:'antiderivative',
+      integrand:`${c}*x^${n}`,answer:`${multiplier}x^${n+1} + C`,
+      hints:[
+        'Integration reverses differentiation. Which power would differentiate to x^n?',
+        `Increase the exponent to ${n+1} and divide by ${n+1}.`,
+        `The coefficient is ${c}/${n+1} = ${multiplier}. Add + C because every constant differentiates to zero.`
+      ],
+      steps:[`Use the reverse power rule: ∫x^${n} dx = x^${n+1}/${n+1} + C.`,
+        `Multiply by ${c} and simplify the coefficient to ${multiplier}.`,
+        `The general antiderivative is F(x) = ${multiplier}x^${n+1} + C.`],
+      mistake(answer){
+        if(equivalent(answer,`${multiplier}*x^${n+1}`)) return 'That is one antiderivative; the general family also needs + C.';
+      }
+    });
+  }
+  return createProblem('limits');
+}
+
+function createCustomProblem(expression) {
+  const ast = parseExpression(expression);
+  if (containsVariable(ast,'y') || containsVariable(ast,'c')) throw Error('Use x as the variable for custom differentiation.');
+  const derived = differentiate(ast);
+  // Fail early for expressions whose derivative is undefined at all representative points.
+  const t = expressionToText(derived);
+  return problem('custom',{
+    challenge:'Differentiate your own expression',math:`f(x) = ${expression.trim()}`,
+    prompt:'Find <strong>f′(x)</strong>. Use sin(x), cos(x), exp(x), ln(x), sqrt(x), ^ for powers, and * or adjacency for multiplication.',
+    answerLabel:'Derivative f′(x)',placeholder:'Type your derivative here',type:'expression',expectedAst:derived,
+    answer:t,hints:[
+      ruleHint(ast),
+      'Write each derivative rule on paper, one operation at a time. For products and quotients, define u and v. For compositions, work from the outside in.',
+      'Check all inner derivatives, constants, and signs. Equivalent factored and expanded expressions will both be accepted.'
+    ],
+    steps:[`Start with f(x) = ${expression.trim()}.`,
+      `Applying the rules of differentiation gives f′(x) = ${t}.`,
+      'You may simplify or factor this expression; the checker accepts equivalent forms at several sample points.'],
+    mistake(){return null;}
+  });
+}
+
+function grade(problemData, answer) {
+  const text = answer.trim();
+  if (!text) return {correct:false,message:'Type an answer before checking.',kind:'input'};
+  try {
+    let correct = false;
+    if (problemData.type === 'scalar') correct=equivalentScalar(text,problemData.value);
+    if (problemData.type === 'expression') correct=equivalent(parseExpression(text),problemData.expectedAst ?? problemData.expected);
+    if (problemData.type === 'line') correct=equivalentLine(text,problemData.slope,problemData.intercept);
+    if (problemData.type === 'antiderivative') {
+      const ans=parseExpression(text);
+      const derivative=differentiate(ans);
+      const derivativeMatches=equivalent(derivative,problemData.integrand);
+      correct=derivativeMatches && containsVariable(ans,'c');
+      if (derivativeMatches && !containsVariable(ans,'c')) {
+        return {correct:false,message:'Your derivative checks out! Add + C to give the general antiderivative.',kind:'near'};
+      }
+    }
+    if(correct) return {correct:true,message:'That’s correct. The mathematics checks out.',kind:'success'};
+    let specific;
+    try { specific=problemData.mistake?.(text); } catch {} // a partial answer need not parse in the mistake detector
+    return {correct:false,message:specific || 'Not quite. Check the expression and use a hint to identify your next step.',kind:'incorrect'};
+  } catch(error) {
+    return {correct:false,message:error.message || 'Check your mathematical notation and try again.',kind:'input'};
+  }
+}
+
+// ----- app.js -----
+const $ = id => document.getElementById(id);
+const storageKey = 'calcmentor-progress-v1';
+function loadProgress() {
+  try {
+    const saved = JSON.parse(localStorage.getItem(storageKey) || '{}');
+    return {
+      solved: Number(saved.solved) || 0,
+      streak: Number(saved.streak) || 0,
+      independent: saved.independent && typeof saved.independent === 'object' ? saved.independent : {},
+      attempts: saved.attempts && typeof saved.attempts === 'object' ? saved.attempts : {},
+      lastTopic: TOPICS.some(t=>t.id===saved.lastTopic) ? saved.lastTopic : 'limits'
+    };
+  } catch { return {solved:0,streak:0,independent:{},attempts:{},lastTopic:'limits'}; }
+}
+let progress = loadProgress();
+let topicId = progress.lastTopic;
+let customMode = false;
+let current = null;
+let hintsShown = 0;
+let wrongAttempts = 0;
+let solvedCurrent = false;
+let solutionOpened = false;
+function save() { try { localStorage.setItem(storageKey,JSON.stringify(progress)); } catch {} }
+
+function renderTopics() {
+  const nav=$('topics'); nav.replaceChildren();
+  for(const topic of TOPICS) {
+    const button=document.createElement('button');
+    button.type='button';button.className='topic-button'+(!customMode&&topicId===topic.id?' active':'');
+    button.setAttribute('aria-current',!customMode&&topicId===topic.id?'true':'false');
+    const symbol=document.createElement('span');symbol.className='topic-symbol';symbol.textContent=topic.icon;
+    const words=document.createElement('span');words.className='topic-copy';
+    const name=document.createElement('span');name.className='topic-name';name.textContent=topic.name;
+    const detail=document.createElement('span');detail.className='topic-note';detail.textContent=topic.difficulty;
+    words.append(name,detail);button.append(symbol,words);
+    button.addEventListener('click',()=>{
+      topicId=topic.id;progress.lastTopic=topicId;save();customMode=false;
+      switchMode();setProblem(createProblem(topicId));
+      $('menu-toggle').setAttribute('aria-expanded','false');document.querySelector('.sidebar').classList.remove('open');
+    });
+    nav.append(button);
+  }
+}
+
+function escapeHtml(value){return String(value).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;').replace(/"/g,'&quot;');}
+function prettyMath(text) {
+  let html=escapeHtml(text).replace(/\bpi\b/g,'π')
+    .replace(/\^\((-?\d+)\)/g,'<sup>$1</sup>')
+    .replace(/\^(-?\d+)/g,'<sup>$1</sup>');
+  return html;
+}
+function setProblem(next) {
+  current=next;hintsShown=0;wrongAttempts=0;solvedCurrent=false;solutionOpened=false;
+  const chosen=TOPICS.find(t=>t.id===topicId);
+  $('topic-category').textContent=customMode?'PERSONAL PRACTICE':chosen.eyebrow;
+  $('practice-title').textContent=customMode?'Your own problem, our next hint.':'Let\'s work through a problem.';
+  $('difficulty').textContent=customMode?'YOUR EXPRESSION':chosen.difficulty.toUpperCase();
+  $('challenge').textContent=next.challenge;
+  $('problem-math').innerHTML=prettyMath(next.math);
+  $('problem-prompt').innerHTML=next.prompt;
+  $('answer-label').textContent=next.answerLabel;
+  $('answer').placeholder=next.placeholder;
+  $('answer').value='';
+  $('feedback').hidden=true;$('feedback').textContent='';
+  $('hint-container').replaceChildren();
+  const p=document.createElement('p');p.className='hint-empty';p.textContent='Stuck? Start with a small nudge—not the whole solution.';$('hint-container').append(p);
+  $('hint-count').textContent=`0 / ${next.hints.length}`;
+  $('hint-button').disabled=false;$('hint-button').textContent='✦   Give me a hint';
+  $('solution-panel').hidden=true;$('show-solution').textContent='Show worked solution ↓';
+  $('solution-steps').replaceChildren();
+  for (const step of next.steps) { const li=document.createElement('li');li.textContent=step;$('solution-steps').append(li); }
+  $('solution-answer').textContent=next.answer;
+}
+function showFeedback(result){
+  const el=$('feedback');el.hidden=false;el.className='feedback '+result.kind;
+  el.textContent=(result.correct?'✓  ':result.kind==='input'?'ⓘ  ':'↗  ')+result.message;
+}
+function updateProgress(){
+  $('total-correct').textContent=progress.solved;
+  $('streak').textContent=progress.streak;
+  const mastered=TOPICS.filter(t=>(progress.independent[t.id]||0)>=3);
+  const percentage=Math.round(100*mastered.length/TOPICS.length);
+  $('progress-percent').textContent=percentage+'%';
+  $('progress-bar').style.width=percentage+'%';
+  const target=$('skill-summary');target.replaceChildren();
+  if(mastered.length){
+    const label=document.createElement('strong');label.textContent=`${mastered.length} / ${TOPICS.length} topics practiced with confidence`;
+    const p=document.createElement('div');p.style.marginTop='6px';p.textContent=mastered.map(t=>t.name).join(' · ');
+    target.append(label,p);
+  } else {
+    const topic=TOPICS.find(t=>(progress.independent[t.id]||0)>0);
+    target.textContent=topic?`Keep going! ${topic.name}: ${progress.independent[topic.id]} of 3 independent solutions.`:'Your journey begins with one attempt.';
+  }
+}
+
+$('answer-form').addEventListener('submit', event=>{
+  event.preventDefault();
+  if (!current) return;
+  const result=grade(current,$('answer').value);
+  showFeedback(result);
+  if (result.kind==='input') return;
+  if (solvedCurrent) return;
+  if (!result.correct) {wrongAttempts++;progress.streak=0;progress.attempts[current.topic]=(progress.attempts[current.topic]||0)+1;save();updateProgress();return;}
+  solvedCurrent=true;progress.solved++;progress.streak++;
+  progress.attempts[current.topic]=(progress.attempts[current.topic]||0)+1;
+  // Independent = first attempt correct, no hints, and the full worked answer wasn't revealed.
+  if(!hintsShown && !wrongAttempts && !solutionOpened && current.topic!=='custom')
+    progress.independent[current.topic]=(progress.independent[current.topic]||0)+1;
+  save();updateProgress();
+});
+
+$('hint-button').addEventListener('click',()=>{
+  if(!current || hintsShown>=current.hints.length) return;
+  if(!hintsShown) $('hint-container').replaceChildren();
+  const box=document.createElement('div');box.className='hint-item';
+  const strong=document.createElement('strong');strong.textContent=`HINT ${hintsShown+1} · `;
+  const copy=document.createElement('span');copy.textContent=current.hints[hintsShown];
+  box.append(strong,copy);$('hint-container').append(box);
+  hintsShown++;$('hint-count').textContent=`${hintsShown} / ${current.hints.length}`;
+  if(hintsShown===current.hints.length){$('hint-button').disabled=true;$('hint-button').textContent='All hints shown';}
+});
+$('show-solution').addEventListener('click',()=>{
+  solutionOpened=true;
+  const next=$('solution-panel').hidden;
+  $('solution-panel').hidden=!next;
+  $('show-solution').textContent=next?'Hide worked solution ↑':'Show worked solution ↓';
+});
+$('new-problem').addEventListener('click',()=>{
+  if(customMode){
+    // Preserve the custom problem and let students attempt again with a clean answer field.
+    if($('custom-function').value.trim()) makeCustom();
+  }else setProblem(createProblem(topicId));
+  $('answer').focus();
+});
+
+function switchMode(){
+  $('mode-guided').classList.toggle('active',!customMode);
+  $('mode-custom').classList.toggle('active',customMode);
+  $('mode-guided').setAttribute('aria-pressed',String(!customMode));
+  $('mode-custom').setAttribute('aria-pressed',String(customMode));
+  $('custom-setup').hidden=!customMode;
+  renderTopics();
+}
+function makeCustom(){
+  $('custom-error').hidden=true;
+  try {
+    const created=createCustomProblem($('custom-function').value);
+    setProblem(created);
+    return true;
+  } catch(error) {
+    $('custom-error').hidden=false;
+    $('custom-error').textContent=error.message || 'Unable to read the expression. Try a simpler function.';
+    return false;
+  }
+}
+$('mode-guided').addEventListener('click',()=>{
+  if(!customMode)return;
+  customMode=false;switchMode();setProblem(createProblem(topicId));
+});
+$('mode-custom').addEventListener('click',()=>{
+  if(customMode)return;
+  customMode=true;switchMode();makeCustom();
+});
+$('custom-go').addEventListener('click',()=>{if(makeCustom())$('answer').focus();});
+$('custom-function').addEventListener('keydown',event=>{if(event.key==='Enter'){event.preventDefault();if(makeCustom())$('answer').focus();}});
+for(const button of document.querySelectorAll('[data-example]')){
+  button.addEventListener('click',()=>{$('custom-function').value=button.dataset.example;makeCustom();});
+}
+$('menu-toggle').addEventListener('click',()=>{
+  const sidebar=document.querySelector('.sidebar');
+  const open=sidebar.classList.toggle('open');$('menu-toggle').setAttribute('aria-expanded',String(open));
+});
+$('reset-progress').addEventListener('click',()=>{
+  if(!confirm('Clear your saved practice totals on this device? This cannot be undone.')) return;
+  progress={solved:0,streak:0,independent:{},attempts:{},lastTopic:topicId};save();updateProgress();
+});
+const dialog=$('about-dialog');
+$('about-button').addEventListener('click',()=>dialog.showModal());
+$('close-dialog').addEventListener('click',()=>dialog.close());
+$('dialog-done').addEventListener('click',()=>dialog.close());
+dialog.addEventListener('click',event=>{if(event.target===dialog)dialog.close();});
+
+function drawGraph(){
+  const canvas=$('graph');
+  const rect=canvas.getBoundingClientRect();
+  if(rect.width<30 || rect.height<30)return;
+  const ratio=window.devicePixelRatio||1;
+  canvas.width=Math.round(rect.width*ratio);canvas.height=Math.round(rect.height*ratio);
+  const ctx=canvas.getContext('2d');ctx.scale(ratio,ratio);
+  const W=rect.width,H=rect.height;
+  const xmin=-3.3,xmax=3.6,ymin=-1.5,ymax=12.4;
+  const X=x=>(x-xmin)/(xmax-xmin)*W;
+  const Y=y=>H-(y-ymin)/(ymax-ymin)*H;
+  const line=(pts,stroke,width,dash=[])=>{
+    ctx.beginPath();ctx.setLineDash(dash);pts.forEach((p,i)=>i?ctx.lineTo(X(p[0]),Y(p[1])):ctx.moveTo(X(p[0]),Y(p[1])));
+    ctx.strokeStyle=stroke;ctx.lineWidth=width;ctx.stroke();ctx.setLineDash([]);
+  };
+  ctx.clearRect(0,0,W,H);
+  for(let x=-3;x<=3;x++){line([[x,ymin],[x,ymax]],'#e7f0e9',1);}
+  for(let y=0;y<=12;y+=2){line([[xmin,y],[xmax,y]],'#e7f0e9',1);}
+  line([[xmin,0],[xmax,0]],'#acbeb5',1.3);
+  line([[0,ymin],[0,ymax]],'#acbeb5',1.3);
+  ctx.fillStyle='#96a99f';ctx.font='11px sans-serif';ctx.fillText('x',W-17,Y(0)-8);ctx.fillText('y',X(0)+8,14);
+  const curve=[];for(let x=xmin;x<=xmax;x+=.025)curve.push([x,x*x]);
+  line(curve,'#367d77',3);
+  const h=Number($('h-slider').value), a=1, slope=2+h;
+  const tangent=x=>2*(x-a)+1;
+  const secant=x=>slope*(x-a)+1;
+  line([[xmin,tangent(xmin)],[xmax,tangent(xmax)]],'#e2a269',2,[7,6]);
+  line([[xmin,secant(xmin)],[xmax,secant(xmax)]],'#7697c9',2.3);
+  const point=(x,y,color,radius)=>{
+    ctx.beginPath();ctx.arc(X(x),Y(y),radius,0,Math.PI*2);ctx.fillStyle='#fff';ctx.fill();ctx.strokeStyle=color;ctx.lineWidth=2.9;ctx.stroke();
+  };
+  point(a,1,'#296b64',5.8);
+  point(a+h,(a+h)**2,'#7697c9',5.5);
+  ctx.font='bold 11px sans-serif';ctx.fillStyle='#276a62';ctx.fillText('f(x) = x²',W-82,22);
+  ctx.fillStyle='#789bc8';ctx.fillRect(14,16,13,3);ctx.fillStyle='#607d9d';ctx.font='10px sans-serif';ctx.fillText('secant',31,21);
+  ctx.fillStyle='#e2a269';ctx.fillRect(14,33,13,3);ctx.fillStyle='#aa7c51';ctx.fillText('tangent',31,38);
+  $('h-value').textContent=h.toFixed(1);
+  $('secant-slope').textContent=slope.toFixed(2);
+}
+$('h-slider').addEventListener('input',drawGraph);
+window.addEventListener('resize',drawGraph);
+if(typeof ResizeObserver!=='undefined')new ResizeObserver(drawGraph).observe($('graph'));
+
+switchMode();setProblem(createProblem(topicId));updateProgress();drawGraph();
+
+})();
+</script>
+</body>
+</html>

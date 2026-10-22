@@ -30,7 +30,7 @@ for(const family of B.families.filter(f=>f.group==="foundations"))for(let seed=1
   if(id==="functions-inverse"){const m=match(s,/f\(x\) = (\d+)x \+ (\d+)/);const a=Number(m[1]),b=Number(m[2]);f=x=>a*x+b;}
   else if(id==="extra-inverse-quadratic"){const m=match(s,/f\(x\)=\(x−(\d+)\)²\+(\d+)/);const a=Number(m[1]),b=Number(m[2]);f=x=>(x-a)**2+b;}
   else {const m=match(s,/f\(x\)=(\d+)\/\(x−(\d+)\)/);const a=Number(m[1]),b=Number(m[2]);f=x=>a/(x-b);}
-  for(const x of [2.1,8.4,12.6,23]){const result=f(answer(x));if(!equivalent(result,x))throw Error("Inverse does not undo function at "+x+": "+result+" vs "+x);}
+  for(const x of [10.1,12.3,18.4,25.2]){const result=f(answer(x));if(!equivalent(result,x))throw Error("Inverse does not undo function at "+x+": "+result+" vs "+x);}
  }else if(id==="extra-piecewise-input"){
   const m=match(s,/g\(x\)=x−(\d+) if x≥0\. Calculate f\(g\((\d+)\)\)/);const b=Number(m[1]),x=Number(m[2]);
   if(!equivalent(answer(1),(x-b)**2))throw Error("Piecewise branch or outer square incorrect");

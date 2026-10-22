@@ -28,7 +28,8 @@ for(const id of known)for(let seed=1;seed<=30;seed++)try{
   expected=x=>2*x*(x*x+a)-(x+a);
  }
  for(let i=0;i<p.steps.length;i++){
-  const f=parseKey(p.steps[i].answer),oracle=i===1?expected2:expected;
+  if(p.steps[i].type==="choice")continue;
+  const f=parseKey(p.steps[i].answer),oracle=(id==="int-ftc"&&i===1)?expected2:expected;
   if(!oracle)throw Error("Unexpected extra FTC step");
   for(const x of [-.8,-.2,.25,.7,1.25]){
    const a=f(x),b=oracle(x);if(!(Number.isFinite(a)&&Math.abs(a-b)<1e-8*(1+Math.abs(b))))throw Error("Incorrect FTC answer at "+x+": "+a+" vs "+b);

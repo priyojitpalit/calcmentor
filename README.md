@@ -33,6 +33,14 @@ These are **original problem generators**, not copies of copyrighted exercise st
 
 No external exercise-bank content is redistributed. These sites and authors have not endorsed CalcMentor.
 
+## Independent mathematical verification
+
+All **218 problem families** have been checked against independent mathematical references on **30 widely distributed generated parameter seeds per family** (6,540 unique family/seed instances). The reference suites use independent substitution, differentiation, integration, limit estimates, geometry and theorem checks rather than the site's own answer-key equivalence routine.
+
+This work identified and corrected an actual wrong answer key in the final-position motion problem. The suite is automatically run before site publication; an error prevents deployment.
+
+See [Independent Mathematical Verification](docs/independent-math-verification.md) for the full methodology, verified families and remaining limitations. This is **sample-based mathematical verification**, not a formal proof of all possible parameter combinations, intermediate steps or student responses.
+
 ## Access and operating costs
 
 The site runs entirely in a web browser with standard HTML/CSS/JavaScript. There are no API calls, accounts, database, advertising, or subscription fees. GitHub Pages hosting is free for this public repository. A standard browser is sufficient; **no generative AI API is used**.
@@ -53,7 +61,8 @@ The site runs entirely in a web browser with standard HTML/CSS/JavaScript. There
 | `extra-integral-applications.js` | 11 additional applied-integration structures |
 | `grading-categories.js` | Explicit antiderivative answer classifications, distinct from ordinary algebra |
 | `app.js` | Topic browser, answer flow, learning record and visual laboratories |
-| `tests/smoke.test.cjs` | Automated regression tests |
+| `tests/smoke.test.cjs` | Automated expected-answer and checker regression tests |
+| `tests/independent-*.test.cjs` | Independent mathematical reference checks across all six units |
 | `.github/workflows/deploy-pages.yml` | Tests and GitHub Pages publication |
 
 ## Run and deploy
@@ -66,6 +75,12 @@ The site runs entirely in a web browser with standard HTML/CSS/JavaScript. There
 
 ```bash
 node tests/smoke.test.cjs
+node tests/independent-calculus.test.cjs
+node tests/independent-limits.test.cjs
+node tests/independent-integrals.test.cjs
+node tests/independent-functions.test.cjs
+node tests/independent-applications.test.cjs
+node tests/independent-ftc.test.cjs
 ```
 
 ## Accuracy and appropriate use

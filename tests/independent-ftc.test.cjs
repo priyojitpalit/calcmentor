@@ -14,7 +14,7 @@ function data(s,re){let m=s.match(re);if(!m)throw Error("Cannot parse FTC questi
 const known=["int-ftc","int-ftc-chain","extra-integral-ftc-upper-cube","extra-integral-ftc-lower","extra-integral-ftc-both"];
 const errors=[];let cases=0;
 for(const id of known)for(let seed=1;seed<=30;seed++)try{
- const p=B.generate(id,seed),s=p.statement;
+ const p=B.generate(id,(Math.imul(seed,0x9e3779b1)+1234567)>>>0),s=p.statement;
  let expected,expected2=null;
  if(id==="int-ftc"){
   const [a]=data(s,/t³ \+ (\d+)t/);expected=x=>x**3+a*x;expected2=x=>3*x*x+a;

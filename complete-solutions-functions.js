@@ -9,7 +9,7 @@ H.register("foundations",p=>{
    m=G(s,/^Given f\(u\)=(.+?) and g\(x\)=(.+?), determine f\(g\(x\)\)\./);
    if(m){
     [outer,inner]=m;
-    const result=outer.replace(/\bu\b/g,"("+inner+")");
+    const result=outer.replace(/u/g,"("+inner+")");
     const note=/(?:ln|sqrt|1\/|asin|acos)/.test(outer)
       ?"Check that the argument satisfies the outer function's domain restrictions.":"Evaluate the inner function before the outside function.";
     return [I("Identify the inner function","g(x) = "+inner,note),
@@ -24,20 +24,20 @@ H.register("foundations",p=>{
   if(!m)return null;
   return [I("Evaluate the inner function at the given input","g("+m[2]+") = "+m[1].replace(/x/g,"("+m[2]+")")),
    I("Simplify the inner result","g("+m[2]+") = "+A(p,0)),
-   I("Use that value as the input to the outside function","f(g("+m[2]+")) = "+m[0].replace(/\bu\b/g,"("+A(p,0)+")")),
+   I("Use that value as the input to the outside function","f(g("+m[2]+")) = "+m[0].replace(/u/g,"("+A(p,0)+")")),
    I("Finish the arithmetic","f(g("+m[2]+")) = "+final)];
  case "extra-nested-triple":
   m=G(s,/f\(u\)=(.+?), g\(u\)=(.+?), and h\(x\)=(.+?)\. Determine/);if(!m)return null;
   return [I("Begin with the innermost map","h(x)="+m[2]),
-  I("Substitute h into g","g(h(x))="+m[1].replace(/\bu\b/g,"("+m[2]+")")),
+  I("Substitute h into g","g(h(x))="+m[1].replace(/u/g,"("+m[2]+")")),
   I("Simplify the middle composition","g(h(x))="+A(p,0)),
-  I("Apply f to the entire result","f(g(h(x)))="+m[0].replace(/\bu\b/g,"("+A(p,0)+")")),
+  I("Apply f to the entire result","f(g(h(x)))="+m[0].replace(/u/g,"("+A(p,0)+")")),
   I("Write the nested composition","f(g(h(x)))="+final)];
  case "extra-reverse-order":
   m=G(s,/f\(x\)=(.+?) and g\(u\)=(.+?), find/);if(!m)return null;
   return [I("Read the composition right to left","g(f(x)) means apply f first"),
   I("Compute the inside function","f(x)="+m[0]),
-  I("Use f(x) as the argument of g","g(f(x))="+m[1].replace(/\bu\b/g,"("+m[0]+")")),
+  I("Use f(x) as the argument of g","g(f(x))="+m[1].replace(/u/g,"("+m[0]+")")),
   I("Simplify the expression","g(f(x))="+final)];
  case "extra-piecewise-input":
   m=G(s,/g\(x\)=(.+?) if x<0, and g\(x\)=(.+?) if x≥0\. Calculate f\(g\((\d+)\)\)/);if(!m)return null;

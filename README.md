@@ -19,7 +19,7 @@ This is an independently developed course resource hosted on GitHub Pages; it is
 - Practice **218 distinct original problem families** across six course units (36 function/review, 36 limits/continuity, 45 differentiation, 38 derivative applications, 39 integration, and 24 integral applications).
 - Generate new variants with different numerical parameters.
 - Switch between **guided mode** (an assessed sequence of intermediate steps) and **independent mode** (the final task).
-- Ask for two progressively more specific hints on each step or review a worked solution.
+- Ask for two progressively more specific hints or open **Solution steps**. Forty selected families have explicit, parameter-specific algebraic and calculus derivations; the remaining 178 show the available method, intermediate assessed answers, and explanations as solution outlines. Students can review solutions after completing a problem.
 - Enter algebraic answers checked against the expected result at multiple test points, with tighter checks for expressions than for approximate numbers. Indefinite antiderivatives accept arbitrary additive constants. Numerical agreement is **not** a symbolic proof of identity.
 - Investigate two interactive visual labs: a secant slope approaching a derivative, and right-endpoint Riemann sums approaching a definite integral.
 - Keep progress locally, identify practiced problem families, review recent work, and export practice records as CSV.
@@ -41,6 +41,17 @@ This work identified and corrected an actual wrong answer key in the final-posit
 
 See [Independent Mathematical Verification](docs/independent-math-verification.md) for the full methodology, verified families and remaining limitations. This is **sample-based mathematical verification**, not a formal proof of all possible parameter combinations, intermediate steps or student responses.
 
+## Solution explanations
+
+CalcMentor distinguishes **worked mathematical derivations** from **solution outlines**.
+
+- For 40 selected families, the solution view constructs an explicit mathematical path from the given data to the result: setting up constraints or integrals, applying rules, simplifying and evaluating. The values update with every generated problem version.
+- For the other 178 families, it presents the available hints, reasoning, assessed intermediate answers, and final answer in order, while clearly labeling the display a **solution outline**, not a full derivation.
+- Revealing a solution during an attempt counts as supported practice. Students can review solutions again after completing the problem.
+- `tests/worked-solutions.test.cjs` validates that explanations are present and parameter-dependent across all 218 families.
+
+**Remaining authoring work:** Produce individually written, independently reviewed full derivations for the other families, including explicit intermediate equations and explanations of common wrong turns. The solutions should not be presented as complete until this is done.
+
 ## Access and operating costs
 
 The site runs entirely in a web browser with standard HTML/CSS/JavaScript. There are no API calls, accounts, database, advertising, or subscription fees. GitHub Pages hosting is free for this public repository. A standard browser is sufficient; **no generative AI API is used**.
@@ -60,6 +71,8 @@ The site runs entirely in a web browser with standard HTML/CSS/JavaScript. There
 | `extra-integrals.js` | 35 additional integration and application structures |
 | `extra-integral-applications.js` | 11 additional applied-integration structures |
 | `grading-categories.js` | Explicit antiderivative answer classifications, distinct from ordinary algebra |
+| `worked-solutions.js` | Explicit and fallback structured mathematics solution displays |
+| `tests/worked-solutions.test.cjs` | Regression tests for parametrized explanations |
 | `app.js` | Topic browser, answer flow, learning record and visual laboratories |
 | `tests/smoke.test.cjs` | Automated expected-answer and checker regression tests |
 | `tests/independent-*.test.cjs` | Independent mathematical reference checks across all six units |

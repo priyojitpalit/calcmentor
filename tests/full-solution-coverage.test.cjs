@@ -48,7 +48,7 @@ assert.equal(expanded.size,178,"The original 178 answer-only outlines were not a
 let compositionFamiliesChecked=0;
 for(const family of CalcBank.families){
  const sample=CalcBank.generate(family.id,71423);
- const match=sample.statement.match(/^Given f\\(u\\)=(.+?) and g\\(x\\)=(.+?), determine f\\(g\\(x\\)\\)\\.$/);
+ const match=sample.statement.match(/^Given f\(u\)=(.+?) and g\(x\)=(.+?), determine f\(g\(x\)\)\.$/);
  if(!match)continue;
  const expected="f(g(x)) = "+match[1].replace(/u/g,"("+match[2]+")");
  const lines=sandbox.window.CalcSolutions.build(sample).items.map(x=>x.equation);

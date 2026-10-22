@@ -43,6 +43,8 @@ jobs:
         run: node tests/independent-ftc.test.cjs
       - name: Validate worked solutions across generated problem variations
         run: node tests/worked-solutions.test.cjs
+      - name: Verify complete worked solutions in every Calculus I family
+        run: node tests/full-solution-coverage.test.cjs
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload static site

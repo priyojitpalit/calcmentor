@@ -64,3 +64,18 @@ button,input,select{font:inherit}button{cursor:pointer}button:disabled{opacity:.
  .footnote-identity{flex-direction:column}
  .footnote{padding-bottom:25px}
 }
+
+/* Mathematical derivations — sequential working with legible intermediate algebra. */
+.worked{padding:21px 22px}
+.worked h3{font-size:16px;margin:0 0 15px}
+.worked-list{list-style:decimal;padding-left:23px;margin:0}
+.worked-list li{padding:2px 0 14px 5px;margin-bottom:14px;border-bottom:1px solid var(--line)}
+.worked-list li:last-child{border-bottom:none;margin-bottom:0}
+.worked-list li::marker{font-weight:700;color:var(--accent)}
+.worked-list li strong{display:block;color:var(--text);font-size:14px;line-height:1.5}
+.worked-note{font-size:13px;color:var(--muted);line-height:1.65;margin:5px 0 9px}
+.worked-equation{display:block;font-family:"Cambria Math",Cambria,"STIX Two Math",Georgia,serif;font-size:17px;line-height:1.65;letter-spacing:.01em;background:var(--bg);padding:11px 13px;border:1px solid var(--line);border-radius:7px;white-space:normal;overflow-wrap:anywhere}
+.worked-disclosure{font-size:12px;line-height:1.6;color:var(--muted);margin:14px 0 0}
+.worked h3 + .worked-disclosure{margin:0 0 14px}
+.complete .worked{margin-top:19px;border-left:1px solid var(--line);text-align:left}
+@media(max-width:760px){.worked{padding:15px}.worked-equation{font-size:15px;padding:10px}}

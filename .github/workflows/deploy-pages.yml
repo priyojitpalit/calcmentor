@@ -39,6 +39,8 @@ jobs:
         run: node tests/independent-functions.test.cjs
       - name: Independently verify derivative applications
         run: node tests/independent-applications.test.cjs
+      - name: Independently verify FTC families
+        run: node tests/independent-ftc.test.cjs
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload static site

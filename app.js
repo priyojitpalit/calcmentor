@@ -68,10 +68,11 @@ function renderProblem(){
  const root=byId("stepArea");
  if(state.completed){
   root.innerHTML='<div class="panel complete"><h3>Problem completed</h3><p>'+ (state.solutionViewed?'The full solution was viewed during this attempt.':state.directFinal?'Your final answer is correct. You did not need to submit the intermediate steps.':'Your answers passed the mathematical checks.') +
-    ' Select another version or switch topics to continue.</p><div class="practice-actions"><button class="btn btn-primary" id="completeNew">Another version</button><button class="btn" id="completeMixed">Mixed practice</button></div></div>';
+    ' Select another version or switch topics to continue.</p><div class="practice-actions"><button class="btn btn-primary" id="completeNew">Another version</button><button class="btn" id="completeMixed">Mixed practice</button><button class="btn" id="completeReview">Review solution steps</button></div></div>';
   byId("completeNew").onclick=()=>setFamily(state.family);
   byId("completeMixed").onclick=()=>mixed();
-  renderInfo();return;
+  byId("completeReview").onclick=()=>{state.solutionViewed=true;state.reveal=!state.reveal;renderWorked();};
+  renderWorked();renderInfo();return;
  }
  const s=steps[state.stepIndex];if(!s)return;
  const response=s.type==="choice"
@@ -79,7 +80,7 @@ function renderProblem(){
    :'<div class="response"><input class="answer" id="answerInput" type="text" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Your mathematical answer" placeholder="'+(s.type==="number"?"Enter a number or exact expression":"Enter a mathematical expression")+'"><button class="btn btn-primary" id="checkButton">Check</button></div>';
  root.innerHTML='<div class="panel step-card"><div class="step-count">Step '+(state.stepIndex+1)+' of '+steps.length+'</div><h3>'+pretty(s.q)+'</h3>'+response+
  (s.type==="choice"?'<button class="btn btn-primary" id="checkButton">Check selection</button>':'<div class="keyboard-help">Use ^ for powers, * for multiplication, sqrt(...), sin(...), ln(...), pi. Expressions are compared at test inputs rather than proved symbolically.'+(s.type==="antiderivative"?' Any constant of integration is acceptable.':'')+' If you already know the final answer, you may enter it directly.</div>')+
- '<div class="practice-actions"><button class="btn btn-small" id="hintBtn">Hint ('+state.shownHint+'/2)</button><button class="btn btn-small btn-plain" id="revealBtn">Show worked solution</button><button class="btn btn-small btn-plain" id="skipBtn" title="Try another parameter version">New numbers</button></div>'+
+ '<div class="practice-actions"><button class="btn btn-small" id="hintBtn">Hint ('+state.shownHint+'/2)</button><button class="btn btn-small btn-plain" id="revealBtn">Show solution steps</button><button class="btn btn-small btn-plain" id="skipBtn" title="Try another parameter version">New numbers</button></div>'+
  '<div id="hintBlock"></div><div id="feedback" aria-live="polite"></div></div>';
  byId("checkButton").onclick=checkStep;
  const input=byId("answerInput");if(input){input.addEventListener("keydown",evt=>{if(evt.key==="Enter")checkStep();});}
@@ -100,12 +101,22 @@ function renderHints(){
 }
 function renderWorked(){
  const old=byId("workedPath");if(old)old.remove();
+ const button=byId(state.completed?"completeReview":"revealBtn");
+ if(button)button.textContent=state.reveal?"Hide solution steps":"Show solution steps";
  if(!state.reveal)return;
- const steps=activeProblem.steps;
- const area=document.createElement("div");
+ const solution=window.CalcSolutions.build(activeProblem);
+ const area=document.createElement("section");
  area.id="workedPath";area.className="worked";
- area.innerHTML='<h3>Worked solution</h3><ol>'+steps.map(s=>'<li><strong>'+e(s.q)+'</strong><span>'+e(s.why)+'</span></li>').join("")+'</ol><p style="font-size:12px;color:#64748b;margin:0">Viewing the full solution is recorded as a supported attempt, not independent practice.</p>';
- byId("stepArea").querySelector(".step-card")?.appendChild(area);
+ area.setAttribute("aria-label",solution.detailed?"Worked mathematical solution":"Solution steps and explanations");
+ area.innerHTML='<h3>'+(solution.detailed?"Worked solution":"Solution steps")+'</h3>'+
+ (!solution.detailed?'<p class="worked-disclosure">Method, intermediate answers, and explanations are shown below. This problem does not yet have a fully expanded algebraic derivation.</p>':'')+
+ '<ol class="worked-list">'+solution.items.map(s=>
+   '<li><strong>'+pretty(s.title)+'</strong>'+
+   (s.note?'<p class="worked-note">'+pretty(s.note)+'</p>':'')+
+   (s.equation?'<div class="worked-equation">'+pretty(s.equation)+'</div>':'')+
+   '</li>').join("")+'</ol>'+
+ '<p class="worked-disclosure">Reviewing the solution counts as supported practice, not independent practice.</p>';
+ byId("stepArea").querySelector(".step-card, .complete")?.appendChild(area);
 }
 function showFeedback(message,correct){
  const target=byId("feedback");if(target)target.innerHTML='<div class="feedback '+(correct?"correct":"wrong")+'">'+e(message)+'</div>';

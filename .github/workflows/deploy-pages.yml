@@ -29,6 +29,8 @@ jobs:
           node-version: '22'
       - name: Verify math and problem bank
         run: node tests/smoke.test.cjs
+      - name: Independently verify calculus answers
+        run: node tests/independent-calculus.test.cjs
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload static site

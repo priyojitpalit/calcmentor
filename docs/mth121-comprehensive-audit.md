@@ -6,6 +6,16 @@
 **Course:** Spring Hill College MTH 121 Calculus I  
 **Disposition:** **Useful supplementary practice; not yet a comprehensive, independently validated sole practice resource.**
 
+## Independent verification update — October 21, 2026
+
+A separate mathematical reference suite now covers **all 218 problem families** with **30 widely distributed parameter seeds per family** (6,540 distinct family/seed test instances). It derives expected values from the problem statements using function substitution, the derivative and integral definitions, geometric formulas, and relevant calculus theorems. The first audited incorrect numerical key was corrected: `extra-integral-particle-position` incorrectly reported 240.5 m instead of 243 m for the example with initial position 5 m and velocity `8t+6` m/s over seven seconds. GitHub's independent test suites all passed after that correction.
+
+**This does not amount to a formal proof of every generator or verification of every intermediate answer and hint.** It also does not remove the limitations of the live numerical-equivalence checker. Full methodology, category-by-category coverage, and residual risks: [Independent Mathematical Verification](independent-math-verification.md).
+
+The following baseline sections describe the original audit; retain their recommendations concerning graph/data problems, feedback, proof quality and curriculum completeness.
+
+---
+
 ## Remediation update — October 21, 2026
 
 **This document records the original audit baseline.** The findings in Sections 1–7 describe problems as found *before* the following corrections; interpret their "currently" claims historically.
@@ -14,7 +24,7 @@
 |---|---|---|
 | P0 A — correct indefinite integrals rejected for having an arbitrary constant | **Corrected for the 21 explicitly classified antiderivative families** | \`grading-categories.js\` tags the relevant steps; \`math-engine.js\` now checks whether the proposed antiderivative differs from the key by a constant at sampled inputs. Regression tests accept \`x^2/2+7\`, \`x^2/2+2*pi\`, and \`x^2/2+C\`, and reject \`x^2/2+C*x\`. |
 | P0 B — incorrect algebraic offset accepted | **Specific reproduced defect corrected; broader numeric equivalence limitation remains** | Tighter expression comparison now rejects \`x+0.00001\` against \`x\`. The checker still uses finite-point numerical tests and cannot rigorously certify algebraic identities or all domain restrictions. |
-| P0 C — no independent mathematical proofs of all generated answer keys | **Still open** | Regression suite has new adversarial test submissions and expanded generator coverage, but mathematical truth is not independently derived for every family. |
+| P0 C — no independent mathematical proofs of all generated answer keys | **Independent seeded checks completed; full formal proof and intermediate-step audit remain open** | All 218 families now have independent mathematical reference checks across 30 widely distributed generated instances; see [verification report](independent-math-verification.md). |
 | P1 E — radical-domain wording did not match its numeric expected response | **Corrected** | The prompt now asks for the minimum permitted radicand value rather than an inequality. |
 | Missing graphical/data exercises, extended modeling, proofs and calibrated difficulty | **Still open** | Next phase of curriculum work, after additional mathematical validation. |
 

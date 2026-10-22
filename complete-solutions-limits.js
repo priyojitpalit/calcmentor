@@ -47,7 +47,7 @@ H.register("limits",p=>{
   }
   return null;
  case "limits-infinity":case "extra-limit-infinity-lower":case "extra-limit-infinity-higher":case "extra-limit-infinity-negative":
-  m=G(s,/\((\d+)x\^?(\d+).*?\)\/\((\d+)x\^?(\d+)/);if(!m)m=G(s,/\((\d+)x[²³].*?\)\/\((\d+)x[²³]/);
+  m=G(s,/\((\d+)x([²³])[^)]*\)\/\((\d+)x([²³])/);
   if(id==="limits-infinity"){
     m=G(s,/\((\d+)x\^3.*\)\/\((\d+)x\^3/);if(!m)return null;
     return [I("Compare numerator and denominator degrees","degree(numerator)=degree(denominator)=3"),
@@ -55,8 +55,8 @@ H.register("limits",p=>{
     I("Discard lower-order terms at infinity","lim = "+m[0]+"/"+m[1]+" = "+z,"The lower-degree terms vanish after dividing by x³.")];
   }
   if(!m)return null;
-  return [I("Find the degrees of the numerator and denominator","numerator degree="+m[1]+", denominator degree="+m[3]),
-   I("Divide by the highest denominator power","The dominant behavior is ("+m[0]+"/"+m[2]+")x^("+(Number(m[1])-Number(m[3]))+")"),
+  return [I("Find the degrees of the numerator and denominator","numerator degree="+(m[1]==="³"?3:2)+", denominator degree="+(m[3]==="³"?3:2)),
+   I("Divide by the highest denominator power","The dominant behavior is ("+m[0]+"/"+m[2]+")x^("+(Number(m[1]==="³"?3:2)-Number(m[3]==="³"?3:2))+")"),
    I("Use the sign of x as it approaches the specified infinity",id==="extra-limit-infinity-negative"?"x→−∞":"x→+∞"),
    I("Evaluate the resulting growth or decay","lim = "+z)];
  case "limits-vertical":
@@ -109,10 +109,12 @@ H.register("limits",p=>{
    I("Factor the coefficients","ln(1+"+m[0]+"x)/("+m[1]+"x)=("+m[0]+"/"+m[1]+")·[ln(1+u)/u]"),
    I("Take the limit","lim = "+z)];
  case "extra-limit-infinity-radical":case "extra-limit-absolute-infinity":
-  m=G(s,/sqrt\((?:\d+)x²\+\d+\)\/x/);if(!m)return null;
-  return [I("Factor x² out of the radicand","√(x²·[coefficient+small term]) = |x|√(coefficient+small term)"),
-    I("Divide by x","√(x²+...)/x = (|x|/x)√(1+small term)"),
-    I("Account for the direction of approach",id==="extra-limit-absolute-infinity"?"At x→−∞, |x|/x=−1.":"At x→+∞, |x|/x=+1."),
+  m=G(s,/sqrt\((\d+)?x²\+(\d+)\)\/x/);if(!m)return null;
+  const factor=m[0]?m[0]:"1",constant=m[1];
+  return [I("Factor x² out of the radicand","√("+factor+"x²+"+constant+")=|x|√("+factor+"+"+constant+"/x²)"),
+    I("Divide by x","√("+factor+"x²+"+constant+")/x=(|x|/x)√("+factor+"+"+constant+"/x²)"),
+    I("Find the sign of |x|/x",id==="extra-limit-absolute-infinity"?"As x→−∞, |x|/x=−1.":"As x→+∞, |x|/x=+1."),
+    I("Let the reciprocal term vanish",""+constant+"/x²→0"),
     I("Complete the limit","lim = "+z)];
  case "extra-limit-removable-parameter":
   m=G(s,/x²−(\d+)\)\/\(x−(\d+)\)/);if(!m)return null;

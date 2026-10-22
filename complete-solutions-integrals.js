@@ -74,7 +74,7 @@ H.register("integration",p=>{
    I("Account for the coefficient","A factor of "+a+"/"+b+" multiplies the primitive, with the sign from the derivative identity."),
    I("Write the original-variable antiderivative","F(x)="+z+"+C")];
  case "extra-integral-arctan":
-  m=G(s,/∫ (\d+)\/\(1\+\((\d+)x\)²\)/);if(!m)return null;[a,b]=m;
+  m=G(s,/∫ (\d+)\/\(1\+\((\d+)x\)(?:²|\^2)\)/);if(!m)return null;[a,b]=m;
   return [I("Recall the inverse tangent primitive","∫1/(1+u²)du=atan(u)+C"),
    I("Use u="+b+"x","du="+b+"dx"),
    I("Balance the coefficient","∫"+a+"/(1+("+b+"x)²)dx=("+a+"/"+b+")atan("+b+"x)+C"),

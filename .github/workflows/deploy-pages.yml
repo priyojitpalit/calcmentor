@@ -31,6 +31,8 @@ jobs:
         run: node tests/smoke.test.cjs
       - name: Independently verify calculus answers
         run: node tests/independent-calculus.test.cjs
+      - name: Independently verify limits and continuity
+        run: node tests/independent-limits.test.cjs
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload static site

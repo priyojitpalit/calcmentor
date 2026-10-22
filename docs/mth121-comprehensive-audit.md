@@ -6,6 +6,20 @@
 **Course:** Spring Hill College MTH 121 Calculus I  
 **Disposition:** **Useful supplementary practice; not yet a comprehensive, independently validated sole practice resource.**
 
+## Worked-solution expansion — October 21, 2026
+
+The **Show solution steps** view now displays dedicated mathematical working for **all 218 problem families**, including the 178 that previously displayed only a short solution outline. The new explanations cover substitution and composition, limits, differentiation, optimization and related rates, antiderivatives, and geometric and physical integrals. The previously existing 40 detailed families remain available.
+
+- Source: `worked-solutions.js`, `complete-solutions-core.js`, and `complete-solutions-{functions,limits,derivatives,applications,integrals,integral-applications}.js`.
+- The solution steps are generated with each question's actual parameters.
+- `tests/full-solution-coverage.test.cjs` now gates publication. It requires every family to return mathematical derivation steps, not a short solution outline.
+- An extended programmatic review checked **21,800 generated problem versions** (100 per family) for coverage and malformed mathematical display; no missing derivations or undefined outputs were found.
+- The existing six independent answer-key reference test suites still run as part of publication.
+
+**Remaining caution:** Explanation coverage and structural checks do not independently prove every intermediate algebraic expression for all possible parameter values. The earlier syllabus concerns about assessed graphs, tables, extended modeling, skill coverage, and misconception-specific feedback remain open.
+
+---
+
 ## Independent verification update — October 21, 2026
 
 A separate mathematical reference suite now covers **all 218 problem families** with **30 widely distributed parameter seeds per family** (6,540 distinct family/seed test instances). It derives expected values from the problem statements using function substitution, the derivative and integral definitions, geometric formulas, and relevant calculus theorems. The first audited incorrect numerical key was corrected: `extra-integral-particle-position` incorrectly reported 240.5 m instead of 243 m for the example with initial position 5 m and velocity `8t+6` m/s over seven seconds. GitHub's independent test suites all passed after that correction.

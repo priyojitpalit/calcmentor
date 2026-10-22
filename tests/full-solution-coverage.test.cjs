@@ -44,6 +44,18 @@ for(const family of CalcBank.families){
  byUnit[family.group]=(byUnit[family.group]||0)+1;
 }
 assert.equal(expanded.size,178,"The original 178 answer-only outlines were not all upgraded");
+// Check complete substitution in every generated f(g(x)) composition, including terms like 6u.
+let compositionFamiliesChecked=0;
+for(const family of CalcBank.families){
+ const sample=CalcBank.generate(family.id,71423);
+ const match=sample.statement.match(/^Given f\\(u\\)=(.+?) and g\\(x\\)=(.+?), determine f\\(g\\(x\\)\\)\\.$/);
+ if(!match)continue;
+ const expected="f(g(x)) = "+match[1].replace(/u/g,"("+match[2]+")");
+ const lines=sandbox.window.CalcSolutions.build(sample).items.map(x=>x.equation);
+ assert.ok(lines.includes(expected),family.id+": incomplete substitution in worked explanation; expected "+expected);
+ compositionFamiliesChecked++;
+}
+assert.ok(compositionFamiliesChecked>=20,"Composition-specific verification was skipped");
 const fns=CalcBank.generate("functions-composition",71423);
 const comp=sandbox.window.CalcSolutions.build(fns).items.map(x=>x.equation).join("\n");
 assert.match(comp,/f\(g\(x\)\)/,"Composition must show explicit function substitution");

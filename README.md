@@ -14,6 +14,16 @@ This is an independently developed course resource hosted on GitHub Pages; it is
 - **Department:** Mathematics and Computer Science
 - **Course practice website:** https://priyojitpalit.github.io/calcmentor/
 
+## Getting started and moving between topics
+
+Opening the **plain course URL** displays a six-unit overview instead of preselecting one problem. Students may start at Functions, select the first problem in any unit, or return to the most recently visited problem type.
+
+Within an exercise, **Next problem type →** moves to the next *distinct generator* in the course sequence (all functions, then limits, differentiation, derivative applications, integration, and integral applications). After the final family, it returns to the first. The same control remains available before finishing and on the completion screen.
+
+**New numbers** repeats the current problem type with a fresh parameter seed; **Mixed practice** and **Different topic in this unit** are randomized options. Copying a problem URL intentionally includes the exact family and seed, so that link reopens the **same question** for classroom sharing. **Course overview** returns to the selection screen and clears the question parameters from the address bar.
+
+`tests/navigation.test.cjs` validates first-visit behavior, ordered navigation and chapter transitions, resuming a recent type, and deterministic shared links.
+
 ## What students can do
 
 - Practice **218 distinct original problem families** across six course units (36 function/review, 36 limits/continuity, 45 differentiation, 38 derivative applications, 39 integration, and 24 integral applications).
@@ -81,7 +91,9 @@ The site runs entirely in a web browser with standard HTML/CSS/JavaScript. There
 | `complete-solutions-*.js` | Family-specific derivations for the remaining 178 problem structures |
 | `tests/worked-solutions.test.cjs` | Regression tests for parametrized explanations |
 | `tests/full-solution-coverage.test.cjs` | Required full-derivation coverage tests for all 218 problem families |
-| `app.js` | Topic browser, answer flow, learning record and visual laboratories |
+| `app.js` | Course overview, practice interface, answer flow, progress and visual laboratories |
+| `course-navigation.js` | Course-ordered problem types with sequential next and previous lookups |
+| `tests/navigation.test.cjs` | Regression tests for landing page, unit transitions, next-type behavior and deep links |
 | `tests/smoke.test.cjs` | Automated expected-answer and checker regression tests |
 | `tests/independent-*.test.cjs` | Independent mathematical reference checks across all six units |
 | `.github/workflows/deploy-pages.yml` | Tests and GitHub Pages publication |

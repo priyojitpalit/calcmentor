@@ -1,20 +1,59 @@
 /* CalcMentor application – progressive steps, deliberate practice, visual laboratories. */
 (function(){
 "use strict";
-const B=window.CalcBank,M=window.CalcMath,byId=id=>document.getElementById(id);
+const B=window.CalcBank,M=window.CalcMath,N=window.CalcNavigation,byId=id=>document.getElementById(id);
 const e=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 const pretty=s=>e(s).replace(/\^\(([-−]?\d+)\)/g,(_,n)=>"<sup>"+n+"</sup>").replace(/\^(-?\d+)/g,(_,n)=>"<sup>"+n+"</sup>").replace(/sqrt\(/g,"√(").replace(/\bpi\b/g,"π").replace(/\bexp\(/g,"exp(").replace(/\*/g,"·");
 const safeId=s=>B.families.some(x=>x.id===s);
 const targetLevel=(new URLSearchParams(location.search)).get("level")||"all";
 const initialFamily=(new URLSearchParams(location.search)).get("family");
 const initialSeed=Number((new URLSearchParams(location.search)).get("seed"));
+const lastKey="calcmentor-last-topic";
 const cacheKey="calcmentor-v2-progress";
 function load(){
  try{const d=JSON.parse(localStorage.getItem(cacheKey)||"{}");return {topics:d.topics||{},history:Array.isArray(d.history)?d.history:[]};}
  catch(_){return {topics:{},history:[]};}
 }
-let progress=load(),state={family:safeId(initialFamily)?initialFamily:"apps-opt-box",seed:Number.isSafeInteger(initialSeed)&&initialSeed>0?initialSeed:(Math.floor(Math.random()*2147483000)+1),view:"practice",level:["all","2","3","4"].includes(targetLevel)?targetLevel:"all",mode:"guided",stepIndex:0,done:[],wrong:false,hintCount:0,shownHint:0,reveal:false,completed:false,solutionViewed:false,directFinal:false};
+let progress=load(),state={family:safeId(initialFamily)?initialFamily:null,home:!safeId(initialFamily),seed:Number.isSafeInteger(initialSeed)&&initialSeed>0?initialSeed:null,view:"practice",level:["all","2","3","4"].includes(targetLevel)?targetLevel:"all",mode:"guided",stepIndex:0,done:[],wrong:false,hintCount:0,shownHint:0,reveal:false,completed:false,solutionViewed:false,directFinal:false};
 let activeProblem=null;
+function savedTopic(){
+ try{
+  const saved=JSON.parse(localStorage.getItem(lastKey)||"null");
+  return saved&&safeId(saved.family)&&Number.isSafeInteger(saved.seed)&&saved.seed>0?saved:null;
+ }catch(_){return null;}
+}
+function rememberTopic(){
+ try{localStorage.setItem(lastKey,JSON.stringify({family:state.family,seed:state.seed}));}catch(_){}
+}
+function randomSeed(){return Math.floor(Math.random()*2147483646)+1;}
+function showHome(){
+ state.home=true;state.family=null;state.completed=false;
+ byId("practiceWorkspace").hidden=true;
+ byId("practiceHome").hidden=false;
+ byId("workspaceActions").hidden=true;
+ if(location.protocol==="http:"||location.protocol==="https:")history.replaceState(null,"",location.pathname);
+ renderNav();renderHome();changeView("practice");
+}
+function renderHome(){
+ const last=savedTopic(),continueButton=byId("resumeCourse");
+ continueButton.hidden=!last;
+ if(last){
+  const family=B.families.find(f=>f.id===last.family);
+  continueButton.textContent="Return to "+family.title;
+ }
+ byId("unitChoices").innerHTML=B.groups.map((group,index)=>{
+  const families=N.ordered.filter(f=>f.group===group.id),first=families[0];
+  const practiced=families.filter(f=>progress.topics[f.id]?.solved).length;
+  return '<button type="button" class="unit-choice" data-start-unit="'+e(group.id)+'">'+
+   '<span class="unit-number">Unit '+(index+1)+'</span>'+
+   '<span class="unit-name">'+e(group.name)+'</span>'+
+   '<span class="unit-description">'+families.length+' problem types · '+practiced+' practiced</span>'+
+   '<span class="unit-start">Start with '+e(first.title)+' <span aria-hidden="true">→</span></span></button>';
+ }).join("");
+}
+function goNextFamily(){
+ const next=N.next(state.family);if(next)setFamily(next.id);
+}
 function save(){try{localStorage.setItem(cacheKey,JSON.stringify(progress));}catch(_){}}
 function setLink(){
  if(location.protocol==="http:"||location.protocol==="https:"){
@@ -48,7 +87,12 @@ function changeView(view){
 }
 function setFamily(id,seed){
  if(!safeId(id))return;
- state.family=id;state.seed=seed||Math.floor(Math.random()*2147483646)+1;
+ state.family=id;state.seed=Number.isSafeInteger(seed)&&seed>0?seed:randomSeed();
+ state.home=false;
+ byId("practiceHome").hidden=true;
+ byId("practiceWorkspace").hidden=false;
+ byId("workspaceActions").hidden=false;
+ rememberTopic();
  state.stepIndex=0;state.done=[];state.wrong=false;state.hintCount=0;state.shownHint=0;state.reveal=false;state.completed=false;state.solutionViewed=false;state.directFinal=false;
  activeProblem=B.generate(id,state.seed);
  setLink();renderNav();renderProblem();changeView("practice");
@@ -58,6 +102,10 @@ function renderProblem(){
  const f=B.families.find(x=>x.id===state.family),p=activeProblem,steps=currentSteps();
  byId("problemTopic").textContent=p.topic;
  byId("problemTitle").textContent=p.title;
+ const index=N.position(state.family),next=N.next(state.family);
+ byId("topicPosition").textContent="Type "+(index+1)+" of "+N.total;
+ byId("nextFamily").textContent=N.isLast(state.family)?"Return to first type →":"Next problem type →";
+ byId("nextFamily").title=next?"Next: "+next.title:"";
  byId("problemStatement").innerHTML=pretty(p.statement);
  byId("problemLevel").textContent="Level "+p.level+" / 4";
  byId("problemCount").textContent=state.mode==="guided"?steps.length+" assessed steps":"Independent final-answer mode";
@@ -68,9 +116,10 @@ function renderProblem(){
  const root=byId("stepArea");
  if(state.completed){
   root.innerHTML='<div class="panel complete"><h3>Problem completed</h3><p>'+ (state.solutionViewed?'The full solution was viewed during this attempt.':state.directFinal?'Your final answer is correct. You did not need to submit the intermediate steps.':'Your answers passed the mathematical checks.') +
-    ' Select another version or switch topics to continue.</p><div class="practice-actions"><button class="btn btn-primary" id="completeNew">Another version</button><button class="btn" id="completeMixed">Mixed practice</button><button class="btn" id="completeReview">Review solution steps</button></div></div>';
+    ' Select another version or switch topics to continue.</p><div class="practice-actions"><button class="btn btn-primary" id="completeNew">Another version</button><button class="btn" id="completeMixed">Mixed practice</button><button class="btn" id="completeReview">Review solution steps</button><button class="btn btn-primary" id="completeNext">Next problem type →</button></div></div>';
   byId("completeNew").onclick=()=>setFamily(state.family);
   byId("completeMixed").onclick=()=>mixed();
+  byId("completeNext").onclick=goNextFamily;
   byId("completeReview").onclick=()=>{state.solutionViewed=true;state.reveal=!state.reveal;renderWorked();};
   renderWorked();renderInfo();return;
  }
@@ -248,6 +297,14 @@ function wire(){
  byId("levelSelect").addEventListener("change",evt=>{state.level=evt.target.value;});
  byId("modeButton").onclick=()=>{state.mode=state.mode==="guided"?"independent":"guided";setFamily(state.family,state.seed);};
  byId("newVariant").onclick=()=>setFamily(state.family);
+ byId("nextFamily").onclick=goNextFamily;
+ byId("courseHome").onclick=showHome;
+ byId("startCourse").onclick=()=>{const first=N.first();if(first)setFamily(first.id);};
+ byId("resumeCourse").onclick=()=>{const last=savedTopic();if(last)setFamily(last.family,last.seed);};
+ byId("unitChoices").onclick=event=>{
+  const selection=event.target.closest("[data-start-unit]");if(!selection)return;
+  const first=N.firstOfUnit(selection.dataset.startUnit);if(first)setFamily(first.id);
+ };
  byId("newTopic").onclick=anotherTopic;
  byId("mixedButton").onclick=mixed;
  byId("weakButton").onclick=practiceWeak;
@@ -268,5 +325,5 @@ function wire(){
  };
  byId("resetButton").onclick=()=>{if(confirm("Clear all CalcMentor practice history on this device?")){progress={topics:{},history:[]};save();renderProgress();renderInfo();renderNav();}};
 }
-wire();setFamily(state.family,state.seed);renderInfo();
+wire();if(state.home)showHome();else setFamily(state.family,state.seed);renderInfo();
 })();

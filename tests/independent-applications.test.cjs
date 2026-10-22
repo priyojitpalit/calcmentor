@@ -12,7 +12,7 @@ function val(step){const e=String(step.answer).replace(/[−–]/g,"-").replace(
 function eq(a,b,tol=.000001){return Number.isFinite(a)&&Number.isFinite(b)&&Math.abs(a-b)<=tol*(1+Math.abs(b));}
 const passed=new Set,errors=[];let numeric=0,conceptual=0;
 for(const f of B.families.filter(f=>f.group==="applications"))for(let seed=1;seed<=30;seed++)try{
- const p=B.generate(f.id,seed),s=p.statement,id=f.id,last=p.steps.at(-1),option=last.type==="choice"?last.options.find(o=>o.value===String(last.answer))?.label:null;
+ const p=B.generate(f.id,(Math.imul(seed,0x9e3779b1)+1234567)>>>0),s=p.statement,id=f.id,last=p.steps.at(-1),option=last.type==="choice"?last.options.find(o=>o.value===String(last.answer))?.label:null;
  let correct=null;
  switch(id){
   case "apps-critical":{const [k]=nums(s,/x\^3 − (\d+)x/);correct=Math.sqrt(k/3);break;}

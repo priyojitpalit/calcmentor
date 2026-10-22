@@ -19,7 +19,7 @@ This is an independently developed course resource hosted on GitHub Pages; it is
 - Practice **218 distinct original problem families** across six course units (36 function/review, 36 limits/continuity, 45 differentiation, 38 derivative applications, 39 integration, and 24 integral applications).
 - Generate new variants with different numerical parameters.
 - Switch between **guided mode** (an assessed sequence of intermediate steps) and **independent mode** (the final task).
-- Ask for two progressively more specific hints or open **Solution steps**. Forty selected families have explicit, parameter-specific algebraic and calculus derivations; the remaining 178 show the available method, intermediate assessed answers, and explanations as solution outlines. Students can review solutions after completing a problem.
+- Ask for two progressively more specific hints or open **Solution steps**. All **218 families** now have parameter-specific worked mathematical solutions, including setup, intermediate calculations, substitutions, calculus rules and final answers. Students can review the derivation after completing a problem.
 - Enter algebraic answers checked against the expected result at multiple test points, with tighter checks for expressions than for approximate numbers. Indefinite antiderivatives accept arbitrary additive constants. Numerical agreement is **not** a symbolic proof of identity.
 - Investigate two interactive visual labs: a secant slope approaching a derivative, and right-endpoint Riemann sums approaching a definite integral.
 - Keep progress locally, identify practiced problem families, review recent work, and export practice records as CSV.
@@ -43,14 +43,20 @@ See [Independent Mathematical Verification](docs/independent-math-verification.m
 
 ## Solution explanations
 
-CalcMentor distinguishes **worked mathematical derivations** from **solution outlines**.
+Every one of the **218 problem families** has a worked explanation with intermediate mathematical operations. Solutions change automatically with the problem's coefficients. They do not consist solely of final answers.
 
-- For 40 selected families, the solution view constructs an explicit mathematical path from the given data to the result: setting up constraints or integrals, applying rules, simplifying and evaluating. The values update with every generated problem version.
-- For the other 178 families, it presents the available hints, reasoning, assessed intermediate answers, and final answer in order, while clearly labeling the display a **solution outline**, not a full derivation.
-- Revealing a solution during an attempt counts as supported practice. Students can review solutions again after completing the problem.
-- `tests/worked-solutions.test.cjs` validates that explanations are present and parameter-dependent across all 218 families.
+- Functions: identify the inner and outer functions, substitute, simplify, and check domains and inverse restrictions.
+- Limits: apply continuity, factorization, conjugates, one-sided analysis, asymptotic behavior, or the relevant theorem, displaying the intermediate limits.
+- Differentiation: identify inner functions or factors, apply the chain, product or quotient rule, differentiate implicitly when necessary, and simplify.
+- Derivative applications: construct the objective or related-rate model, differentiate, solve critical equations, and justify or interpret the result.
+- Integration: choose substitutions or primitives, transform bounds when needed, calculate Riemann sums, and evaluate definite integrals.
+- Integral applications: identify geometric cross-sections, upper and lower curves, force or velocity functions; set up, integrate and interpret the answer.
 
-**Remaining authoring work:** Produce individually written, independently reviewed full derivations for the other families, including explicit intermediate equations and explanations of common wrong turns. The solutions should not be presented as complete until this is done.
+For 40 families, the existing detailed solutions remain; seven additional modules provide full derivations for the remaining **178 families**. The **Solution steps** view is available while practicing and after completing a problem. Reviewing it during an attempt counts as supported practice.
+
+`tests/full-solution-coverage.test.cjs` prevents deployment if any of the 218 families loses its full derivation. Generated explanations have additionally been checked across 100 widely distributed versions per family. The mathematical reference tests remain independent of the answer checker.
+
+Although these are worked solutions, **the website is not a general-purpose symbolic algebra system** and every intermediate explanatory sentence has not been independently formalized as a mathematical proof. Problem diversity, accessibility and classroom evaluation remain separate improvements.
 
 ## Access and operating costs
 
@@ -71,8 +77,10 @@ The site runs entirely in a web browser with standard HTML/CSS/JavaScript. There
 | `extra-integrals.js` | 35 additional integration and application structures |
 | `extra-integral-applications.js` | 11 additional applied-integration structures |
 | `grading-categories.js` | Explicit antiderivative answer classifications, distinct from ordinary algebra |
-| `worked-solutions.js` | Explicit and fallback structured mathematics solution displays |
+| `worked-solutions.js` | Original 40 detailed mathematical derivations |
+| `complete-solutions-*.js` | Family-specific derivations for the remaining 178 problem structures |
 | `tests/worked-solutions.test.cjs` | Regression tests for parametrized explanations |
+| `tests/full-solution-coverage.test.cjs` | Required full-derivation coverage tests for all 218 problem families |
 | `app.js` | Topic browser, answer flow, learning record and visual laboratories |
 | `tests/smoke.test.cjs` | Automated expected-answer and checker regression tests |
 | `tests/independent-*.test.cjs` | Independent mathematical reference checks across all six units |

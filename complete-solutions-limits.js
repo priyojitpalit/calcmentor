@@ -7,7 +7,7 @@ H.register("limits",p=>{
  let m,a,b,c,k,t;
  switch(id){
  case "limits-polynomial":
-  m=G(s,/lim\(x → ([−\d]+)\) \[(.*?)\]/);if(!m)return null;
+  m=G(s,/lim\(x → ([−\-\d]+)\) \[(.*?)\]/);if(!m)return null;
   return [I("Identify continuity of the polynomial","P(x)="+m[1],"A polynomial is continuous at every real input."),
   I("Apply the limit law","lim(x→"+m[0]+")P(x)=P("+m[0]+")"),
   I("Replace x by the approached value","P("+m[0]+")="+m[1].replace(/x/g,"("+m[0]+")")),
@@ -157,7 +157,7 @@ H.register("limits",p=>{
   return [I("Identify continuous numerator and denominator","sin(x) is continuous; x−"+m[0]+" is continuous"),
    I("Determine when the denominator vanishes","x−"+m[0]+"=0"),
    I("Solve for the excluded x-coordinate","x="+z),
-   I("Interpret the discontinuity","The rational expression is undefined there; all other real inputs are allowed.")];
+   I("Interpret the domain restriction","x≠"+m[0],"The quotient is defined for all other real inputs.")];
  case "extra-limit-slope-secant":
   m=G(s,/\[\((\d+)\+h\)²−(\d+)\]\/h/);if(!m)return null;
   return [I("Expand the shifted square","("+m[0]+"+h)²="+Number(m[0])**2+"+"+(2*Number(m[0]))+"h+h²"),

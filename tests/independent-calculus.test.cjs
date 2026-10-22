@@ -27,7 +27,7 @@ const special=new Set(["deriv-implicit","deriv-second","deriv-nested-chain","der
 const covered={antiderivative:new Set(),derivative:new Set(),implicit:new Set()},errors=[];
 let antiderivativeCases=0,derivativeCases=0,implicitCases=0,positionCases=0;
 for(const family of B.families)for(let seed=1;seed<=30;seed++)try{
- const p=B.generate(family.id,seed),id=family.id,anti=p.steps.find(s=>s.type==="antiderivative");
+ const p=B.generate(family.id,(Math.imul(seed,0x9e3779b1)+1234567)>>>0),id=family.id,anti=p.steps.find(s=>s.type==="antiderivative");
  if(anti){
   const f=ref(getIntegral(p.statement)),F=ref(anti.answer);let valid=0;
   for(const x of [-.8,-.4,-.1,.18,.39,.71,.95]){const expected=f(x,x,x),observed=derivative(z=>F(z,z,z),x);if(!Number.isFinite(expected)||!Number.isFinite(observed))continue;if(!close(expected,observed,.00012))throw Error("Primitive differs from integrand at "+x+": "+expected+" vs "+observed);valid++;}

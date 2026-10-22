@@ -54,7 +54,7 @@ function geometric(p,id){
 const errors=[],geometricCoverage=new Set(),definiteCoverage=new Set(),otherCoverage=new Set();
 let geometricCases=0,definiteCases=0,otherCases=0;
 for(const family of B.families)for(let seed=1;seed<=30;seed++)try{
- const p=B.generate(family.id,seed),id=family.id,answer=p.steps.at(-1);
+ const p=B.generate(family.id,(Math.imul(seed,0x9e3779b1)+1234567)>>>0),id=family.id,answer=p.steps.at(-1);
  if(family.group==="integral-applications"){
   const independentlyComputed=geometric(p,id),key=value(answer);
   if(!same(independentlyComputed,key))throw Error("Wrong geometric answer: independent="+independentlyComputed+" stored="+key);

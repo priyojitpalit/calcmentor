@@ -7,7 +7,7 @@ for(const file of ["math-engine.js","problem-bank.js","extra-functions.js","extr
 "grading-categories.js"])vm.runInContext(fs.readFileSync(path.join(root,file),"utf8"),sandbox,{filename:file});
 const B=sandbox.window.CalcBank,names=new Set(["sin","cos","tan","exp","ln","log","sqrt","abs","atan","asin","acos","sinh"]);
 function fn(s){
- s=String(s).replace(/[−–]/g,"-").replace(/π/g,"pi").replace(/²/g,"^2").replace(/³/g,"^3").replace(/⁴/g,"^4").replace(/\bu\b/g,"x");
+ s=String(s).replace(/[−–]/g,"-").replace(/π/g,"pi").replace(/²/g,"^2").replace(/³/g,"^3").replace(/⁴/g,"^4").replace(/u/g,"x");
  const t=s.match(/\d+(?:\.\d+)?|[A-Za-z_][A-Za-z_0-9]*|[()+\-*/^]/g)||[];let e="";
  for(let i=0;i<t.length;i++){const a=t[i],b=t[i-1];if(i&&(b===")"||/^\d/.test(b)||/^[A-Za-z_]/.test(b))&&(a==="("||/^\d/.test(a)||/^[A-Za-z_]/.test(a))&&!(names.has(b)&&a==="("))e+="*";e+=a==="^"?"**":a;}
  const pre="const {sin,cos,tan,exp,log,sqrt,abs,atan,asin,acos,sinh}=Math;const ln=log,pi=Math.PI;";
@@ -52,7 +52,7 @@ for(const family of B.families.filter(f=>f.group==="foundations"))for(let seed=1
   if(!equivalent(answer(1),f(g(x))))throw Error("Incorrect numeric composition");
  }else{
   const m=match(s,/f\(u\)\s*=\s*(.+?)\s+and\s+g\(x\)\s*=\s*(.+?)(?:, determine|\. Find)/i),f=fn(m[1]),g=fn(m[2]);
-  let count=0;for(const x of [.1,.4,.8,1.2]){const truth=f(g(x)),given=answer(x);if(!Number.isFinite(truth)||!Number.isFinite(given))continue;if(!equivalent(given,truth))throw Error("Wrong composite expression at "+x+": "+given+" vs "+truth);count++;}
+  let count=0;for(const x of [.1,.4,.8,1.2,3.4,7.4,12]){const truth=f(g(x)),given=answer(x);if(!Number.isFinite(truth)||!Number.isFinite(given))continue;if(!equivalent(given,truth))throw Error("Wrong composite expression at "+x+": "+given+" vs "+truth);count++;}
   if(count<2)throw Error("No useful domain samples for composite");
  }
  successes.add(id);checked++;

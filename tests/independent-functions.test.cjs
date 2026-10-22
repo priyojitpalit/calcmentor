@@ -17,7 +17,7 @@ function equivalent(a,b,tol=1e-8){return Number.isFinite(a)&&Number.isFinite(b)&
 function match(s,re){const m=s.match(re);if(!m)throw Error("Cannot parse function problem: "+s);return m;}
 const successes=new Set,errors=[];let checked=0;
 for(const family of B.families.filter(f=>f.group==="foundations"))for(let seed=1;seed<=30;seed++)try{
- const p=B.generate(family.id,seed),id=family.id,s=p.statement,step=p.steps.at(-1),answer=fn(step.answer);
+ const p=B.generate(family.id,(Math.imul(seed,0x9e3779b1)+1234567)>>>0),id=family.id,s=p.statement,step=p.steps.at(-1),answer=fn(step.answer);
  if(id==="functions-domain"||id==="extra-domain-log"||id==="extra-domain-log-radical"||id==="extra-domain-reciprocal-radical"){
   const bound=answer(1);let f;
   if(id==="functions-domain"){const m=match(s,/sqrt\((\d+)x\s*−\s*(\d+)\)/);const a=Number(m[1]),b=Number(m[2]);f=x=>Math.sqrt(a*x-b);}

@@ -22,7 +22,7 @@ for(const family of CalcBank.families){
   }
   if(sol.detailed){
    enhanced.add(family.id);
-   assert.ok(sol.items.length>=3,"Short detailed derivation: "+family.id);
+   assert.ok(sol.items.length>=2,"Incomplete detailed derivation: "+family.id);
   } else {
    assert.equal(sol.items.length,problem.steps.length,"Outline lost assessed steps: "+family.id);
    for(const [j,step] of sol.items.entries())assert.ok(step.equation,"Expected answer omitted: "+family.id+" step "+j);

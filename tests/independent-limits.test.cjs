@@ -15,7 +15,7 @@ function evalExpression(src){
 function close(a,b,tol=.015){return Number.isFinite(a)&&Number.isFinite(b)&&Math.abs(a-b)<=tol*(1+Math.abs(b));}
 let numeric=0,conceptual=0;const covered=new Set,errors=[];
 for(const family of B.families.filter(f=>f.group==="limits"))for(let seed=1;seed<=30;seed++)try{
- const p=B.generate(family.id,seed),id=family.id,key=p.steps.at(-1),selected=key.type==="choice"?key.options.find(x=>x.value===String(key.answer))?.label:null;
+ const p=B.generate(family.id,(Math.imul(seed,0x9e3779b1)+1234567)>>>0),id=family.id,key=p.steps.at(-1),selected=key.type==="choice"?key.options.find(x=>x.value===String(key.answer))?.label:null;
  if(id==="limits-one-sided"){
   const m=p.statement.match(/For x < 0 let f\(x\) = (\d+)x \+ (\d+); for x ≥ 0 let f\(x\) = (\d+)x \+ (\d+)/);if(!m)throw Error("Missing piecewise branches");
   const L=Number(m[2]),R=Number(m[4]);if(!close(Number(p.steps[0].answer),L)||!close(Number(p.steps[1].answer),R)||selected!==(L===R?"Yes":"No"))throw Error("Incorrect two-sided limit conclusion");conceptual++;

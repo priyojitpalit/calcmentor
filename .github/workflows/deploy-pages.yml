@@ -33,6 +33,8 @@ jobs:
         run: node tests/independent-calculus.test.cjs
       - name: Independently verify limits and continuity
         run: node tests/independent-limits.test.cjs
+      - name: Independently verify integrals and geometric applications
+        run: node tests/independent-integrals.test.cjs
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload static site

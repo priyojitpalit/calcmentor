@@ -24,7 +24,7 @@ function diagnose({family,problem,step,submitted}){
    explanation:step.hints?.[0]||"Check the conditions of the rule before selecting it.",
    repair:null,confidence:"step"};
  }
- if(step.type==="expr"||step.type==="number"){
+ if(["expr","number","antiderivative"].includes(step.type)){
   let m,a,b,n,inside,missing;
   if(id==="deriv-chain-power"&&/full composition/.test(step.q)){
    m=match(s,/Differentiate \((\d+)x\^2 \+ (\d+)\)\^(\d+)/);

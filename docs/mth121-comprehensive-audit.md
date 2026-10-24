@@ -6,6 +6,23 @@
 **Course:** Spring Hill College MTH 121 Calculus I  
 **Disposition:** **Useful supplementary practice; not yet a comprehensive, independently validated sole practice resource.**
 
+## Targeted tutoring and spaced practice — October 23, 2026
+
+The original audit identified weak feedback and no skill-level adaptive progression. The following first implementation is now included in the website:
+
+- **Pattern-verified error feedback** recognizes selected mistakes in differentiation, the product rule, sine limits and integration. It does not guess a misconception when the answer cannot be classified reliably.
+- **Corrective mini-exercises** require students to solve a missing prerequisite step and retry the original problem; the repaired mini-step alone does not count as independent mastery.
+- **Twenty-three skill categories** now have local counts for independent/supported practice, recognized misconceptions and due dates for follow-up work. The course overview, completed-problem screen and progress view recommend practice based on this record.
+- **Spaced review heuristics** schedule follow-ups at roughly 1, 3, 7 and 14 days after improving independent work. Repetition of the exact same question/seed cannot raise skill proficiency or postpone review.
+- **Independent tests of worked-solution intermediates** check ten representative calculus methods against mathematical calculations derived separately from the problem statements, in addition to the prior final-answer reference tests.
+- **New testing gates** include seeded mathematical validation of error patterns and repair answers, deterministic mastery/review tests, and a complete wrong-answer → corrective question → supported success → prerequisite recommendation interaction.
+
+**Remaining work:** These are a constrained set of explainable error patterns, not a universal AI tutor. The mastery measure is a provisional heuristic and still needs student evidence and instructor calibration. The independent intermediate-equation tests sample important methods, not a formal proof of every line in all 218 family solutions. Graph/table assessment, extended mixed exam problems and instructor-managed assignments remain on the backlog.
+
+Details: [Tutoring and Adaptive Review](tutoring-and-adaptive-review.md).
+
+---
+
 ## Worked-solution expansion — October 21, 2026
 
 The **Show solution steps** view now displays dedicated mathematical working for **all 218 problem families**, including the 178 that previously displayed only a short solution outline. The new explanations cover substitution and composition, limits, differentiation, optimization and related rates, antiderivatives, and geometric and physical integrals. The previously existing 40 detailed families remain available.

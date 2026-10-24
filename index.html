@@ -49,9 +49,10 @@
           <p>Select a unit or start with functions and work through the problem types in course order. Your progress is kept in this browser.</p>
           <div class="home-actions">
             <button class="btn btn-primary" id="startCourse">Start with the first topic <span aria-hidden="true">→</span></button>
-            <button class="btn" id="resumeCourse" hidden>Return to my last topic</button>
+            <button class="btn" id="resumeCourse" hidden>Return to my last topic</button><button class="btn" id="recommendedStart">Recommended practice</button><button class="btn" id="dueStart" hidden>Review due skills</button>
           </div>
         </div>
+        <div class="coach-intro" id="coachHomeInfo" aria-live="polite"></div>
         <h3 class="unit-heading">Browse the course units</h3>
         <div id="unitChoices" class="unit-choices"></div>
       </section>
@@ -72,6 +73,7 @@
           <span class="pill" id="problemTopic">Optimization</span>
           <span class="pill level" id="problemLevel">Level 4 / 4</span>
           <span class="pill" id="problemCount">Assessed steps</span><span class="pill" id="topicPosition">Type 1 of 218</span>
+          <span class="pill skill-pill" id="skillProgress">Skill practice</span>
         </div>
         <h2 id="problemTitle">Optimization</h2>
         <div id="problemStatement" class="prompt">Loading problem…</div>
@@ -120,6 +122,7 @@
         <div class="panel stat"><strong id="progressIndependent">0</strong><span>Independent solutions</span></div>
         <div class="panel stat"><strong id="progressTopics">0 / 218</strong><span>Families practiced</span></div>
       </div>
+      <div class="panel history" style="margin-bottom:15px"><div class="coach-progress-top"><h3>Learning skills and reviews</h3><button class="btn btn-small btn-primary" id="reviewDueButton">Practice due reviews</button></div><p class="coach-subtitle" id="coachProgressSummary">Your skill practice and upcoming reviews appear here.</p><table class="skill-table"><thead><tr><th>Skill</th><th>Independent work</th><th>Next review</th></tr></thead><tbody id="skillTable"></tbody></table></div>
       <div class="panel history" style="margin-bottom:15px"><h3>Coverage by unit</h3><table><thead><tr><th>Unit</th><th>Families practiced</th><th>Independent solutions</th></tr></thead><tbody id="progressTable"></tbody></table></div>
       <div class="panel history"><h3>Recent work</h3><table><thead><tr><th>Problem family</th><th>Completion</th><th>Date</th></tr></thead><tbody id="recentTable"></tbody></table><div style="margin-top:17px"><button class="btn btn-small btn-danger" id="resetButton">Clear practice history</button></div></div>
     </section>
@@ -146,6 +149,8 @@
 <script src="./complete-solutions-applications.js"></script>
 <script src="./complete-solutions-integrals.js"></script>
 <script src="./complete-solutions-integral-applications.js"></script>
+<script src="./tutor-learning.js"></script>
+<script src="./tutor-diagnostics.js"></script>
 <script src="./course-navigation.js"></script>
 <script src="./app.js"></script>
 </body>

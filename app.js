@@ -1,7 +1,7 @@
 /* CalcMentor application – progressive steps, deliberate practice, visual laboratories. */
 (function(){
 "use strict";
-const B=window.CalcBank,M=window.CalcMath,N=window.CalcNavigation,byId=id=>document.getElementById(id);
+const B=window.CalcBank,M=window.CalcMath,N=window.CalcNavigation,L=window.CalcLearning,D=window.CalcDiagnostics,byId=id=>document.getElementById(id);
 const e=s=>String(s??"").replace(/&/g,"&amp;").replace(/</g,"&lt;").replace(/>/g,"&gt;").replace(/"/g,"&quot;");
 const pretty=s=>e(s).replace(/\^\(([-−]?\d+)\)/g,(_,n)=>"<sup>"+n+"</sup>").replace(/\^(-?\d+)/g,(_,n)=>"<sup>"+n+"</sup>").replace(/sqrt\(/g,"√(").replace(/\bpi\b/g,"π").replace(/\bexp\(/g,"exp(").replace(/\*/g,"·");
 const safeId=s=>B.families.some(x=>x.id===s);
@@ -10,11 +10,15 @@ const initialFamily=(new URLSearchParams(location.search)).get("family");
 const initialSeed=Number((new URLSearchParams(location.search)).get("seed"));
 const lastKey="calcmentor-last-topic";
 const cacheKey="calcmentor-v2-progress";
+const tutorKey="calcmentor-v1-learning";
+function loadTutor(){try{return L.hydrate(JSON.parse(localStorage.getItem(tutorKey)||"null"));}catch(_){return L.fresh();}}
+let learning=loadTutor();
+function saveTutor(){try{localStorage.setItem(tutorKey,JSON.stringify(learning));}catch(_){}}
 function load(){
  try{const d=JSON.parse(localStorage.getItem(cacheKey)||"{}");return {topics:d.topics||{},history:Array.isArray(d.history)?d.history:[]};}
  catch(_){return {topics:{},history:[]};}
 }
-let progress=load(),state={family:safeId(initialFamily)?initialFamily:null,home:!safeId(initialFamily),seed:Number.isSafeInteger(initialSeed)&&initialSeed>0?initialSeed:null,view:"practice",level:["all","2","3","4"].includes(targetLevel)?targetLevel:"all",mode:"guided",stepIndex:0,done:[],wrong:false,hintCount:0,shownHint:0,reveal:false,completed:false,solutionViewed:false,directFinal:false};
+let progress=load(),state={family:safeId(initialFamily)?initialFamily:null,home:!safeId(initialFamily),seed:Number.isSafeInteger(initialSeed)&&initialSeed>0?initialSeed:null,view:"practice",level:["all","2","3","4"].includes(targetLevel)?targetLevel:"all",mode:"guided",stepIndex:0,done:[],wrong:false,hintCount:0,shownHint:0,reveal:false,completed:false,solutionViewed:false,directFinal:false,diagnostic:null,repairOpen:false,repairSolved:false,mistakeCodes:[]};
 let activeProblem=null;
 function savedTopic(){
  try{
@@ -35,6 +39,13 @@ function showHome(){
  renderNav();renderHome();changeView("practice");
 }
 function renderHome(){
+ const recommended=L.plan(learning),due=L.dueCount(learning),dueButton=byId("dueStart");
+ dueButton.hidden=!due;
+ if(due)dueButton.textContent="Review due skills ("+due+")";
+ const summary=byId("coachHomeInfo");
+ summary.textContent=recommended
+  ?"Suggested: "+recommended.skill.name+". "+recommended.reason+". Your practice history stays on this device."
+  :"Begin with functions and work through the course.";
  const last=savedTopic(),continueButton=byId("resumeCourse");
  continueButton.hidden=!last;
  if(last){
@@ -74,6 +85,10 @@ function renderNav(){
  }).join("");
 }
 function renderInfo(){
+ if(!state.home&&state.family){
+  const skill=L.getSkill(state.family),data=learning.skills[skill.id];
+  byId("skillProgress").textContent=skill.name;
+ }
  let solved=progress.history.length,unaided=progress.history.filter(h=>h.unaided).length,seen=Object.values(progress.topics).filter(v=>v.solved).length;
  byId("metricSolved").textContent=String(solved);
  byId("metricIndependent").textContent=String(unaided);
@@ -93,7 +108,7 @@ function setFamily(id,seed){
  byId("practiceWorkspace").hidden=false;
  byId("workspaceActions").hidden=false;
  rememberTopic();
- state.stepIndex=0;state.done=[];state.wrong=false;state.hintCount=0;state.shownHint=0;state.reveal=false;state.completed=false;state.solutionViewed=false;state.directFinal=false;
+ state.stepIndex=0;state.done=[];state.wrong=false;state.hintCount=0;state.shownHint=0;state.reveal=false;state.completed=false;state.solutionViewed=false;state.directFinal=false;state.diagnostic=null;state.repairOpen=false;state.repairSolved=false;state.mistakeCodes=[];
  activeProblem=B.generate(id,state.seed);
  setLink();renderNav();renderProblem();changeView("practice");
 }
@@ -102,6 +117,11 @@ function renderProblem(){
  const f=B.families.find(x=>x.id===state.family),p=activeProblem,steps=currentSteps();
  byId("problemTopic").textContent=p.topic;
  byId("problemTitle").textContent=p.title;
+ const skill=L.getSkill(state.family),record=learning.skills[skill.id],level=record?.level||0;
+ byId("skillCoachInfo").textContent="Skill: "+skill.name+". "+(level>=3
+ ? "Try the independent final answer first; you can still request guidance."
+ : level>0?"Work through the steps, then try a fresh version without hints."
+ :"Start with the guided steps and check your reasoning as you go.");
  const index=N.position(state.family),next=N.next(state.family);
  byId("topicPosition").textContent="Type "+(index+1)+" of "+N.total;
  byId("nextFamily").textContent=N.isLast(state.family)?"Return to first type →":"Next problem type →";
@@ -116,10 +136,11 @@ function renderProblem(){
  const root=byId("stepArea");
  if(state.completed){
   root.innerHTML='<div class="panel complete"><h3>Problem completed</h3><p>'+ (state.solutionViewed?'The full solution was viewed during this attempt.':state.directFinal?'Your final answer is correct. You did not need to submit the intermediate steps.':'Your answers passed the mathematical checks.') +
-    ' Select another version or switch topics to continue.</p><div class="practice-actions"><button class="btn btn-primary" id="completeNew">Another version</button><button class="btn" id="completeMixed">Mixed practice</button><button class="btn" id="completeReview">Review solution steps</button><button class="btn btn-primary" id="completeNext">Next problem type →</button></div></div>';
+    ' Select another version or switch topics to continue.</p><div class="practice-actions"><button class="btn btn-primary" id="completeNew">Another version</button><button class="btn" id="completeMixed">Mixed practice</button><button class="btn" id="completeReview">Review solution steps</button><button class="btn btn-primary" id="completeNext">Next problem type →</button><button class="btn" id="completeRecommended">Recommended practice</button></div></div>';
   byId("completeNew").onclick=()=>setFamily(state.family);
   byId("completeMixed").onclick=()=>mixed();
   byId("completeNext").onclick=goNextFamily;
+  byId("completeRecommended").onclick=()=>startAdaptive(false);
   byId("completeReview").onclick=()=>{state.solutionViewed=true;state.reveal=!state.reveal;renderWorked();};
   renderWorked();renderInfo();return;
  }
@@ -201,6 +222,9 @@ function checkStep(){
 }
 function finishProblem(){
  state.completed=true;
+ const independent=!state.wrong&&!state.hintCount&&!state.solutionViewed;
+ learning=L.recordCompletion(learning,{family:state.family,seed:state.seed,independent,hadError:state.wrong,at:Date.now()});
+ saveTutor();
  const topic=progress.topics[state.family]||{solved:0,independent:0,withHelp:0};
  topic.solved++;
  const unaided=!state.wrong&&!state.hintCount&&!state.solutionViewed;
@@ -221,6 +245,12 @@ function anotherTopic(){
  if(!options.length){mixed();return;}
  setFamily(options[Math.floor(Math.random()*options.length)].id);
 }
+function startAdaptive(onlyDue){
+ const suggestion=L.plan(learning,{exclude:state.family,onlyDue:!!onlyDue});
+ if(!suggestion){if(onlyDue)alert("No skill reviews are due yet. You can still choose a topic or practice recommended exercises.");return;}
+ state.mode=suggestion.mode;
+ setFamily(suggestion.family.id);
+}
 function practiceWeak(){
  const ranked=B.families.map(f=>{
   const p=progress.topics[f.id];return {f,score:p?.withHelp?((p.withHelp+1)/(p.solved+1)):0};
@@ -229,6 +259,17 @@ function practiceWeak(){
  setFamily(selected.id);
 }
 function renderProgress(){
+ const now=Date.now(),due=L.dueCount(learning,now);
+ byId("coachProgressSummary").textContent=due
+   ?due+" skills due for review. Completed work with hints is not counted as independent mastery."
+   :"No overdue reviews. These are practice estimates, not proof of mastery.";
+ byId("reviewDueButton").disabled=!due;
+ byId("skillTable").innerHTML=L.skills.map(skill=>{
+  const r=learning.skills[skill.id],dueDate=r?.dueAt?new Date(r.dueAt):null;
+  const when=r?.independent?(dueDate&&dueDate.getTime()<=now?"Due now":dueDate?dueDate.toLocaleDateString():"—"):"Not scheduled";
+  return "<tr><td>"+e(skill.name)+"<span class='skill-sub'>"+e(L.status(r,now))+"</span></td>"+
+   "<td>"+(r?.independent||0)+" independent · "+(r?.supported||0)+" supported</td><td>"+e(when)+"</td></tr>";
+ }).join("");
  const h=progress.history,ids=Object.keys(progress.topics);
  byId("progressTotal").textContent=h.length;
  byId("progressIndependent").textContent=h.filter(i=>i.unaided).length;
@@ -307,7 +348,10 @@ function wire(){
  };
  byId("newTopic").onclick=anotherTopic;
  byId("mixedButton").onclick=mixed;
- byId("weakButton").onclick=practiceWeak;
+ byId("weakButton").onclick=()=>startAdaptive(false);
+ byId("recommendedStart").onclick=()=>startAdaptive(false);
+ byId("dueStart").onclick=()=>startAdaptive(true);
+ byId("reviewDueButton").onclick=()=>startAdaptive(true);
  byId("copyLink").onclick=async()=>{
   if(location.protocol==="file:"){alert("Share links work after the website is published on GitHub Pages.");return;}
   try{await navigator.clipboard.writeText(location.href);byId("copyLink").textContent="Link copied";setTimeout(()=>byId("copyLink").textContent="Copy problem link",1800);}
@@ -323,7 +367,7 @@ function wire(){
   const url=URL.createObjectURL(new Blob([csv],{type:"text/csv;charset=utf-8"}));
   const link=document.createElement("a");link.href=url;link.download="calcmentor-practice.csv";link.click();setTimeout(()=>URL.revokeObjectURL(url),500);
  };
- byId("resetButton").onclick=()=>{if(confirm("Clear all CalcMentor practice history on this device?")){progress={topics:{},history:[]};save();renderProgress();renderInfo();renderNav();}};
+ byId("resetButton").onclick=()=>{if(confirm("Clear all CalcMentor practice history on this device?")){progress={topics:{},history:[]};learning=L.fresh();save();saveTutor();renderProgress();renderInfo();renderNav();if(state.home)renderHome();}};
 }
 wire();if(state.home)showHome();else setFamily(state.family,state.seed);renderInfo();
 })();

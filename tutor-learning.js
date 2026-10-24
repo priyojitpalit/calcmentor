@@ -130,8 +130,10 @@ function recordCompletion(state,{family,seed,independent,hadError,at}){
  }
  row.seen=[...row.seen.filter(k=>k!==instance),instance].slice(-120);
  row.lastAt=new Date(time).toISOString();
+ // Repeating exactly the same generated question is not new evidence of retention.
+ // It must not move an already-due review into the future.
  const wait=independent&&!repeated?intervals[row.level]:0;
- row.dueAt=new Date(time+wait*day).toISOString();
+ if(!repeated||!independent)row.dueAt=new Date(time+wait*day).toISOString();
  s.events.push({type:"completion",skill:id,family,date:row.lastAt,independent:!!independent&&!repeated});
  s.events=s.events.slice(-160);
  return s;

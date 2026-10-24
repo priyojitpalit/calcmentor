@@ -98,6 +98,7 @@ function recordMiss(state,{family,code,at}){
  const s=hydrate(state),id=familySkill.get(family);
  if(!id||!code)return s;
  const item=recordFor(s,id);
+ item.misses++;
  item.mistakes[code]=(item.mistakes[code]||0)+1;
  item.lastMistake=code;
  item.dueAt=new Date(at||Date.now()).toISOString();

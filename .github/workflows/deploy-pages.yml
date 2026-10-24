@@ -49,6 +49,8 @@ jobs:
         run: node tests/navigation.test.cjs
       - name: Verify tutor diagnostics, mastery and spaced practice
         run: node tests/tutor-learning.test.cjs
+      - name: Test complete tutor and adaptive practice interaction
+        run: node tests/tutor-ui.test.cjs
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload static site

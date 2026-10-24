@@ -191,6 +191,42 @@ function renderWorked(){
 function showFeedback(message,correct){
  const target=byId("feedback");if(target)target.innerHTML='<div class="feedback '+(correct?"correct":"wrong")+'">'+e(message)+'</div>';
 }
+function showDiagnosis(diagnostic){
+ const target=byId("feedback");if(!target)return;
+ if(!diagnostic){
+  target.innerHTML+='<div class="tutor-note"><strong>Try identifying the first incorrect step.</strong><p>I cannot reliably identify the exact misconception from this answer. Start with the first hint and try again.</p></div>';
+  return;
+ }
+ const repair=diagnostic.repair;
+ target.innerHTML+='<section class="tutor-note" aria-label="Feedback on the attempted solution">'+
+  '<strong>'+e(diagnostic.title)+'</strong><p>'+e(diagnostic.explanation)+'</p>'+
+  (repair?'<button type="button" class="btn btn-small" id="repairStart">Practice the missing step</button>'+
+   '<div id="repairQuestion" class="repair-question" hidden><p><strong>'+pretty(repair.prompt)+'</strong></p>'+
+   '<div class="response"><input id="repairInput" class="answer" aria-label="Corrective practice answer" autocomplete="off">'+
+   '<button type="button" class="btn btn-primary" id="repairCheck">Check repair</button></div>'+
+   '<p class="repair-feedback" id="repairFeedback" aria-live="polite"></p></div>':'')+
+ '</section>';
+ if(!repair)return;
+ byId("repairStart").onclick=()=>{
+  byId("repairQuestion").hidden=false;
+  byId("repairStart").hidden=true;
+  byId("repairInput").focus?.();
+ };
+ function checkRepair(){
+  const response=byId("repairInput")?.value||"";
+  const correct=M.check(response,{type:repair.type,answer:repair.answer}).ok;
+  if(correct){
+   byId("repairFeedback").textContent="Correct. "+repair.explanation+" Now return to the original problem and apply that idea.";
+   byId("repairCheck").disabled=true;
+   state.repairSolved=true;
+   learning=L.recordRepair(learning,{family:state.family,at:Date.now()});
+   saveTutor();
+   byId("answerInput")?.focus?.();
+  }else byId("repairFeedback").textContent="Not quite. "+repair.hint;
+ }
+ byId("repairCheck").onclick=checkRepair;
+ byId("repairInput").addEventListener("keydown",event=>{if(event.key==="Enter")checkRepair();});
+}
 function checkStep(){
  const steps=currentSteps(), step=steps[state.stepIndex];if(!step)return;
  const selected=step.type==="choice"?document.querySelector('input[name="answerChoice"]:checked')?.value:byId("answerInput")?.value;
@@ -213,6 +249,16 @@ function checkStep(){
     ? evaluation.message
     : "That does not answer this step. "+step.hints[0];
   showFeedback(feedback,false);
+  if(selected!==undefined&&String(selected).trim()&&!evaluation.parseError){
+   const diagnostic=D.diagnose({family:state.family,problem:activeProblem,step,submitted:selected});
+   state.diagnostic=diagnostic;
+   if(diagnostic&&!state.mistakeCodes.includes(diagnostic.code)){
+    state.mistakeCodes.push(diagnostic.code);
+    learning=L.recordMiss(learning,{family:state.family,code:diagnostic.code,at:Date.now()});
+    saveTutor();
+   }
+   showDiagnosis(diagnostic);
+  }
   return;
  }
  const modelAnswer=step.type==="choice"?step.options.find(v=>v.value===String(step.answer))?.label:step.answer;

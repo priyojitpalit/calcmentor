@@ -4,7 +4,7 @@ const fs=require("node:fs"),path=require("node:path"),vm=require("node:vm");
 const root=path.resolve(__dirname,"..");
 const scriptOrder=["math-engine.js","problem-bank.js","extra-functions.js","extra-limits.js",
  "extra-derivatives.js","extra-applications.js","extra-integrals.js",
- "extra-integral-applications.js","grading-categories.js","course-navigation.js"];
+ "extra-integral-applications.js","grading-categories.js","tutor-learning.js","tutor-diagnostics.js","course-navigation.js"];
 const html=fs.readFileSync(path.join(root,"index.html"),"utf8");
 const htmlIds=new Set([...html.matchAll(/\bid="([^"]+)"/g)].map(m=>m[1]));
 for(const id of ["practiceHome","practiceWorkspace","workspaceActions","startCourse",

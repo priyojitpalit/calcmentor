@@ -51,6 +51,8 @@ jobs:
         run: node tests/tutor-learning.test.cjs
       - name: Test complete tutor and adaptive practice interaction
         run: node tests/tutor-ui.test.cjs
+      - name: Independently check intermediate worked-solution mathematics
+        run: node tests/intermediate-math.test.cjs
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload static site

@@ -47,6 +47,8 @@ jobs:
         run: node tests/full-solution-coverage.test.cjs
       - name: Test homepage and sequential problem navigation
         run: node tests/navigation.test.cjs
+      - name: Verify tutor diagnostics, mastery and spaced practice
+        run: node tests/tutor-learning.test.cjs
       - name: Configure GitHub Pages
         uses: actions/configure-pages@v5
       - name: Upload static site

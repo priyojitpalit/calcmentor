@@ -14,6 +14,21 @@ This is an independently developed course resource hosted on GitHub Pages; it is
 - **Department:** Mathematics and Computer Science
 - **Course practice website:** https://priyojitpalit.github.io/calcmentor/
 
+## Targeted tutoring and adaptive review
+
+CalcMentor now includes a **browser-local tutoring layer** in addition to generated exercises. No external AI service or student account is required.
+
+- **Diagnose supported misconceptions.** For recognizable wrong answers (such as missing the inner derivative, omitting a product-rule term, reversing a limit's multiplier, or omitting the power-rule denominator), the tutor explains the specific error instead of simply saying the answer is wrong. It only names a misconception when a defined mathematical pattern matches. Unknown errors receive a cautious general hint rather than a guessed diagnosis.
+- **Practice a missing step.** Recognized errors can open a short corrective problem (often the derivative of an inner expression). The student must solve it and then return to the original exercise. Repair success is *not* counted as independent mastery of the original problem.
+- **Recommended practice.** The course overview, completed-problem screen, and progress view offer recommendations selected from the student's recorded skill needs and prerequisites. Recommended practice starts in guided mode for developing skills and switches to independent mode for stronger ones; the student can still manually change modes.
+- **Spaced skill reviews.** Independent success moves the next suggested review approximately 1, 3, 7, or 14 days ahead as proficiency grows. Errors or supported completions lead to earlier follow-ups. These are review recommendations **when the site is opened**, not background notifications.
+- **Skill-level estimates.** Practice is tracked across 23 skill categories. Help, incorrect attempts, exact repeated problem seeds, and independent solutions are distinguished. Replaying the identical question cannot earn extra mastery or postpone a due review.
+- **Privacy.** All learning records, mistakes, and review dates are held in this browser's local storage. No teacher receives these records automatically. Clearing site data or using another device loses the local learning record.
+
+The diagnostics are **deliberately rule-based rather than a chatbot** and currently recognize only selected, explicitly validated error patterns. They do not analyze arbitrary mathematical explanations, proofs, handwriting, or every possible incorrect algebraic form. Progress and retention scores are educational estimates, **not validated psychometric measures** or official grades.
+
+`tutor-learning.js` contains the skill map, prerequisite graph, review calendar and practice selection. `tutor-diagnostics.js` contains explainable error patterns and corrective prompts. End-to-end tests in `tests/tutor-ui.test.cjs` verify the feedback, repair, supported completion and follow-up path; `tests/tutor-learning.test.cjs` tests scheduling and no-repeat-credit behavior.
+
 ## Getting started and moving between topics
 
 Opening the **plain course URL** displays a six-unit overview instead of preselecting one problem. Students may start at Functions, select the first problem in any unit, or return to the most recently visited problem type.
@@ -64,7 +79,7 @@ Every one of the **218 problem families** has a worked explanation with intermed
 
 For 40 families, the existing detailed solutions remain; seven additional modules provide full derivations for the remaining **178 families**. The **Solution steps** view is available while practicing and after completing a problem. Reviewing it during an attempt counts as supported practice.
 
-`tests/full-solution-coverage.test.cjs` prevents deployment if any of the 218 families loses its full derivation. Generated explanations have additionally been checked across 100 widely distributed versions per family. The mathematical reference tests remain independent of the answer checker.
+`tests/full-solution-coverage.test.cjs` prevents deployment if any of the 218 families loses its full derivation. Separate reference tests independently check the mathematics of selected intermediate equations; complete formal verification of all lines remains outstanding. Generated explanations have additionally been checked across 100 widely distributed versions per family. The mathematical reference tests remain independent of the answer checker.
 
 Although these are worked solutions, **the website is not a general-purpose symbolic algebra system** and every intermediate explanatory sentence has not been independently formalized as a mathematical proof. Problem diversity, accessibility and classroom evaluation remain separate improvements.
 
@@ -93,6 +108,10 @@ The site runs entirely in a web browser with standard HTML/CSS/JavaScript. There
 | `tests/full-solution-coverage.test.cjs` | Required full-derivation coverage tests for all 218 problem families |
 | `app.js` | Course overview, practice interface, answer flow, progress and visual laboratories |
 | `course-navigation.js` | Course-ordered problem types with sequential next and previous lookups |
+| `tutor-learning.js` | Skill-level practice records, spaced review and prerequisite-based recommendations |
+| `tutor-diagnostics.js` | Verified patterns for common mistakes and corrective mini-exercises |
+| `tests/tutor-learning.test.cjs` | Deterministic mastery, review timing and diagnosis tests |
+| `tests/tutor-ui.test.cjs` | End-to-end wrong-answer → repair → adaptive-practice interface regression tests |
 | `tests/navigation.test.cjs` | Regression tests for landing page, unit transitions, next-type behavior and deep links |
 | `tests/smoke.test.cjs` | Automated expected-answer and checker regression tests |
 | `tests/independent-*.test.cjs` | Independent mathematical reference checks across all six units |
